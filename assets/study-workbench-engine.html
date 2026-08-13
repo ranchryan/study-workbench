@@ -1,0 +1,2063 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="icon" href="assets/app-icon.png">
+<title>八年级学习台 · 语数英（人教版）</title>
+<style>
+    :root{
+    --bg:#F0FDFA; --bg2:#ecfdf8; --card:#ffffff; --line:#99F6E4;
+    --text:#134E4A; --muted:#64748B;
+    --primary:#0D9488; --primary-d:#0F766E; --accent:#EA580C; --red:#DC2626; --green:#059669;
+    --yuwen:#0F766E; --shuxue:#2563EB; --yingyu:#C2410C;
+    --radius:16px; --shadow:0 4px 16px rgba(13,148,136,.10);
+    --font-display:'PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+    --font-body:'PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--font-body); background:
+      radial-gradient(900px 420px at 10% -10%, rgba(45,212,191,.22), transparent 55%),
+      radial-gradient(700px 380px at 100% 0%, rgba(234,88,12,.10), transparent 50%),
+      var(--bg);
+    color:var(--text); font-size:16px; line-height:1.65;
+    padding-bottom:calc(76px + env(safe-area-inset-bottom));
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important;}
+  }
+  .layout{display:flex; min-height:100vh;}
+  .sidebar{width:196px; flex:none; background:rgba(255,255,255,.88); backdrop-filter:blur(10px);
+    border-right:1px solid var(--line); padding:18px 12px; display:none; position:sticky; top:0; height:100vh;}
+  .brand{display:flex; gap:10px; align-items:center; margin-bottom:14px;}
+  .brand img{width:40px;height:40px;border-radius:12px; box-shadow:var(--shadow);}
+  .sidebar h1{font-family:var(--font-display); font-size:17px; margin:0; color:var(--primary); font-weight:800;}
+  .sidebar .sm{font-size:12px; color:var(--muted); margin:2px 0 14px;}
+  .navbtn{display:flex; align-items:center; gap:10px; width:100%; padding:12px; margin-bottom:6px; border:none;
+    background:transparent; border-radius:12px; color:var(--text); cursor:pointer; font-size:15px; text-align:left; transition:background .2s, transform .15s;}
+  .navbtn svg{width:20px;height:20px; flex:none;}
+  .navbtn:hover{background:rgba(13,148,136,.08);}
+  .navbtn:active{transform:scale(.98);}
+  .navbtn.active{background:var(--primary); color:#fff; box-shadow:0 6px 14px rgba(13,148,136,.28);}
+  .main{flex:1; min-width:0;}
+  .wrap{max-width:860px; margin:0 auto; padding:16px 14px;}
+  h1.page-title{font-family:var(--font-display); font-size:24px; margin:0 0 4px; font-weight:800; letter-spacing:-.02em;}
+  .sub{color:var(--muted); font-size:13px; margin:0 0 14px;}
+  .card{background:var(--card); border:1px solid rgba(153,246,228,.65); border-radius:var(--radius);
+    padding:16px; margin-bottom:14px; box-shadow:var(--shadow);}
+  .card h2{font-family:var(--font-display); font-size:17px; margin:0 0 10px; display:flex; align-items:center; gap:8px; font-weight:800;}
+  .card h3{font-size:14px; margin:14px 0 6px; color:var(--primary); font-weight:700; display:flex; align-items:center; gap:6px;}
+  button,input,select,textarea{font-family:inherit; font-size:16px;}
+  .btn{min-height:44px; padding:0 16px; border:none; border-radius:12px; background:var(--primary); color:#fff;
+    cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:6px; font-weight:700;
+    transition:background .2s, transform .15s, box-shadow .2s; box-shadow:0 4px 12px rgba(13,148,136,.25);}
+  .btn:hover{background:var(--primary-d);}
+  .btn:active{transform:scale(.97);}
+  .btn:focus-visible,.iconbtn:focus-visible,.navbtn:focus-visible,.bottomtab button:focus-visible{outline:3px solid rgba(13,148,136,.45); outline-offset:2px;}
+  .btn.ghost{background:#CCFBF1; color:var(--primary-d); box-shadow:none;}
+  .btn.accent{background:var(--accent); box-shadow:0 4px 12px rgba(234,88,12,.25);}
+  .btn.danger{background:#FEE2E2; color:var(--red); box-shadow:none;}
+  .btn svg{width:18px; height:18px;}
+  .row{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+  .row.tight{margin-bottom:10px;}
+  input[type=text],input[type=date],input[type=number],select,textarea{
+    min-height:44px; padding:0 12px; border:1px solid var(--line); border-radius:12px; background:#fff; width:100%;}
+  textarea{padding:10px 12px; min-height:70px; line-height:1.5;}
+  .field{flex:1 1 160px; min-width:140px;}
+  .toolbar{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;}
+  .banner{background:#FFF7ED; border:1px solid #FDBA74; color:#9A3412; border-radius:12px; padding:10px 14px;
+    font-size:13px; margin-bottom:14px; display:flex; gap:8px; align-items:flex-start;}
+  .banner.ok{background:#ECFDF5; border-color:#6EE7B7; color:#065F46;}
+  .todo-item{display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px dashed rgba(153,246,228,.8);}
+  .todo-item:last-child{border-bottom:none;}
+  .pill{font-size:12px; padding:3px 9px; border-radius:999px; background:#CCFBF1; color:var(--primary-d); white-space:nowrap; font-weight:600;}
+  .pill.over{background:#FEE2E2; color:var(--red);}
+  .pill.today{background:#D1FAE5; color:var(--green);}
+  .pill.sub-yuwen{background:#CCFBF1; color:var(--yuwen);}
+  .pill.sub-shuxue{background:#DBEAFE; color:var(--shuxue);}
+  .pill.sub-yingyu{background:#FFEDD5; color:var(--yingyu);}
+  .todo-title{flex:1; font-size:15px;}
+  .todo-title.over{color:var(--red); font-weight:600;}
+  .iconbtn{min-width:44px; min-height:44px; border:none; background:#CCFBF1; border-radius:12px; color:var(--primary);
+    cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:transform .15s, background .2s;}
+  .iconbtn:active{transform:scale(.95);}
+  .iconbtn svg{width:20px;height:20px;}
+  .iconbtn.done{background:var(--green); color:#fff;}
+  .empty{color:var(--muted); font-size:14px; padding:8px 0; display:flex; gap:8px; align-items:center;}
+  .lesson{background:#fff; border:1px solid rgba(153,246,228,.7); border-left:5px solid var(--primary);
+    border-radius:14px; padding:14px; margin-bottom:12px; box-shadow:var(--shadow);}
+  .lesson.yuwen{border-left-color:var(--yuwen);}
+  .lesson.shuxue{border-left-color:var(--shuxue);}
+  .lesson.yingyu{border-left-color:var(--yingyu);}
+  .lesson .lt{font-size:16px; font-weight:800; margin:0 0 4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-family:var(--font-display);}
+  .lesson .lu{font-size:12px; color:var(--muted);}
+  .kp{background:#F0FDFA; border-radius:10px; padding:8px 12px; margin:8px 0; font-size:14px;}
+  .kp b{color:var(--primary);}
+  .body-text{background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:12px 14px; margin:8px 0;
+    font-size:14.5px; white-space:pre-wrap; line-height:1.75; color:#1E293B;}
+  .ex{margin:6px 0; padding-left:4px; font-size:14px;}
+  .ex .q{display:flex; align-items:flex-start; gap:8px;}
+  .ex .q .n{color:var(--accent); font-weight:700; flex:none;}
+  .done-badge{display:inline-block; font-size:12px; padding:2px 8px; border-radius:999px; background:#D1FAE5; color:var(--green); font-weight:700;}
+
+  .unit-intro{background:linear-gradient(135deg,#F0FDFA,#ECFDF5); border:1px solid #99F6E4; border-radius:14px;
+    padding:12px 14px; margin:8px 0 12px; font-size:13.5px; white-space:pre-wrap; color:#134E4A; line-height:1.65;}
+  .unit-intro .ui-tag{display:inline-block; font-size:11px; font-weight:800; color:#fff; background:var(--primary);
+    padding:2px 8px; border-radius:999px; margin-bottom:6px;}
+  .unit-intro.yingyu{background:linear-gradient(135deg,#FFF7ED,#FFEDD5); border-color:#FDBA74; color:#9A3412;}
+  .unit-intro.yingyu .ui-tag{background:var(--yingyu);}
+  .unit-intro.shuxue{background:linear-gradient(135deg,#EFF6FF,#DBEAFE); border-color:#93C5FD; color:#1E3A8A;}
+  .unit-intro.shuxue .ui-tag{background:var(--shuxue);}
+  .unit-block{margin-bottom:10px;}
+  .unit-head{display:flex; align-items:center; gap:10px; padding:10px 0; cursor:pointer;}
+  .unit-head .un{font-weight:700; font-size:15px; flex:1;}
+  .bar{height:8px; background:#CCFBF1; border-radius:999px; overflow:hidden; flex:1; max-width:140px;}
+  .bar > i{display:block; height:100%; background:linear-gradient(90deg,var(--primary),#2DD4BF); transition:width .3s;}
+  .daynav{display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap;}
+  .daynav .dn{min-width:96px; text-align:center; font-weight:800; font-size:18px; color:var(--primary); font-family:var(--font-display);}
+  .daynav input[type=range]{flex:1; min-width:160px; accent-color:var(--primary);}
+  .acc-item{border:1px solid rgba(153,246,228,.7); border-radius:12px; padding:10px 12px; margin-bottom:10px; background:#fff;}
+  .acc-item .at{font-weight:700; font-size:15px; display:flex; align-items:center; gap:8px;}
+  .acc-item .ac{font-size:14px; white-space:pre-wrap; margin-top:4px; color:#334155;}
+  .exam-mini{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:20px 18px; min-height:108px;
+    border-radius:18px; background:linear-gradient(135deg,#FFF7ED 0%,#FFEDD5 55%,#FED7AA 100%);
+    border:1.5px solid #FB923C; margin-bottom:16px; box-shadow:0 8px 22px rgba(234,88,12,.18);}
+  .exam-mini .en{font-weight:800; font-family:var(--font-display); font-size:18px; color:#9A3412; margin-bottom:4px;}
+  .exam-mini .ed{font-size:13px; color:#C2410C; line-height:1.45;}
+  .exam-mini .cd-wrap{text-align:center; min-width:88px; padding:8px 10px; border-radius:14px; background:rgba(255,255,255,.65);}
+  .cd-num{font-size:40px; font-weight:800; color:var(--accent); line-height:1; font-family:var(--font-display);}
+  .cd-num.soon{color:var(--red);}
+  .exam-mini .cd-unit{font-size:12px; font-weight:700; color:#9A3412; margin-top:2px;}
+  .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;}
+  .footer{color:var(--muted); font-size:12px; text-align:center; margin-top:10px;}
+  .hidden{display:none !important;}
+  .mini{font-size:12px; color:var(--muted);}
+  .hero{position:relative; border-radius:20px; overflow:hidden; margin-bottom:14px; min-height:148px;
+    box-shadow:var(--shadow); border:1px solid rgba(153,246,228,.5);}
+  .hero img{width:100%; height:148px; object-fit:cover; display:block;}
+  .hero-overlay{position:absolute; inset:0; background:linear-gradient(120deg, rgba(15,118,110,.72), rgba(13,148,136,.28) 55%, rgba(234,88,12,.22));
+    color:#fff; padding:14px 16px; display:flex; flex-direction:column; justify-content:flex-end;}
+  .hero-meta{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:2px;}
+  .hero-meta .sem-label{margin:0; font-size:13px; font-weight:700; opacity:.96; text-shadow:0 1px 6px rgba(0,0,0,.25);}
+  .sem-switch{display:inline-flex; align-items:center; gap:3px; min-height:26px; padding:0 8px; border:1px solid rgba(255,255,255,.55);
+    border-radius:999px; background:rgba(255,255,255,.18); color:#fff; font-size:11px; font-weight:700; cursor:pointer;
+    backdrop-filter:blur(4px); transition:background .2s, transform .15s;}
+  .sem-switch:hover{background:rgba(255,255,255,.28);}
+  .sem-switch:active{transform:scale(.96);}
+  .sem-switch svg{width:12px;height:12px;}
+  .progress-ring-wrap{display:flex; gap:14px; align-items:center; margin-top:10px;}
+  .ring{width:64px;height:64px; flex:none;}
+  .ring circle{fill:none; stroke-width:7;}
+  .ring .bg{stroke:rgba(255,255,255,.28);}
+  .ring .fg{stroke:#FDE68A; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; transition:stroke-dashoffset .35s;}
+  .ring-label{font-size:13px; font-weight:800; fill:#fff; font-family:var(--font-display);}
+  .cta-next{margin-top:10px;}
+  .subj-badge{width:28px;height:28px;border-radius:8px; object-fit:cover; flex:none; box-shadow:0 2px 6px rgba(0,0,0,.08);}
+  .course-head{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px;}
+  .course-head h2{margin:0; flex:1; min-width:0;}
+  .ebook-link{flex:none; display:inline-flex; align-items:center; gap:4px; min-height:32px; padding:0 10px;
+    border-radius:999px; background:#CCFBF1; color:var(--primary-d); font-size:12px; font-weight:800;
+    text-decoration:none; white-space:nowrap; border:1px solid #99F6E4; transition:background .2s, transform .15s;}
+  .ebook-link:hover{background:#99F6E4;}
+  .ebook-link:active{transform:scale(.97);}
+  .ebook-link svg{width:14px;height:14px;}
+  .toast{position:fixed; left:50%; bottom:calc(88px + env(safe-area-inset-bottom)); transform:translateX(-50%) translateY(12px);
+    background:#134E4A; color:#fff; padding:10px 16px; border-radius:999px; font-size:14px; font-weight:600;
+    opacity:0; pointer-events:none; transition:opacity .25s, transform .25s; z-index:50; box-shadow:0 8px 24px rgba(0,0,0,.18);}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  .onboard{position:fixed; inset:0; background:rgba(15,23,42,.55); z-index:60; display:none; align-items:center; justify-content:center; padding:16px;}
+  .onboard.show{display:flex;}
+  .onboard .panel{background:#fff; border-radius:20px; max-width:420px; width:100%; padding:22px; box-shadow:0 20px 50px rgba(0,0,0,.25);}
+  .onboard .steps{display:flex; gap:6px; margin:10px 0 16px;}
+  .onboard .steps i{flex:1; height:4px; border-radius:999px; background:#CCFBF1;}
+  .onboard .steps i.on{background:var(--primary);}
+  .bottomtab{position:fixed; left:0; right:0; bottom:0; background:rgba(255,255,255,.94); backdrop-filter:blur(12px);
+    border-top:1px solid var(--line); display:flex; padding:6px 2px calc(6px + env(safe-area-inset-bottom)); z-index:30;}
+  .bottomtab button{flex:1; border:none; background:transparent; color:var(--muted); font-size:11px;
+    display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:6px 0; border-radius:10px; transition:color .2s;}
+  .bottomtab button svg{width:22px;height:22px;}
+  .bottomtab button.active{color:var(--primary); font-weight:800;}
+  .modal-bg{position:fixed; inset:0; background:rgba(15,23,42,.5); z-index:40; display:none; align-items:flex-start; justify-content:center; padding:20px 12px; overflow:auto;}
+  .modal-bg.show{display:flex;}
+  .modal{background:var(--card); border-radius:18px; max-width:700px; width:100%; padding:20px; margin:auto; box-shadow:0 20px 50px rgba(0,0,0,.2);}
+  .modal h2{margin-top:0; font-family:var(--font-display); font-weight:800;}
+  @media (min-width:880px){
+    .sidebar{display:block;}
+    .bottomtab{display:none;}
+    body{padding-bottom:0;}
+    .wrap{padding:22px 26px;}
+    .hero img,.hero{height:180px; min-height:180px;}
+  }
+  /* 我的：紧凑排版 */
+  .mine-head{display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:10px;}
+  .mine-head .page-title{margin:0; font-size:22px;}
+  .mine-head .sub{margin:0;}
+  .card.mine{padding:12px 14px; margin-bottom:10px;}
+  .card.mine h2{font-size:15px; margin:0 0 8px;}
+  .mine-stats{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;}
+  .mine-stats span{font-size:12px; padding:4px 8px; border-radius:8px; background:#F0FDFA; color:var(--primary-d); font-weight:600;}
+  .mine-actions{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .mine-actions .btn{width:100%; min-height:40px; font-size:13px; padding:0 10px; box-shadow:none;}
+  .mine-actions .btn.span2{grid-column:1 / -1;}
+  .mine-inline{display:flex; gap:8px; align-items:center;}
+  .mine-inline .field{flex:1; min-width:0;}
+  .mine-inline .btn{flex:none; min-height:40px; padding:0 14px;}
+  .exam-edit{display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:8px 0; border-bottom:1px dashed rgba(153,246,228,.85);}
+  .exam-edit:last-of-type{border-bottom:none; padding-bottom:0;}
+  .exam-edit .field{min-width:0; flex:none;}
+  .exam-edit .scope{grid-column:1 / -1;}
+  .exam-edit .save-row{grid-column:1 / -1; display:flex; justify-content:flex-end;}
+  .exam-edit input{min-height:38px; font-size:14px;}
+  .exam-edit .btn{min-height:36px; padding:0 12px; font-size:13px; box-shadow:none;}
+  @media (max-width:768px){
+    .field{flex:1 1 100%;}
+    .row{flex-direction:column; align-items:stretch;}
+    .mine-inline{flex-direction:row; align-items:center;}
+    .mine-inline .field{flex:1 1 auto;}
+    .exam-edit{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+    <div class="brand"><img src="assets/app-icon.png" alt="学习台"><div><h1>八年级学习台</h1></div></div>
+    <p class="sm">语数英 · 人教版八上（英语2024新教材）</p>
+    <button class="navbtn active" data-tab="today" onclick="showTab('today')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/></svg>今日学习</button>
+    <button class="navbtn" data-tab="course" onclick="showTab('course')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a2 2 0 0 1 2-2h13"/><path d="M4 19h16"/><path d="M9 7h6M9 11h6"/></svg>课程进度</button>
+    <button class="navbtn" data-tab="acc" onclick="showTab('acc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>每日积累</button>
+    <button class="navbtn" data-tab="review" onclick="showTab('review')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>单元复习</button>
+    <button class="navbtn" data-tab="mine" onclick="showTab('mine')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>我的</button>
+  </aside>
+
+  <div class="main">
+    <div class="wrap" id="app"></div>
+  </div>
+</div>
+
+<nav class="bottomtab" aria-label="主导航">
+  <button class="active" data-tab="today" onclick="showTab('today')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/></svg>今日</button>
+  <button data-tab="course" onclick="showTab('course')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a2 2 0 0 1 2-2h13"/><path d="M4 19h16"/><path d="M9 7h6M9 11h6"/></svg>课程</button>
+  <button data-tab="acc" onclick="showTab('acc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>积累</button>
+  <button data-tab="review" onclick="showTab('review')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>复习</button>
+  <button data-tab="mine" onclick="showTab('mine')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>我的</button>
+</nav>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="onboard" id="onboard" role="dialog" aria-modal="true" aria-labelledby="obTitle">
+  <div class="panel">
+    <h2 id="obTitle" style="margin:0;font-family:var(--font-display)">欢迎使用八年级学习台</h2>
+    <div class="steps" id="obSteps"><i class="on"></i><i></i><i></i></div>
+    <div id="obBody"></div>
+    <div class="row" style="margin-top:16px;justify-content:space-between">
+      <button class="btn ghost" onclick="skipOnboard()">跳过</button>
+      <button class="btn" id="obNext" onclick="nextOnboard()">下一步</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+/* ============ 课程数据：人教版 八年级上册 语数英 ============ */
+/* 说明：语文/数学按人教版八上；英语对齐人教版（2024）八上（Happy Holiday 等 8 单元，Section A/B/Project）。
+   每日排课由「开学日 + 学期天数」自动展开。各单元含 intro 开篇导语。 */
+const CONTENT_PACK = {
+  "meta": {
+    "grade": "八年级上册",
+    "edition": "人教版",
+    "subjects_order": [
+      "yuwen",
+      "shuxue",
+      "yingyu"
+    ],
+    "note": "本内容包为示例。更换年级/学科/教材时，按 schema 写新的 content-pack JSON，替换引擎模板顶部 const CONTENT_PACK 即可。"
+  },
+  "startDate": "2026-09-01",
+  "subjects": {
+    "yuwen": {
+      "name": "语文",
+      "color": "var(--yuwen)",
+      "cls": "yuwen",
+      "units": [
+        {
+          "name": "第一单元 * 新闻（活动*探究）",
+          "intro": "本单元以新闻为学习任务群，围绕消息、特写、通讯与评论，把握真实性与时效性。自学时抓住六要素与结构（标题—导语—主体），比较不同新闻体裁的写法差异，体会准确简明的语言，并尝试按规范整理事实、表达观点。",
+          "lessons": [
+            {
+              "title": "消息二则",
+              "points": [
+                "消息六要素：何时、何地、何人、何事、何故、何结果（5W1H）",
+                "结构：标题—导语—主体—背景—结语",
+                "语言特点：准确、简明、真实"
+              ],
+              "explain": "《我三十万大军胜利南渡长江》《人民解放军百万大军横渡长江》均为毛泽东撰写的新闻名篇。导语用一句话概括最核心事实，主体按中路、西路、东路顺序叙述，体现渡江战役的气势与胜利的必然。",
+              "ex": [
+                "找出《百万大军横渡长江》的导语，说说它概括了哪些要素？",
+                "消息的语言为什么要求准确、简明？试举一例说明。"
+              ]
+            },
+            {
+              "title": "首届诺贝尔奖颁发",
+              "points": [
+                "新闻的导语与主体分工",
+                "客观叙述，不随意发表议论",
+                "要素齐全、层次清楚"
+              ],
+              "explain": "这则消息报道首届诺贝尔奖的颁发，导语点明时间、事件，主体介绍获奖者及诺贝尔奖资金来源与管理，语言客观平实，是典型的正面报道。",
+              "ex": [
+                "本文导语写了什么？",
+                "新闻为何一般不直接抒情议论？"
+              ]
+            },
+            {
+              "title": "“飞天”凌空 ——跳水姑娘吕伟夺魁记",
+              "points": [
+                "新闻特写：聚焦一个精彩瞬间",
+                "细节描写与比喻、拟人修辞",
+                "慢镜头式的画面感"
+              ],
+              "explain": "这是一篇新闻特写，抓住吕伟跳水的一刹那，用“飞天”“白云”“飞鸟”等比喻铺陈动作之美，让读者如临其境，突出“852分”的完美表现。",
+              "ex": [
+                "本文与消息在写法上最大的不同是什么？",
+                "文中哪些比喻写出了跳水动作的美感？"
+              ]
+            },
+            {
+              "title": "一着惊海天 ——舰载机成功着舰",
+              "points": [
+                "通讯：完整再现事件过程",
+                "场面描写与反复渲染",
+                "情感与价值升华"
+              ],
+              "explain": "通讯《一着惊海天》记录我国航母舰载战斗机首架次成功着舰。以紧张的着舰过程为主线，穿插历史背景，结尾点明其历史意义，感染力强。",
+              "ex": [
+                "本文哪些语句营造了紧张氛围？",
+                "结尾为什么要强调“历史意义”？"
+              ]
+            },
+            {
+              "title": "国行公祭，为佑世界和平",
+              "points": [
+                "新闻评论的文体特征",
+                "引述与议论结合",
+                "铭记历史、珍爱和平的主旨"
+              ],
+              "explain": "这是一篇新闻评论，以国家公祭日为切入点，援引史实与国际态度，论证铭记南京大屠杀历史、捍卫和平的必要性，立场鲜明。",
+              "ex": [
+                "评论与消息、特写有何区别？",
+                "作者写本文的核心意图是什么？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第二单元 * 传记与回忆性散文",
+          "intro": "本单元学习传记与回忆性散文，体会作者如何用典型事件与细节表现人物。阅读时梳理时间线，关注外貌、语言、动作描写，理解家国情怀与人格力量；写作可练习选择材料、抓住特征，写“活生生”的人。",
+          "lessons": [
+            {
+              "title": "藤野先生",
+              "points": [
+                "明线（与藤野的交往）与暗线（爱国情怀）",
+                "白描手法与细节刻画",
+                "对比衬托"
+              ],
+              "explain": "鲁迅回忆在日本留学时与藤野先生的交往，赞扬其严谨、正直、没有民族偏见，同时以“匿名信”“看电影”等事件激发救国救民之志。形散神聚。",
+              "ex": [
+                "藤野先生有哪些可贵品质？",
+                "文中“讲义”“解剖图”细节有何作用？"
+              ]
+            },
+            {
+              "title": "回忆我的母亲",
+              "points": [
+                "按时间顺序记叙",
+                "质朴平实的语言风格",
+                "母亲的品格与作者情感"
+              ],
+              "explain": "朱德以时间为序，回忆母亲勤劳一生，歌颂中国劳动妇女的坚韧，并表达继承母亲意志、为民族解放奋斗的决心。",
+              "ex": [
+                "母亲身上体现了哪些传统美德？",
+                "文章结尾为何由个人上升到民族？"
+              ]
+            },
+            {
+              "title": "列夫*托尔斯泰",
+              "points": [
+                "欲扬先抑",
+                "外貌描写的铺陈与反差",
+                "比喻、夸张的运用"
+              ],
+              "explain": "茨威格先极写托尔斯泰外貌的平庸甚至粗鄙，再陡然转入其犀利深邃的眼睛，形成强烈反差，突出其精神世界的伟大。",
+              "ex": [
+                "本文“抑”与“扬”分别写了什么？",
+                "作者为何花大量笔墨写眼睛？"
+              ]
+            },
+            {
+              "title": "美丽的颜色",
+              "points": [
+                "传记的真实性",
+                "引用居里夫人的话",
+                "艰辛与喜悦交织"
+              ],
+              "explain": "艾芙*居里记述父母提炼镭的过程，穿插居里夫人日记原话，既写条件艰苦，又写发现“美丽的颜色”时的狂喜，真实动人。",
+              "ex": [
+                "本文如何体现传记的真实？",
+                "“美丽的颜色”有哪两层含义？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第三单元 * 古诗文（山水小品）",
+          "intro": "本单元聚焦古代山水小品与唐诗名篇，感受凝练语言中的画面与情志。自学重在朗读背诵、落实关键实词与名句，把握写景顺序与点睛之笔，体会寄情山水的审美与胸襟。",
+          "lessons": [
+            {
+              "title": "三峡（郦道元）",
+              "points": [
+                "文言实词：阙、襄、沿溯、奔、疾",
+                "四季景物描写次序",
+                "背诵全文"
+              ],
+              "explain": "《三峡》以凝练笔法写三峡连绵高峻之山与夏、春冬、秋不同水势，夏水“朝发白帝，暮到江陵”极言迅疾，春冬清幽，秋则凄寒。",
+              "ex": [
+                "用原文写出夏季江水迅猛的句子。",
+                "“清荣峻茂”分别指什么？"
+              ]
+            },
+            {
+              "title": "短文二篇：答谢中书书 / 记承天寺夜游",
+              "points": [
+                "《答谢》：山川之美、骈散结合",
+                "《记承天寺》：闲适心境、比喻写月",
+                "两篇均须背诵"
+              ],
+              "explain": "陶弘景《答谢中书书》以“欲界之仙都”赞江南山水；苏轼《记承天寺夜游》借“积水空明”写月色，抒发贬谪中旷达闲适之情。",
+              "ex": [
+                "《记承天寺夜游》怎样描写月色？",
+                "两人写山水的心境有何不同？"
+              ]
+            },
+            {
+              "title": "与朱元思书（吴均）",
+              "points": [
+                "骈文特征：对偶、声律",
+                "“奇山异水，天下独绝”总领",
+                "背诵"
+              ],
+              "explain": "吴均写给友人的书信，先总写富春江“奇山异水”，再分写水之清急、山之高峻，夹以鸢飞戾天之叹，含隐逸之趣。",
+              "ex": [
+                "文章如何写水之“异”？",
+                "“鸢飞戾天者，望峰息心”表达了什么？"
+              ]
+            },
+            {
+              "title": "唐诗五首",
+              "points": [
+                "野望（王绩）、黄鹤楼（崔颢）",
+                "使至塞上（王维）“大漠孤烟直”",
+                "渡荆门送别（李白）、钱塘湖春行（白居易）",
+                "五首均须背诵"
+              ],
+              "explain": "五首均为唐代律诗/绝句中的名篇：王维“大漠孤烟直，长河落日圆”写边塞壮阔；李白“山随平野尽”写出蜀地雄奇；白居易写早春西湖生机。",
+              "ex": [
+                "默写《使至塞上》的颔联、颈联。",
+                "《黄鹤楼》中哪句抒发乡愁？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第四单元 * 散文",
+          "intro": "本单元学习现代散文，体会线索、细节与象征。读《背影》抓“背影”与泪光；读《白杨礼赞》明托物言志；读哲理散文与《昆明的雨》感受形散神聚。注重涵泳语言，学习从日常取材抒真情。",
+          "lessons": [
+            {
+              "title": "背影",
+              "points": [
+                "以“背影”为线索",
+                "爬月台买橘子的细节",
+                "父子深情与“晶莹的泪光”"
+              ],
+              "explain": "朱自清以父亲翻越站台买橘子的“背影”为核心，四次写背影、四次落泪，于平凡琐事中见深沉父爱，语言朴素动人。",
+              "ex": [
+                "文中写了几次背影、几次流泪？",
+                "“我那时真是聪明过分”是什么修辞与情感？"
+              ]
+            },
+            {
+              "title": "白杨礼赞",
+              "points": [
+                "象征手法、托物言志",
+                "“不平凡”的反复咏叹",
+                "形散神聚"
+              ],
+              "explain": "茅盾礼赞西北白杨树，以树喻人，象征北方抗日军民坚强不屈的精神，先抑（算不得树中的好女子）后扬，结构严谨。",
+              "ex": [
+                "白杨树象征了什么？",
+                "“欲扬先抑”在文中如何体现？"
+              ]
+            },
+            {
+              "title": "散文二篇：永久的生命 / 我为什么而活着",
+              "points": [
+                "哲理散文的思辨性",
+                "个体有限与生命永恒的辩证",
+                "罗素的人生追求"
+              ],
+              "explain": "严文井《永久的生命》谈生命易逝却生生不息；罗素《我为什么而活着》以“对爱情的渴望、对知识的追求、对人类苦难的同情”概括一生。",
+              "ex": [
+                "罗素认为人生三大动力是什么？",
+                "两篇散文的共同特点是什么？"
+              ]
+            },
+            {
+              "title": "昆明的雨（汪曾祺）",
+              "points": [
+                "形散神聚",
+                "平淡中见韵味",
+                "对昆明生活的怀念"
+              ],
+              "explain": "汪曾祺以“昆明的雨”串起菌子、杨梅、缅桂花等细节，看似琐碎，实则饱含对昆明岁月与人情味的深情怀念，语言恬淡。",
+              "ex": [
+                "本文“散”在何处，“聚”在何处？",
+                "作者为什么怀念昆明的雨？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第五单元 * 说明文",
+          "intro": "本单元学习说明文，把握说明对象的特征与说明顺序、方法。自学时区分举例子、列数字、打比方等，体会科学小品的生动与严谨；读建筑、园林、纪念碑与画作介绍，训练提取信息与概括要点的能力。",
+          "lessons": [
+            {
+              "title": "中国石拱桥",
+              "points": [
+                "说明顺序：逻辑顺序",
+                "说明方法：举例子、列数字、打比方",
+                "赵州桥、卢沟桥为例"
+              ],
+              "explain": "茅以昇以赵州桥、卢沟桥为例，说明中国石拱桥“形式优美、结构坚固、历史悠久”的特征，由一般到个别，条理清晰。",
+              "ex": [
+                "本文用了哪些说明方法？各举一例。",
+                "为什么选赵州桥和卢沟桥作例子？"
+              ]
+            },
+            {
+              "title": "苏州园林",
+              "points": [
+                "“图画美”总特征",
+                "总分结构、多方面说明",
+                "语言准确又生动"
+              ],
+              "explain": "叶圣陶指出苏州园林总特征是“务必使游览者无论站在哪个点上，眼前总是一幅完美的图画”，从亭台布局、假山池沼、花草树木等分项说明。",
+              "ex": [
+                "苏州园林的总特征是什么？",
+                "“隔而不隔，界而未界”指什么？"
+              ]
+            },
+            {
+              "title": "人民英雄永垂不朽",
+              "points": [
+                "空间顺序（瞻仰路线）",
+                "碑文与十块浮雕",
+                "说明中融入抒情"
+              ],
+              "explain": "本文按由远及近、由四周到中心的空间顺序介绍人民英雄纪念碑，逐一说明十块浮雕所表现的历史事件，庄严庄重。",
+              "ex": [
+                "本文采用什么说明顺序？",
+                "十块浮雕按什么线索排列？"
+              ]
+            },
+            {
+              "title": "蝉（法布尔）",
+              "points": [
+                "科学小品（文艺性说明）",
+                "观察细致、拟人笔法",
+                "蝉的生活史"
+              ],
+              "explain": "法布尔以长期观察为基础写蝉的生长过程，语言生动如文学，却严谨科学，是“昆虫史诗”的典范。",
+              "ex": [
+                "本文与一般说明文语言有何不同？",
+                "蝉在地下的生活约多久？"
+              ]
+            },
+            {
+              "title": "梦回繁华",
+              "points": [
+                "逻辑顺序介绍画作",
+                "《清明上河图》的内容层次",
+                "摹状貌等说明方法"
+              ],
+              "explain": "本文介绍张择端《清明上河图》，先说创作背景，再按画面空间顺序描摹汴京繁华，结尾点明历史价值。",
+              "ex": [
+                "文章按什么顺序介绍画卷？",
+                "“梦回繁华”的“繁华”指什么？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第六单元 * 古诗文（情志）",
+          "intro": "本单元选读诸子史传与古典诗词，理解“得道”“大丈夫”“生于忧患”等命题，体会愚公精神与细柳治军。自学以背诵为基础，结合对比与论证思路把握情志表达，并拓展名著导读的纪实阅读方法。",
+          "lessons": [
+            {
+              "title": "《孟子》三章",
+              "points": [
+                "得道多助，失道寡助",
+                "富贵不能淫（大丈夫）",
+                "生于忧患，死于安乐",
+                "背诵"
+              ],
+              "explain": "三章均为议论性散文：一论“人和”决定胜负；二立“大丈夫”标准（富贵不能淫…）；三论忧患促成才、安乐致覆亡，善用举例与对比。",
+              "ex": [
+                "默写“故天将降大任于是人也……”",
+                "“大丈夫”的三个标准是什么？"
+              ]
+            },
+            {
+              "title": "愚公移山（《列子》）",
+              "points": [
+                "寓言的寓意",
+                "对比（智叟与愚公）",
+                "文言虚词：且、焉、其",
+                "背诵"
+              ],
+              "explain": "愚公以世代之力移山，智叟讥其愚，愚公以“子子孙孙无穷匮”反驳，借神话结尾彰显持之以恒、人定胜天之理。",
+              "ex": [
+                "愚公与智叟的态度有何不同？",
+                "本文告诉人们什么道理？"
+              ]
+            },
+            {
+              "title": "周亚夫军细柳（《史记》）",
+              "points": [
+                "对比刻画人物",
+                "侧面烘托",
+                "周亚夫“真将军”形象"
+              ],
+              "explain": "司马迁写汉文帝慰劳军队，以霸上、棘门军之松散对比细柳军之严整，凸显周亚夫治军严明、刚正不阿的“真将军”风范。",
+              "ex": [
+                "文中用了几处对比？",
+                "周亚夫为何被称为“真将军”？"
+              ]
+            },
+            {
+              "title": "诗词五首",
+              "points": [
+                "饮酒（陶渊明）“心远地自偏”",
+                "春望（杜甫）、雁门太守行（李贺）",
+                "赤壁（杜牧）、渔家傲（李清照）",
+                "背诵"
+              ],
+              "explain": "五首抒发不同情志：陶渊明归隐闲适；杜甫“感时花溅泪”忧国；李贺写边塞惨烈；杜牧借史抒怀；李清照《渔家傲》豪放奇想。",
+              "ex": [
+                "《饮酒》中体现“心远”的句子是？",
+                "《春望》如何借景抒情？"
+              ]
+            },
+            {
+              "title": "名著导读：《红星照耀中国》",
+              "points": [
+                "作者埃德加*斯诺",
+                "纪实作品的“用事实说话”",
+                "毛泽东、周恩来等人物形象"
+              ],
+              "explain": "美国记者斯诺1936年深入陕甘宁边区，以采访笔记写成，真实记录中国共产党与红军，是了解红色中国的经典纪实作品。",
+              "ex": [
+                "本书的文体特点是什么？",
+                "斯诺笔下的毛泽东给你什么印象？"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "shuxue": {
+      "name": "数学",
+      "color": "var(--shuxue)",
+      "cls": "shuxue",
+      "units": [
+        {
+          "name": "第十一章 * 三角形",
+          "intro": "本章认识三角形与多边形：掌握三边关系，会识别高、中线与角平分线，理解三角形稳定性；证明并应用内角和与外角性质，推导 n 边形内角和与外角和。目标是会判断、会计算、会说理。",
+          "lessons": [
+            {
+              "title": "11.1.1 三角形边",
+              "points": [
+                "三角形概念与分类",
+                "三边关系：两边和＞第三边",
+                "两边之差＜第三边"
+              ],
+              "explain": "三角形任意两边之和大于第三边、任意两边之差小于第三边，这是判断三条线段能否构成三角形的依据。",
+              "ex": [
+                "长为3、4、8的三条线段能组成三角形吗？为什么？",
+                "已知两边为5和9，第三边整数取值有哪些？"
+              ]
+            },
+            {
+              "title": "11.1.2 高、中线、角平分线*稳定性",
+              "points": [
+                "三种重要线段的画法",
+                "三角形具有稳定性",
+                "多边形不具有稳定性"
+              ],
+              "explain": "从顶点向对边作垂线得高；连接顶点与对边中点得中线；平分内角交对边得角平分线。三角形结构稳固，四边形易变形。",
+              "ex": [
+                "锐角三角形有几条高在形内？",
+                "为什么起重机臂多用三角形结构？"
+              ]
+            },
+            {
+              "title": "11.2 内角与外角",
+              "points": [
+                "内角和定理：∠A+∠B+∠C=180度",
+                "外角等于不相邻两内角和",
+                "多边形外角和=360度"
+              ],
+              "explain": "证明内角和常用“过一个顶点作平行线”转化为平角。三角形外角大于任一不相邻内角，且等于不相邻两内角之和。",
+              "ex": [
+                "直角三角形两锐角有何关系？",
+                "一个外角为120度，与其不相邻两内角可能是多少？"
+              ]
+            },
+            {
+              "title": "11.3 多边形及其内角和",
+              "points": [
+                "n边形内角和=(n-2)*180度",
+                "正n边形每个内角=(n-2)*180度/n",
+                "外角和恒为360度"
+              ],
+              "explain": "从n边形一顶点引(n-3)条对角线分成(n-2)个三角形，故内角和(n-2)*180度；无论几边形外角和都是360度。",
+              "ex": [
+                "十边形内角和是多少？",
+                "正八边形每个内角多少度？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第十二章 * 全等三角形",
+          "intro": "本章学习全等三角形：理解全等意义与对应关系，熟练运用 SSS、SAS、ASA、AAS 及直角三角形 HL 判定；掌握角平分线性质与判定。目标是规范书写“已知—证—结论”，形成推理习惯。",
+          "lessons": [
+            {
+              "title": "12.1 全等图形与全等三角形",
+              "points": [
+                "全等：形状大小完全相同",
+                "性质：对应边、对应角相等",
+                "对应顶点、对应边、对应角"
+              ],
+              "explain": "能够完全重合的两个图形全等。全等三角形对应边相等、对应角相等，找对应关系是解题关键（常看公共边、对顶角、最长边）。",
+              "ex": [
+                "全等三角形对应边、对应角有什么关系？",
+                "△ABC≌△DEF，写出一组对应边和对应角。"
+              ]
+            },
+            {
+              "title": "12.2 全等判定 SSS/SAS/ASA/AAS/HL",
+              "points": [
+                "SSS、SAS、ASA、AAS 四种判定",
+                "直角三角形专用 HL",
+                "“边边角”不能判定"
+              ],
+              "explain": "三边对应相等(SSS)、两边及夹角(SAS)、两角及夹边(ASA)、两角及一角的对边(AAS)均可判定全等；直角三角形斜边直角边(HL)也行。注意“SSA”不成立。",
+              "ex": [
+                "证明全等有哪些判定方法？",
+                "为什么“边边角”不能判定全等？"
+              ]
+            },
+            {
+              "title": "12.3 角的平分线的性质",
+              "points": [
+                "尺规作角的平分线",
+                "性质：角平分线上点到两边距离相等",
+                "判定：到两边距离相等的点在角平分线上"
+              ],
+              "explain": "角平分线上的点到角两边距离相等；反过来，到角两边距离相等的点在这个角的平分线上。常用于证明线段相等。",
+              "ex": [
+                "已知点在角平分线上，能得出什么结论？",
+                "如何用尺规作一个角的平分线？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第十三章 * 轴对称",
+          "intro": "本章研究轴对称与等腰三角形：理解轴对称与对称轴，会画对称图形并在坐标系中找对称点；掌握等腰三角形性质与判定（含三线合一），并用对称思想解决最短路径问题。",
+          "lessons": [
+            {
+              "title": "13.1 轴对称",
+              "points": [
+                "轴对称与轴对称图形的区别",
+                "垂直平分线性质：PA=PB",
+                "垂直平分线判定"
+              ],
+              "explain": "两个图形成轴对称；一个图形是轴对称图形。线段垂直平分线上的点到两端距离相等；到两端距离相等的点在线段垂直平分线上。",
+              "ex": [
+                "“轴对称”与“轴对称图形”有何不同？",
+                "垂直平分线上的点有什么性质？"
+              ]
+            },
+            {
+              "title": "13.2 画轴对称图形*坐标系对称",
+              "points": [
+                "作对称图形：找特殊点",
+                "关于x轴：(x,y)->(x,-y)",
+                "关于y轴：(x,y)->(-x,y)"
+              ],
+              "explain": "画轴对称图形先找原图形关键点，分别作对称点再连线。坐标系中，关于x轴对称纵坐标变号，关于y轴对称横坐标变号。",
+              "ex": [
+                "点(3,-2)关于x轴的对称点坐标？",
+                "关于y轴呢？"
+              ]
+            },
+            {
+              "title": "13.3 等腰三角形",
+              "points": [
+                "性质：“等边对等角”、三线合一",
+                "判定：“等角对等边”",
+                "等边三角形各角60度"
+              ],
+              "explain": "等腰三角形两腰相等、两底角相等；顶角平分线、底边中线、底边高“三线合一”。有两个角相等可判定等腰。等边三角形每个角60度。",
+              "ex": [
+                "等腰三角形的“三线合一”指什么？",
+                "一个底角50度，顶角多少度？"
+              ]
+            },
+            {
+              "title": "13.4 最短路径问题",
+              "points": [
+                "“将军饮马”模型",
+                "利用轴对称化折为直",
+                "两点之间线段最短"
+              ],
+              "explain": "求直线上一点使到两定点距离和最小，常作其中一点关于直线的对称点，连接对称点与另一点，交点即为所求（化折线为直线）。",
+              "ex": [
+                "“将军饮马”问题的核心思路是什么？",
+                "为什么要把点作轴对称？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第十四章 * 整式的乘法与因式分解",
+          "intro": "本章进入整式乘法与因式分解：掌握幂的运算性质与整式乘法，熟记平方差与完全平方公式；能用提公因式法、公式法分解因式。乘法与分解互为逆过程，运算要准确到底。",
+          "lessons": [
+            {
+              "title": "14.1 整式的乘法",
+              "points": [
+                "同底数幂：a^m*a^n=a^(m+n)",
+                "幂的乘方：(a^m)^n=a^(mn)",
+                "积的乘方、单项式*多项式、多项式*多项式"
+              ],
+              "explain": "整式乘法先处理幂运算：同底数幂相乘指数相加，幂的乘方指数相乘，积的乘方各因式分别乘方。多项式相乘用分配律逐项相乘再合并。",
+              "ex": [
+                "计算 a³*a⁴ 与 (a³)⁴。",
+                "(x+2)(x-3) 展开结果是？"
+              ]
+            },
+            {
+              "title": "14.2 乘法公式",
+              "points": [
+                "平方差公式：(a+b)(a-b)=a^2-b^2",
+                "完全平方：(a+/-b)^2=a^2+/-2ab+b^2",
+                "公式逆用（配方）"
+              ],
+              "explain": "平方差与完全平方是常用公式。注意完全平方中间项是“+/-2ab”，易漏；逆用公式可进行简便计算与因式分解。",
+              "ex": [
+                "用公式计算 103*97。",
+                "(2x-1)^2 展开为？"
+              ]
+            },
+            {
+              "title": "14.3 因式分解",
+              "points": [
+                "提公因式法",
+                "公式法：平方差、完全平方",
+                "分解要彻底"
+              ],
+              "explain": "因式分解是把多项式写成整式乘积。先提公因式，再用公式：a^2-b^2=(a+b)(a-b)，a^2+/-2ab+b^2=(a+/-b)^2。须分解到不能再分。",
+              "ex": [
+                "分解 3x^2-6x。",
+                "分解 x^2-9 与 x^2+2x+1。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第十五章 * 分式",
+          "intro": "本章学习分式及其运算与分式方程：明确分式有意义及值为 0 的条件，会约分通分与乘除加减；解分式方程必须验根。目标是建立“分母不为 0”意识，能解决简单实际问题。",
+          "lessons": [
+            {
+              "title": "15.1 分式",
+              "points": [
+                "分式概念：A/B（B含字母且B!=0）",
+                "分式有意义：分母!=0",
+                "分式值为0：分子=0且分母!=0"
+              ],
+              "explain": "形如A/B（A、B为整式，B含字母）的式子叫分式。分式有意义看分母不为0；值为0需分子为0且分母不为0。",
+              "ex": [
+                "x为何值时 (x-1)/(x+2) 无意义？",
+                "何时该分式的值为0？"
+              ]
+            },
+            {
+              "title": "15.2 分式的运算",
+              "points": [
+                "乘除：约分、乘为分子乘分子",
+                "加减：先通分再相加减",
+                "整数指数幂：a^(-n)=1/a^n"
+              ],
+              "explain": "分式乘除先分解因式再约分；加减须同分母（通分）；负整数指数幂规定a^(-n)=1/a^n（a!=0），使幂运算律统一。",
+              "ex": [
+                "计算 (a/b)*(b^2/a)。",
+                "通分计算 1/x + 1/y。"
+              ]
+            },
+            {
+              "title": "15.3 分式方程",
+              "points": [
+                "解法：去分母化为整式方程",
+                "必须验根（分母!=0）",
+                "可解实际问题"
+              ],
+              "explain": "解分式方程两边同乘最简公分母化为整式方程，解出后必须代回检验，使分母为0的是增根须舍去。常用于行程、工程、浓度问题。",
+              "ex": [
+                "解分式方程为何要验根？",
+                "甲单独6天完成，乙单独4天，合作几天完成？"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "yingyu": {
+      "name": "英语",
+      "color": "var(--yingyu)",
+      "cls": "yingyu",
+      "units": [
+        {
+          "name": "Unit 1 · Happy Holiday",
+          "intro": "BIG Question\nWhat makes a great holiday?\n\nIn this unit, you will\n· talk about holiday activities and experiences\n· use indefinite pronouns (someone, anything, everyone …)\n· express feelings about holidays\n· explore benefits of holiday experiences\n\nLook and share\n看单元开篇图片：人们在海边、山里、博物馆里度假。\nDiscuss: Where do people go? What do they do? How do they feel?\n分享你最近一次假期里印象最深的一件事。",
+          "lessons": [
+            {
+              "title": "U1 Section A · How do people spend their holidays?",
+              "points": [
+                "Talk about holiday activities (travel, visit, try, stay)",
+                "Past experiences with simple past tense",
+                "Indefinite pronouns: someone/anyone/everyone/no one; something/anything/everything/nothing",
+                "Ask and answer: How was your holiday?"
+              ],
+              "explain": "本课围绕“人们如何度过假期”展开听说训练。学习用一般过去时叙述假期经历，并用不定代词表达“某人/某事/任何人/任何事”。注意形容词常后置：something special；everyone 作主语时谓语常用单数。",
+              "ex": [
+                "用英文回答：How do people spend their holidays? 至少写两句。",
+                "Fill in: I didn't buy ______ expensive, but ______ was wonderful. (anything / everything)"
+              ]
+            },
+            {
+              "title": "U1 Section B · What can we learn from holiday experiences?",
+              "points": [
+                "Read about holiday stories and feelings",
+                "Learn from experiences: courage, friendship, nature, culture",
+                "Write a short holiday diary with time order",
+                "Useful feelings: excited, relaxed, tired but happy, meaningful"
+              ],
+              "explain": "Section B 侧重阅读与写作：从假期经历中提炼收获。阅读时抓住“做了什么—学到什么—感受如何”；写作可用 first, then, finally 组织时间顺序，并保持过去时一致。",
+              "ex": [
+                "读完一则假期故事后，用一句话写出 What can we learn?",
+                "写三句日记：昨天去了哪里、做了什么、学到了什么。"
+              ]
+            },
+            {
+              "title": "U1 Project · Make a holiday to-do list",
+              "points": [
+                "Make a holiday to-do list (places, activities, people)",
+                "Use can / want to / hope to for plans",
+                "Share and compare lists with classmates",
+                "Reflect: Which idea makes a great holiday?"
+              ],
+              "explain": "项目任务是制作假期待办清单。先列出想去的地方、想做的事、想见的人，再用简单英文写清步骤或优先级，并在小组中交流，回扣 BIG Question：什么造就一次美好假期。",
+              "ex": [
+                "列出你的 holiday to-do list（至少 5 项）。",
+                "向同伴介绍清单，并说明哪一项最重要及原因。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 2 · Home Sweet Home",
+          "intro": "BIG Question\nWhat makes a home sweet?\n\nIn this unit, you will\n· talk about chores and what you can do for your home\n· describe feelings at home\n· use can / could / should for ability and advice\n· find out who does the most housework\n\nLook and share\n看家庭生活图片：做饭、打扫、照顾宠物、共享晚餐。\nDiscuss: What chores do you do? How do you feel at home?\n家不仅是住所，更是爱与责任的地方。",
+          "lessons": [
+            {
+              "title": "U2 Section A · What can you do for your home?",
+              "points": [
+                "Chore vocabulary: sweep, mop, wash, cook, take out the rubbish",
+                "Ask: What can you do for your home?",
+                "Offer help: I can ... / Let me ...",
+                "Frequency: often / sometimes / every day"
+              ],
+              "explain": "本课学习家务相关词汇与“能为家做什么”的表达。用 can 表示能力与主动承担，结合频度说明自己平时的家务习惯，体会分担家务对家庭氛围的意义。",
+              "ex": [
+                "列出你常做的三项家务，并用 I can / I often ... 造句。",
+                "给同学一句建议：You should help with ..."
+              ]
+            },
+            {
+              "title": "U2 Section B · How do you feel at home?",
+              "points": [
+                "Feelings: warm, safe, proud, relaxed, lonely",
+                "Read texts about home life",
+                "Describe a special place or moment at home",
+                "Link actions with feelings"
+              ],
+              "explain": "Section B 关注“在家的感受”。阅读时关注人物做了什么、感受如何；写作可描写一个角落、一顿晚餐或一次帮忙，用简单形容词表达情感，说明家为何令人安心。",
+              "ex": [
+                "用英文写：At home I feel ... because ...",
+                "读文后回答：How does the writer feel at home?"
+              ]
+            },
+            {
+              "title": "U2 Project · Find out who does the most chores at home",
+              "points": [
+                "Design a short chore survey",
+                "Collect data: how often / how long",
+                "Make a simple chart or ranking",
+                "Share findings and thank helpers"
+              ],
+              "explain": "项目：调查家里谁做家务最多。设计问题（做什么、多久一次），记录结果并做简单统计或排名，最后分享发现并表达感谢，落实“Home Sweet Home”的温暖主题。",
+              "ex": [
+                "设计 4 个家务调查问题。",
+                "根据调查结果写两句英文结论。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 3 · Same or Different?",
+          "intro": "BIG Question\nHow do differences make us special?\n\nIn this unit, you will\n· compare people: looks, hobbies, personalities\n· use comparatives and as ... as\n· talk about understanding differences\n· see how people change over time\n\nLook and share\n看同学/朋友对比图：高矮、性格、爱好。\nDiscuss: How are you the same? How are you different?\n差异不是隔阂，而是互相学习的起点。",
+          "lessons": [
+            {
+              "title": "U3 Section A · How are we different from each other?",
+              "points": [
+                "Comparative forms: -er / more ...",
+                "as + adj. + as",
+                "Personality & hobby words",
+                "both / all for similarities"
+              ],
+              "explain": "本课用比较级和原级结构描述人与人的异同。注意不规则比较级 better/worse/more，以及 both（两者）与 all（三者及以上）的区别。表达差异时语气要礼貌、客观。",
+              "ex": [
+                "用比较级写两句描述你和朋友的不同。",
+                "改写：Tom is tall. Jim is tall. → Tom is ______ Jim."
+              ]
+            },
+            {
+              "title": "U3 Section B · How do we understand differences?",
+              "points": [
+                "Read stories about friendship and difference",
+                "Respect others' choices and strengths",
+                "Useful phrases: I used to think ... Now I see ...",
+                "Write about learning from someone different"
+              ],
+              "explain": "Section B 引导理解差异：阅读中关注冲突如何化解、人物如何改变看法。写作可用“以前以为…现在明白…”结构，强调尊重与包容。",
+              "ex": [
+                "读后回答：How did the characters understand differences?",
+                "写三句：你从一位与你很不同的朋友身上学到了什么。"
+              ]
+            },
+            {
+              "title": "U3 Project · See who changed the most",
+              "points": [
+                "Interview: What were you like last year?",
+                "Compare then and now",
+                "Use comparative language",
+                "Present: who changed the most and why"
+              ],
+              "explain": "项目：对比“去年的我/他”与“现在的我/他”，找出变化最大的人。用比较级与过去习惯表达组织访谈结果，并做简短展示。",
+              "ex": [
+                "列出同学三处变化（性格/爱好/能力）。",
+                "用英文汇报：I think ... changed the most because ..."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 4 · Amazing Plants and Animals",
+          "intro": "BIG Question\nWhy are plants and animals amazing?\n\nIn this unit, you will\n· describe what plants and animals can do\n· talk about connections between living things and us\n· use can / can't and simple present for facts\n· make a poster about a plant or an animal\n\nLook and share\n看奇特动植物图片：会“跳舞”的植物、聪明的动物等。\nDiscuss: What surprises you? How are they connected with us?",
+          "lessons": [
+            {
+              "title": "U4 Section A · What can plants and animals do?",
+              "points": [
+                "Ability: can / can't",
+                "Fact language in simple present",
+                "Amazing features: smell, run, heal, communicate",
+                "Ask: What can ... do?"
+              ],
+              "explain": "本课用 can 与一般现在时描述动植物的神奇能力。陈述科学事实时保持客观，注意第三人称单数与不可数名词（如 water, oxygen）的用法。",
+              "ex": [
+                "选一种动物，写三句 What can it do?",
+                "True or false: Plants can make food from sunlight."
+              ]
+            },
+            {
+              "title": "U4 Section B · How are plants and animals connected with us?",
+              "points": [
+                "Food, medicine, air, friendship, work",
+                "Protect nature: should / shouldn't",
+                "Read about human–nature links",
+                "Express opinions with because"
+              ],
+              "explain": "Section B 讨论动植物与人类的联系：食物、氧气、药物、情感陪伴等。阅读后用 should 提出保护建议，强调人与自然相互依存。",
+              "ex": [
+                "列举植物/动物与我们相关的三个方面。",
+                "写两句建议：We should ... / We shouldn't ..."
+              ]
+            },
+            {
+              "title": "U4 Project · Make a poster about a plant or an animal",
+              "points": [
+                "Choose one plant or animal",
+                "Poster parts: name, facts, why amazing, how to protect",
+                "Use pictures and key sentences",
+                "Present in 1 minute"
+              ],
+              "explain": "项目：制作动植物海报。包含名称、奇妙之处、与人类的关系、保护建议。文字简短有力，配图清晰，课堂一分钟展示。",
+              "ex": [
+                "写出海报四块标题对应的英文要点。",
+                "准备 4 句展示台词。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 5 · What a Delicious Meal!",
+          "intro": "BIG Question\nWhat does a delicious meal mean to us?\n\nIn this unit, you will\n· describe how we make food (steps)\n· use imperatives and sequence words\n· talk about what cooking gives us\n· create a recipe for a tasty dish\n\nLook and share\n看厨房与美食图片：洗切炒、分享餐桌。\nDiscuss: Who cooks at home? What is your favourite dish?",
+          "lessons": [
+            {
+              "title": "U5 Section A · How do we make food?",
+              "points": [
+                "Cooking verbs: wash, cut, mix, fry, boil, pour",
+                "Imperatives for instructions",
+                "Sequence: first, next, then, finally",
+                "how much / how many + ingredients"
+              ],
+              "explain": "本课学习用祈使句和顺序词描述做菜步骤，并用 how much/how many 询问食材数量。注意可数与不可数：two eggs / some milk / a little salt。",
+              "ex": [
+                "用祈使句写出做三明治的四步。",
+                "提问：How much sugar do we need? / How many apples?"
+              ]
+            },
+            {
+              "title": "U5 Section B · What does cooking give us?",
+              "points": [
+                "Cooking gives love, culture, health, happiness",
+                "Read stories about meals and memories",
+                "Share food culture politely",
+                "Write about a special meal"
+              ],
+              "explain": "Section B 探讨烹饪的意义：不只是果腹，还有亲情、文化与健康。阅读关注“食物—人物—情感”链条，写作记述一顿特别的餐并说明收获。",
+              "ex": [
+                "完成句子：Cooking gives us ______ because ______.",
+                "写一段 4–5 句的 special meal 短文。"
+              ]
+            },
+            {
+              "title": "U5 Project · Create a recipe for a tasty dish",
+              "points": [
+                "Name the dish",
+                "List ingredients with amounts",
+                "Write clear steps",
+                "Share and taste ideas (class)"
+              ],
+              "explain": "项目：创作一道菜的英文食谱。包含菜名、材料与用量、分步说明，可附小贴士（tip）。在小组中分享并互相提问配料与步骤。",
+              "ex": [
+                "完成一份含至少 5 步的英文食谱。",
+                "向同伴提问一个关于食谱的问题并记录回答。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 6 · Plan for Yourself",
+          "intro": "BIG Question\nWhy do good plans matter?\n\nIn this unit, you will\n· talk about when and why we make plans\n· use be going to / will for plans and decisions\n· learn tips for making good plans\n· make plans for solving problems\n\nLook and share\n看日程表、目标清单图片。\nDiscuss: When do you make plans? What happens if you don't plan?",
+          "lessons": [
+            {
+              "title": "U6 Section A · When do we make plans?",
+              "points": [
+                "Situations: study, travel, health, weekend",
+                "be going to for planned actions",
+                "will for decisions / predictions",
+                "Time expressions: next week, this weekend, tomorrow"
+              ],
+              "explain": "本课区分何时做计划，并练习 be going to（已打算）与 will（临时决定/预测）。结合具体场景：考试前、旅行前、健康目标等，说明计划的必要性。",
+              "ex": [
+                "写出三个你正在计划的事（用 be going to）。",
+                "情景反应：朋友突然邀请你——用 will 作答。"
+              ]
+            },
+            {
+              "title": "U6 Section B · How can we make good plans?",
+              "points": [
+                "Tips: be clear, be realistic, break into steps",
+                "Priority: important / urgent",
+                "Check and adjust plans",
+                "Read about a student who plans well"
+              ],
+              "explain": "Section B 总结好计划的方法：目标清晰、步骤可执行、留有余地、定期检查。阅读后提炼 tips，并用英文给同学一条实用建议。",
+              "ex": [
+                "列出 good plans 的三条 tips。",
+                "改写一个不切实际的计划，使其更 realistic。"
+              ]
+            },
+            {
+              "title": "U6 Project · Make plans for solving problems",
+              "points": [
+                "Choose a real problem (time, study, health)",
+                "Write a 3-step plan",
+                "Predict results with will",
+                "Present and get feedback"
+              ],
+              "explain": "项目：针对真实问题制定解决计划。写清问题、三步行动、预期结果，课堂展示并接受同伴反馈，体现“为自己做计划”的单元目标。",
+              "ex": [
+                "完成 Problem → Steps → Result 表格。",
+                "用 5 句英文口头陈述你的计划。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 7 · When Tomorrow Comes",
+          "intro": "BIG Question\nHow can we meet the future with hope?\n\nIn this unit, you will\n· make predictions about the future\n· use will / may / might\n· talk about how to prepare for the future\n· create a picture about the future\n\nLook and share\n看未来城市、学校、交通想象图。\nDiscuss: What will life be like? What should we prepare now?",
+          "lessons": [
+            {
+              "title": "U7 Section A · What are your predictions about the future?",
+              "points": [
+                "will for predictions",
+                "may / might for possibility",
+                "there will be more / fewer / less ...",
+                "Talk about school, cities, environment"
+              ],
+              "explain": "本课用 will、may/might 谈论对未来的预测。注意 fewer 接可数、less 接不可数；表达观点时可用 I think / Maybe / I'm not sure。",
+              "ex": [
+                "写三句对未来城市的预测。",
+                "用 may/might 改写一句不太确定的预测。"
+              ]
+            },
+            {
+              "title": "U7 Section B · How can we prepare for the future?",
+              "points": [
+                "Skills: learn, create, stay healthy, care for others",
+                "should / need to for preparation",
+                "Read about young people's dreams",
+                "Link today's habits with tomorrow's goals"
+              ],
+              "explain": "Section B 强调“为未来做准备”：学习新技能、保持健康、学会合作与关爱。阅读关注人物如何把梦想拆成当下行动。",
+              "ex": [
+                "完成：To prepare for the future, I should ...",
+                "读后列出文中人物的两条准备行动。"
+              ]
+            },
+            {
+              "title": "U7 Project · Create a picture about the future",
+              "points": [
+                "Draw or design a future scene",
+                "Label with English key words",
+                "Write 5–8 prediction sentences",
+                "Present: hope + action"
+              ],
+              "explain": "项目：创作一幅“未来图”并配英文说明。画面可含学校、交通、环境等元素；展示时既谈预测，也谈我们现在能做的行动。",
+              "ex": [
+                "为画面写出至少 5 个英文标签。",
+                "准备展示结语：We hope ... so we will ..."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 8 · Let's Communicate!",
+          "intro": "BIG Question\nHow can better communication bring us closer?\n\nIn this unit, you will\n· talk about ways we communicate\n· practise polite and clear expressions\n· learn how to communicate better\n· tell a chain story together\n\nLook and share\n看沟通场景：面对面、电话、信息、表情与肢体语言。\nDiscuss: When is face-to-face better? When is a message OK?",
+          "lessons": [
+            {
+              "title": "U8 Section A · How do we communicate?",
+              "points": [
+                "Ways: speak, listen, write, call, message, body language",
+                "Choose the right way for the situation",
+                "Key phrases for starting a talk",
+                "Listen actively: Really? / I see. / That sounds ..."
+              ],
+              "explain": "本课梳理沟通方式与适用场景。强调沟通不只是“说”，还包括倾听与非语言信息。练习开场白与积极回应语，避免只顾自己说。",
+              "ex": [
+                "匹配场景与沟通方式（至少 3 组）。",
+                "写两句积极倾听的回应语。"
+              ]
+            },
+            {
+              "title": "U8 Section B · How can we communicate better?",
+              "points": [
+                "Be clear, be kind, be patient",
+                "Clarify: Do you mean ...? / Could you say that again?",
+                "Solve misunderstandings politely",
+                "Read a dialogue with a communication problem"
+              ],
+              "explain": "Section B 聚焦更好沟通的策略：表达清楚、态度友好、及时确认。阅读对话中找出误解原因，并改写为更有效的交流版本。",
+              "ex": [
+                "列出 better communication 的三条 tips。",
+                "改写一句可能引起误会的话，使其更礼貌清楚。"
+              ]
+            },
+            {
+              "title": "U8 Project · Tell a chain story",
+              "points": [
+                "Sit in a circle; each student adds one sentence",
+                "Listen carefully before you speak",
+                "Keep the story logical and kind",
+                "Retell the full story in groups"
+              ],
+              "explain": "项目：接力讲故事。每人接一句，必须先听清上句再续写，训练听力、衔接与合作。结束后小组复述完整故事，体现“Let's Communicate!”。",
+              "ex": [
+                "写下你接力时新增的那一句，并说明如何承接上句。",
+                "用 5 句英文复述小组故事大意。"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "acc": [
+    {
+      "subj": "yuwen",
+      "title": "《三峡》背诵（节选）",
+      "c": "自三峡七百里中，两岸连山，略无阙处；重岩叠嶂，隐天蔽日，自非亭午夜分，不见曦月。\n至于夏水襄陵，沿溯阻绝。或王命急宣，有时朝发白帝，暮到江陵，其间千二百里，虽乘奔御风，不以疾也。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《答谢中书书》背诵",
+      "c": "山川之美，古来共谈。高峰入云，清流见底。两岸石壁，五色交辉。青林翠竹，四时俱备。晓雾将歇，猿鸟乱鸣；夕日欲颓，沉鳞竞跃。实是欲界之仙都。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《记承天寺夜游》背诵",
+      "c": "元丰六年十月十二日夜，解衣欲睡，月色入户，欣然起行。念无与为乐者，遂至承天寺寻张怀民。怀民亦未寝，相与步于中庭。庭下如积水空明，水中藻、荇交横，盖竹柏影也。何夜无月？何处无竹柏？但少闲人如吾两人者耳。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《与朱元思书》背诵（节选）",
+      "c": "风烟俱净，天山共色。从流飘荡，任意东西。自富阳至桐庐一百许里，奇山异水，天下独绝。\n水皆缥碧，千丈见底。游鱼细石，直视无碍。急湍甚箭，猛浪若奔。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "唐诗五首*必背",
+      "c": "《使至塞上》王维：大漠孤烟直，长河落日圆。\n《渡荆门送别》李白：山随平野尽，江入大荒流。\n《钱塘湖春行》白居易：几处早莺争暖树，谁家新燕啄春泥。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《生于忧患，死于安乐》背诵",
+      "c": "故天将降大任于是人也，必先苦其心志，劳其筋骨，饿其体肤，空乏其身，行拂乱其所为，所以动心忍性，曾益其所不能。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《富贵不能淫》*大丈夫",
+      "c": "富贵不能淫，贫贱不能移，威武不能屈，此之谓大丈夫。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《饮酒》陶渊明",
+      "c": "结庐在人境，而无车马喧。问君何能尔？心远地自偏。采菊东篱下，悠然见南山。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《春望》杜甫",
+      "c": "国破山河在，城春草木深。感时花溅泪，恨别鸟惊心。烽火连三月，家书抵万金。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《赤壁》杜牧",
+      "c": "折戟沉沙铁未销，自将磨洗认前朝。东风不与周郎便，铜雀春深锁二乔。"
+    },
+    {
+      "subj": "shuxue",
+      "title": "三角形内角和",
+      "c": "∠A + ∠B + ∠C = 180度\n直角三角形：两锐角互余（和为90度）"
+    },
+    {
+      "subj": "shuxue",
+      "title": "多边形内角和",
+      "c": "n 边形内角和 = (n-2) * 180度\n外角和 = 360度（与边数无关）\n正 n 边形每个内角 = (n-2)*180度 / n"
+    },
+    {
+      "subj": "shuxue",
+      "title": "全等三角形判定",
+      "c": "SSS / SAS / ASA / AAS / HL（直角三角形）\n注意：SSA（边边角）不能判定全等"
+    },
+    {
+      "subj": "shuxue",
+      "title": "等腰三角形",
+      "c": "等边对等角；等角对等边\n“三线合一”：顶角平分线 = 底边中线 = 底边高\n等边三角形每个角 = 60度"
+    },
+    {
+      "subj": "shuxue",
+      "title": "整式乘法*幂运算",
+      "c": "a^m * a^n = a^(m+n)\n(a^m)^n = a^(mn)\n(ab)^n = a^n b^n"
+    },
+    {
+      "subj": "shuxue",
+      "title": "乘法公式",
+      "c": "平方差：(a+b)(a-b) = a^2 - b^2\n完全平方：(a+/-b)^2 = a^2 +/- 2ab + b^2"
+    },
+    {
+      "subj": "shuxue",
+      "title": "因式分解方法",
+      "c": "(1) 提公因式 (2) 公式法\na^2-b^2=(a+b)(a-b)\na^2+/-2ab+b^2=(a+/-b)^2\n分解要“彻底”"
+    },
+    {
+      "subj": "shuxue",
+      "title": "分式有意义/值为0",
+      "c": "分式有意义：分母 != 0\n分式值为 0：分子 = 0 且 分母 != 0\n负整数指数：a^(-n) = 1 / a^n (a!=0)"
+    },
+    {
+      "subj": "shuxue",
+      "title": "分式方程",
+      "c": "解法：去分母->化为整式方程->求解->验根\n验根：使分母为0的是增根，须舍去"
+    },
+    {
+      "subj": "yingyu",
+      "title": "U1 假期活动词块",
+      "c": "go hiking / go camping / visit a museum / try something new / stay with family；How was your holiday? — It was wonderful."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U1 不定代词速记",
+      "c": "someone/anyone/everyone/no one；something/anything/everything/nothing。Everyone was happy. I didn't buy anything expensive. something special（形容词后置）。"
+    },
+    {
+      "subj": "yingyu",
+      "title": "U1 过去时三问",
+      "c": "Did you do anything special? Where did you go? What did you learn? 否定：didn't + 动词原形；不规则：go→went, see→saw, meet→met。"
+    },
+    {
+      "subj": "yingyu",
+      "title": "U2 家务与分担",
+      "c": "sweep the floor / mop / do the dishes / take out the rubbish / fold clothes；What can you do for your home? I can help cook dinner."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U2 在家的感受",
+      "c": "At home I feel safe / warm / proud / relaxed. When I help set the table, I feel proud. Home is where I can be myself."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U3 比较级公式",
+      "c": "taller than / more outgoing than / as hard-working as；good→better, many→more。Both of us like sports.（两者）All my friends are kind.（≥3）"
+    },
+    {
+      "subj": "yingyu",
+      "title": "U3 理解差异",
+      "c": "I used to think ... Now I understand ... We are different, but we can listen and respect each other. Differences make us special."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U4 动植物能力",
+      "c": "Plants can make food from sunlight. Animals can communicate in different ways. We should protect forests and habitats."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U5 做菜步骤语",
+      "c": "First, wash ... Next, cut up ... Then add ... Finally, enjoy! How much milk? How many eggs? What a delicious meal!"
+    },
+    {
+      "subj": "yingyu",
+      "title": "U6 计划：going to / will",
+      "c": "I'm going to make a timetable.（已计划）I'll answer the phone.（当下决定）Good plans are clear and realistic."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U7 未来预测",
+      "c": "People will use cleaner energy. Students may study online and offline. There will be less pollution / fewer cars in the centre."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U8 更好沟通",
+      "c": "Be clear, be kind, be patient. Do you mean ...? Could you say that again? Face to face is better for serious talks."
+    }
+  ],
+  "subjImg": {
+    "yuwen": "assets/subj-yuwen.png",
+    "shuxue": "assets/subj-shuxue.png",
+    "yingyu": "assets/subj-yingyu.png"
+  },
+  "exams": [
+    {
+      "id": "m1",
+      "name": "第一次月考",
+      "date": "2026-10-12",
+      "scope": "语文第一、二单元；数学第十一、十二章"
+    },
+    {
+      "id": "mid",
+      "name": "期中考试",
+      "date": "2026-11-16",
+      "scope": "语文一至四单元；数学十一至十三章；英语Unit1-5"
+    },
+    {
+      "id": "m2",
+      "name": "第二次月考",
+      "date": "2026-12-14",
+      "scope": "语文五单元；数学第十四、十五章；英语Unit6-8"
+    },
+    {
+      "id": "fin",
+      "name": "期末考试",
+      "date": "2027-01-18",
+      "scope": "全册（语数英）"
+    }
+  ]
+};
+const SUBJECTS = CONTENT_PACK.subjects;
+const ACC = CONTENT_PACK.acc;
+const START_DEFAULT = CONTENT_PACK.startDate;
+const SUBJ_IMG = CONTENT_PACK.subjImg;
+const BODIES = {"消息二则": "【精读节选】\n一、《我三十万大军胜利南渡长江》（毛泽东，1949年4月22日）\n【新华社长江前线二十二日二时电】英勇的人民解放军二十一日已有大约三十万人渡过长江。渡江战斗于二十日午夜开始，地点在芜湖、安庆之间。国民党反动派经营了三个半月的长江防线，遇着人民解放军好似摧枯拉朽，军无斗志，纷纷溃退。长江风平浪静，我军万船齐发，直取对岸，不到二十四小时，三十万人民解放军即已突破敌阵，占领南岸广大地区，现正向繁昌、铜陵、青阳、荻港、鲁港诸城进击中。人民解放军正以自己的英雄式的战斗，坚决地执行毛主席朱总司令的命令。\n\n二、《人民解放军百万大军横渡长江》（毛泽东，1949年4月22日）\n【新华社长江前线二十二日二十二时电】人民解放军百万大军，从一千余华里的战线上，冲破敌阵，横渡长江。西起九江（不含），东至江阴，均是人民解放军的渡江区域。二十日夜起，长江北岸人民解放军中路军首先突破安庆、芜湖线，渡至繁昌、铜陵、青阳、荻港、鲁港地区，二十四小时内即已渡过三十万人。二十一日下午五时起，我西路军开始渡江，地点在九江、安庆段。至发电时止，该路三十五万人民解放军已渡过三分之二，余部二十三日可渡完。这一路现已占领贵池、殷家汇、东流、至德、彭泽之线的广大南岸阵地，正向南扩展中。和中路军所遇敌情一样，我西路军当面之敌亦纷纷溃退，毫无斗志，我军所遇之抵抗，甚为微弱。此种情况，一方面由于人民解放军英勇善战，锐不可当；另一方面，这和国民党反动派拒绝签订和平协定，有很大关系。国民党的广大官兵一致希望和平，不想再打了，听见南京拒绝和平，都很泄气。战犯汤恩伯二十一日到芜湖督战，不起丝毫作用。汤恩伯认为南京江阴段防线是很巩固的，弱点只存在于南京九江一线。不料正是汤恩伯到芜湖的那一天，东面防线又被我军突破了。我东路三十五万大军与西路同日同时发起渡江作战。所有预定计划，都已实现。至发电时止，我东路大军已大部渡过南岸，余部二十三日可以渡完。此处敌军抵抗较为顽强，然在二十一日下午至二十二日下午的整天激战中，我已歼灭及击溃一切抵抗之敌，占领扬中、镇江、江阴诸县的广大地区，并控制江阴要塞，封锁长江。我军前锋，业已切断镇江无锡段铁路线。\n\n【学习提示】抓住导语中的时间、地点、人物、事件；主体按中路、西路、东路顺序展开；语言准确、简明、有气势。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "首届诺贝尔奖颁发": "【精读节选】\n路透社斯德哥尔摩1901年12月10日电  瑞典国王和挪威诺贝尔基金会今天首次颁发了诺贝尔奖。根据诺贝尔的遗嘱，“诺贝尔奖每年发给那些在过去的一年里，在物理学、化学、生理学或医学、文学及和平事业方面为人类作出最大贡献的人”。\n\n今年诺贝尔奖的获得者是：物理学奖——威廉·康拉德·伦琴（德），他发现了X射线；化学奖——雅各布斯·亨里克斯·范托夫（荷兰），他发现了化学动力学定律和渗透压定律；生理学或医学奖——埃米尔·阿道夫·冯·贝林（德），他在血清疗法的研究方面卓有成就，尤其在治疗白喉的血清疗法上贡献突出；文学奖——勒内·苏利·普吕多姆（法），他在诗歌创作方面颇有建树；和平奖由红十字会的创始人亨利·杜南（瑞士）和法国经济学家帕西平分。\n\n诺贝尔奖是根据瑞典化学家诺贝尔遗嘱所设基金提供的奖项。诺贝尔在其遗嘱中规定，将该遗产一部分共920万美元作为基金，以其利息分设物理、化学、生理或医学、文学及和平5种奖金，授予世界各国在这些领域对人类作出重大贡献的学者。从1901年开始，诺贝尔奖几乎每年都按时颁发。\n\n【学习提示】导语点明时间与事件；主体介绍获奖者与奖项来源；叙述客观，少发议论。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "“飞天”凌空 ——跳水姑娘吕伟夺魁记": "【精读节选】\n她站在十米高台的前沿，沉静自若，风度优雅。白云似在她的头顶飘浮，飞鸟掠过她的身旁。这是达卡多拉游泳场的八千名观众一齐翘首而望、屏声敛息的一刹那。\n\n轻舒双臂，向上高举，只见吕伟轻轻一蹬，就向空中飞去。有一瞬间，她那修长美妙的身体犹如被空气托住了，衬着蓝天白云，酷似敦煌壁画中凌空翔舞的“飞天”。\n\n紧接着，是向前翻腾一周半，同时伴随着旋风般的空中转体三周，动作疾如流星，又潇洒自如，一瞬间，她那由一身黑色泳装包裹的身体犹如棉花团一样，轻轻地撒入碧波之中，几股白色的气泡拥抱了这位自天而降的仙女，四面水花悄然不惊。\n\n“好！”站在池边的裁判们不约而同地打出了水上芭蕾“最高难度系数”的分数——十分。\n这位年方十六的中国姑娘，赢得了金牌。她的这个动作五位裁判中有四位打了满分。她的总分是五百八十二点五一分，开创了中国运动员在亚运会上夺金牌的历史。\n\n【学习提示】新闻特写聚焦瞬间；比喻（飞天、流星、棉花团）增强画面感；与消息写法不同在于“慢镜头”细节。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "一着惊海天 ——舰载机成功着舰": "【精读节选】\n浩瀚的大海，波涛汹涌。辽阔的天空，碧空如洗。一艘巨大的航空母舰，巍然屹立在大海之中。\n\n这是我国第一艘航空母舰。今天，将进行舰载战斗机首次着舰起飞试验。着舰，是航母舰载机最关键、最惊心动魄的一个环节。着舰，对于飞行员是生死考验，对于航母是历史跨越。\n\n“舰载机着舰！”随着指挥员一声令下，飞行员驾驶战机呼啸着向着舰点俯冲下来。着舰点仅有数十米，稍有偏差，就会机毁人亡。战机对准跑道，越来越近……着舰！刹那间，舰船上爆发出雷鸣般的掌声。\n\n成功了！我国航空母舰舰载战斗机首次着舰成功！这一着，惊天动地；这一着，改写了中国航空史；这一着，实现了国人百年梦想。\n\n【学习提示】通讯完整再现过程；场面描写营造紧张；结尾升华历史意义。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "国行公祭，为佑世界和平": "【精读节选】\n今天是我国第二个南京大屠杀死难者国家公祭日。国行公祭，法立典章；铸剑为犁，民族复兴。铭记历史、缅怀先烈、珍爱和平、开创未来，是国家公祭日的主旨。\n\n1937年12月13日，侵华日军野蛮侵入南京，制造了惨绝人寰的南京大屠杀惨案，30万同胞惨遭杀戮。这一公然违反国际法的残暴行径，铁证如山，早有历史结论和法律定论。\n\n设立国家公祭日，是为了让世人牢记侵华日军的屠城血史，是为了让中华儿女永远铭记那段惨痛的历史，更是为了以史为鉴、开创未来，坚定不移走和平发展道路。\n\n铭记历史，不是为了延续仇恨，而是为了唤起每个人对和平的向往和坚守，避免历史悲剧重演。中国人民抗日战争暨世界反法西斯战争的胜利，是正义战胜邪恶、光明战胜黑暗、进步战胜反动的伟大胜利。\n\n【学习提示】新闻评论：引述史实+鲜明议论；主旨是铭记历史、珍爱和平。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "藤野先生": "【精读节选】鲁迅《藤野先生》\n东京也无非是这样。上野的樱花烂熳的时节，望去确也像绯红的轻云，但花下也缺不了成群结队的“清国留学生”的速成班，头顶上盘着大辫子，顶得学生制帽的顶上高高耸起，形成一座富士山。也有解散辫子，盘得平的，除下帽来，油光可鉴，宛如小姑娘的发髻一般，还要将脖子扭几扭。实在标致极了。\n\n到仙台也颇受了这样的优待，不但学校不收学费，几个职员还为我的食宿操心。我先是住在监狱旁边一个客店里的……后来听说俄国人要来，就把我搬到一处离监狱很远的客店里去了。\n\n从此就看见许多陌生的先生，听到许多新鲜的讲义。解剖学是两个教授分任的。最初是骨学。其时进来的是一个黑瘦的先生，八字须，戴着眼镜，挟着一叠大大小小的书。一将书放在讲台上，便用了缓慢而很有顿挫的声调，向学生介绍自己道：“我就是叫作藤野严九郎的……”\n\n过了一星期，大约是星期六，他使助手来叫我了。到得研究室，见他坐在人骨和许多单独的头骨中间……他和蔼地对我说：“我的讲义，你能抄下来么？”……将讲义交给我……并且说，此后每一星期要送给他看一回。我拿下来打开看时，很吃了一惊，同时也感到一种不安和感激。原来我的讲义已经从头到末，都用红笔添改过了，不但增加了许多脱漏的地方，连文法的错误，也都一一订正。这样一直继续到教完了他所担任的功课：骨学、血管学、神经学。\n\n有一回，藤野先生将我叫到他的研究室里去，翻出我那讲义上的一个图来，是下臂的血管，指着，向我和蔼地说道：“你看，你将这条血管移了一点位置了。——自然，这样一移，的确比较好看些，然而解剖图不是美术，实物是那么样的，我们没法改换它。现在我给你改好了，以后你要全照着黑板上那样的画。”\n\n中国是弱国，所以中国人当然是低能儿，分数在六十分以上，便不是自己的能力了：也无怪他们疑惑。但我接着便有参观枪毙中国人的命运了……“万岁！”他们都拍掌欢呼起来。……在这学跳舞的时候，我忽然也在跳舞了。\n\n到第二学年的终结，我便去寻藤野先生，告诉他我将不学医学，并且离开这仙台。……他的脸色仿佛有些悲哀，似乎想说话，但竟没有说。……将所抄的讲义送他，他收下了，但是说希望将我的讲义送他。……我便将这当作永远的纪念。\n\n他的对于我的热心的希望，不倦的教诲，小而言之，是为中国，就是希望中国有新的医学；大而言之，是为学术，就是希望新的医学传到中国去。他的性格，在我的眼里和心里是伟大的，虽然他的姓名并不为许多人所知道。\n\n【学习提示】明线：与藤野交往；暗线：爱国情怀。注意“讲义”“解剖图”“匿名信”“看电影”等关键细节。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "回忆我的母亲": "【精读节选】朱德《回忆我的母亲》\n得到母亲去世的消息，我很悲痛。我爱我母亲，特别是她勤劳一生，很多事情是值得我永远回忆的。\n\n我家是佃农。祖籍广东韶关，客籍人，在“湖广填四川”时迁移四川仪陇县马鞍场。世代为地主耕种，家境是贫苦的。母亲一共生了十三个儿女。因为家境贫穷，无法全部养活，只留下八个，以后再生下的被迫溺死了。这在母亲心里是多么沉重的打击呵！母亲把八个孩子一手养大成人。可是她的时间大半被家务和耕种占去了，没法多照顾孩子，只好让孩子们在地里爬着。\n\n母亲是个好劳动。从我能记忆起，总是天不亮就起床。全家二十多口人，妇女们轮班煮饭，轮到就煮一年。母亲把饭煮了，还要种田，种菜，喂猪，养蚕，纺棉花。因为她身材高大结实，还能挑水挑粪。\n\n母亲这样地整日劳碌着。我到四五岁时就很自然地在旁边帮她的忙，到八九岁时就不但能挑能背，还会种地了。记得那时我从学堂回家，母亲总在灶上汗流满面地烧饭，我就悄悄把书本一放，挑水或放牛去了……母亲知道我们所做的不过是小事情，但她心里却充满了愉快。母亲那种勤劳俭朴的习惯，母亲那种宽厚仁慈的态度，至今还在我心中留有深刻的印象。\n\n母亲最大的特点是一生不曾脱离过劳动。母亲生我前一分钟还在灶上煮饭。虽到老年，仍然热爱生产。一九四四年，母已八十五岁，仍不缀劳作，尤喜纺棉。\n\n母亲是一个“平凡”的人，她只是中国千百万劳动人民中的一员，但是，正是这千百万人创造了和创造着中国的历史。我用什么方法来报答母亲的深恩呢？我将继续尽忠于我们的民族和人民，尽忠于我们的民族和人民的希望——中国共产党，使和母亲同样生活着的人能够过快乐的生活。这是我能做到的，一定能做到的。\n\n【学习提示】时间顺序；语言质朴；由个人亲情上升到民族解放。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "列夫*托尔斯泰": "【精读节选】茨威格《列夫·托尔斯泰》（节译）\n他生就一副多毛的脸庞，植被多于空地；浓密的胡髭使人难以看清他的内心世界。长髯覆盖了两颊，遮住了嘴唇，遮住了皱似树皮的黝黑脸膛，一根根迎风飘动，颇有长者风度。宽约一指的眉毛像纠缠不清的树根，朝上倒竖。一绺绺灰白的鬈发像泡沫一样堆在额头上。不管从哪个角度看，你都能见到热带森林般茂密的须发。像米开朗琪罗画的摩西一样，托尔斯泰给人留下的难忘形象，来源于他那天父般的犹如卷起的滔滔白浪的大胡子。\n\n人们无不试图用自己的想象补全这位文豪的外貌。留着长髯、面容粗拙的托尔斯泰，会让人想起从前那些靠着狩猎、饲养牲口和种田为生的祖先。……这副脸孔生就应该是流放犯的脸孔，让人一见之下，不由自主地会想到遍布于俄国大地上的那些最粗放、最艰辛的流浪汉。\n\n突然，人们会从这张脸的毛发丛中，发现一双灰色的眼睛。那双眼睛射出一道黑豹似的目光……这对眼睛所具有的魅力可以搞定任何一个人。……在这对灰色的眼睛里有一百只眼珠。……托尔斯泰这对眼睛里有一百只眼珠。\n\n这对眼睛可以照出一个完整的世界。……直到生命的最后一刻，这双眼睛仍然能不断地从自己的身上找到向上的力量，冲破一切障碍，去追求更高的境界。\n\n【学习提示】欲扬先抑：先写外貌“粗鄙”，再写眼睛“犀利深邃”；比喻夸张突出精神伟大。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "美丽的颜色": "【精读节选】艾芙·居里《美丽的颜色》\n玛丽在院子里支起了一口大锅，一锅一锅地煮那沸腾的液体。她冒着浓烟和蒸汽，用一根粗大的铁棍不断地搅拌。她就这样整天整天累月地工作着。\n\n工作日变成了工作月，工作月变成了工作年。一八九八年，居里夫妇宣布发现钋；几个月后又宣布发现镭。但要得到纯镭，还必须从成吨的矿渣中提炼。他们没有实验室，只有一间破旧的棚屋。\n\n有一天，玛丽像往常一样走进实验室，想要检验一种产物。……他们走进黑暗的工作间，玛丽说：“不要点灯！”……他们看见那些玻璃器皿中，有一点“淡蓝色的荧光”，那就是镭！玛丽低声说：“看哪……看哪！”\n\n玛丽后来写道：“我们把精力完全用在实验室里了。……我们没有一个助手，也没有一个工人。……我们生活中唯一的安慰，就是夜晚到实验室里去看看我们的成果。”\n\n“镭的荧光在黑暗中闪烁，那美丽的颜色，永远留在我的心中。”\n\n【学习提示】传记真实：引用日记；“美丽的颜色”既指镭的荧光，也喻科学发现的喜悦。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "三峡（郦道元）": "自三峡七百里中，两岸连山，略无阙处。重岩叠嶂，隐天蔽日，自非亭午夜分，不见曦月。\n\n至于夏水襄陵，沿溯阻绝。或王命急宣，有时朝发白帝，暮到江陵，其间千二百里，虽乘奔御风，不以疾也。\n\n春冬之时，则素湍绿潭，回清倒影，绝巘多生怪柏，悬泉瀑布，飞漱其间，清荣峻茂，良多趣味。\n\n每至晴初霜旦，林寒涧肃，常有高猿长啸，属引凄异，空谷传响，哀转久绝。故渔者歌曰：“巴东三峡巫峡长，猿鸣三声泪沾裳。”\n\n【背诵】全文须背诵。注意：阙、襄、沿溯、奔、曦、素湍、绝巘、属引。", "短文二篇：答谢中书书 / 记承天寺夜游": "一、答谢中书书（陶弘景）\n山川之美，古来共谈。高峰入云，清流见底。两岸石壁，五色交辉。青林翠竹，四时俱备。晓雾将歇，猿鸟乱鸣；夕日欲颓，沉鳞竞跃。实是欲界之仙都。自康乐以来，未复有能与其奇者。\n\n二、记承天寺夜游（苏轼）\n元丰六年十月十二日夜，解衣欲睡，月色入户，欣然起行。念无与为乐者，遂至承天寺寻张怀民。怀民亦未寝，相与步于中庭。庭下如积水空明，水中藻、荇交横，盖竹柏影也。何夜无月？何处无竹柏？但少闲人如吾两人者耳。\n\n【背诵】两篇均须背诵。注意：“欲界之仙都”“积水空明”“闲人”的含义。", "与朱元思书（吴均）": "风烟俱净，天山共色。从流飘荡，任意东西。自富阳至桐庐一百许里，奇山异水，天下独绝。\n\n水皆缥碧，千丈见底。游鱼细石，直视无碍。急湍甚箭，猛浪若奔。\n\n夹岸高山，皆生寒树，负势竞上，互相轩邈，争高直指，千百成峰。泉水激石，泠泠作响；好鸟相鸣，嘤嘤成韵。蝉则千转不穷，猿则百叫无绝。鸢飞戾天者，望峰息心；经纶世务者，窥谷忘反。横柯上蔽，在昼犹昏；疏条交映，有时见日。\n\n【背诵】全文须背诵。总领句：“奇山异水，天下独绝。”注意骈文对偶。", "唐诗五首": "一、野望（王绩）\n东皋薄暮望，徙倚欲何依。树树皆秋色，山山唯落晖。牧人驱犊返，猎马带禽归。相顾无相识，长歌怀采薇。\n\n二、黄鹤楼（崔颢）\n昔人已乘黄鹤去，此地空余黄鹤楼。黄鹤一去不复返，白云千载空悠悠。晴川历历汉阳树，芳草萋萋鹦鹉洲。日暮乡关何处是？烟波江上使人愁。\n\n三、使至塞上（王维）\n单车欲问边，属国过居延。征蓬出汉塞，归雁入胡天。大漠孤烟直，长河落日圆。萧关逢候骑，都护在燕然。\n\n四、渡荆门送别（李白）\n渡远荆门外，来从楚国游。山随平野尽，江入大荒流。月下飞天镜，云生结海楼。仍怜故乡水，万里送行舟。\n\n五、钱塘湖春行（白居易）\n孤山寺北贾亭西，水面初平云脚低。几处早莺争暖树，谁家新燕啄春泥。乱花渐欲迷人眼，浅草才能没马蹄。最爱湖东行不足，绿杨阴里白沙堤。\n\n【背诵】五首均须背诵。重点名句：大漠孤烟直，长河落日圆；山随平野尽，江入大荒流；乱花渐欲迷人眼，浅草才能没马蹄。", "背影": "【精读节选】朱自清《背影》\n我与父亲不相见已二年余了，我最不能忘记的是他的背影。\n\n那年冬天，祖母死了，父亲的差使也交卸了，正是祸不单行的日子。……回家变卖典质，父亲还了亏空；又借钱办了丧事。这些日子，家中光景很是惨淡，一半为了丧事，一半为了父亲赋闲。丧事完毕，父亲要到南京谋事，我也要回北京念书，我们便同行。\n\n到南京时，有朋友约去游逛，勾留了一日；第二日上午便须渡江到浦口，下午上车北去。父亲因为事忙，本已说定不送我，叫旅馆里一个熟识的茶房陪我同去。他再三嘱咐茶房，甚是仔细。但他终于不放心，怕茶房不妥帖；颇踌躇了一会。其实我那年已二十岁，北京已来往过两三次，是没有什么要紧的了。他踌躇了一会，终于决定还是自己送我去。我再三劝他不必去；他只说，“不要紧，他们去不好！”\n\n我们过了江，进了车站。我买票，他忙着照看行李。……他给我拣定了靠车门的一张椅子；我将他给我做的紫毛大衣铺好座位。他嘱我路上小心，夜里要警醒些，不要受凉。又嘱托茶房好好照应我。我心里暗笑他的迂；他们只认得钱，托他们只是白托！而且我这样大年纪的人，难道还不能料理自己么？唉，我现在想想，那时真是太聪明了！\n\n我说道，“爸爸，你走吧。”他往车外看了看说：“我买几个橘子去。你就在此地，不要走动。”我看那边月台的栅栏外有几个卖东西的等着顾客。走到那边月台，须穿过铁道，须跳下去又爬上去。父亲是一个胖子，走过去自然要费事些。我本来要去的，他不肯，只好让他去。我看见他戴着黑布小帽，穿着黑布大马褂，深青布棉袍，蹒跚地走到铁道边，慢慢探身下去，尚不大难。可是他穿过铁道，要爬上那边月台，就不容易了。他用两手攀着上面，两脚再向上缩；他肥胖的身子向左微倾，显出努力的样子。这时我看见他的背影，我的泪很快地流下来了。我赶紧拭干了泪。怕他看见，也怕别人看见。我再向外看时，他已抱了朱红的橘子往回走了。过铁道时，他先将橘子散放在地上，自己慢慢爬下，再抱起橘子走。到这边时，我赶紧去搀他。他和我走到车上，将橘子一股脑儿放在我的皮大衣上。于是扑扑衣上的泥土，心里很轻松似的。过一会说，“我走了，到那边来信！”我望着他走出去。他走了几步，回过头看见我，说，“进去吧，里边没人。”等他的背影混入来来往往的人里，再找不着了，我便进来坐下，我的眼泪又来了。\n\n近几年来，父亲和我都是东奔西走，家中光景是一日不如一日。……他触目伤怀，自然情不能自已。情郁于中，自然要发之于外；家庭琐屑便往往触他之怒。他待我渐渐不同往日。但最近两年的不见，他终于忘却我的不好，只是惦记着我，惦记着我的儿子。我北来后，他写了一信给我，信中说道，“我身体平安，惟膀子疼痛利害，举箸提笔，诸多不便，大约大去之期不远矣。”我读到此处，在晶莹的泪光中，又看见那肥胖的、青布棉袍黑布马褂的背影。唉！我不知何时再能与他相见！\n\n【学习提示】四次写背影、多次落泪；核心场面是爬月台买橘子；朴素语言见深情。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "白杨礼赞": "【精读节选】茅盾《白杨礼赞》\n白杨树实在是不平凡的，我赞美白杨树！\n\n汽车在望不到边际的高原上奔驰，扑入你的视野的，是黄绿错综的一条大毡子。……这时你涌起来的感想也许是“雄壮”，也许是“伟大”，诸如此类的形容词；然而同时你的眼睛也许觉得有点倦怠，你对当前的“雄壮”或“伟大”闭了眼，而另一种的味儿在你心头潜滋暗长了——“单调”。可不是？单调，有一点儿吧？\n\n然而刹那间，要是你猛抬眼看见了前面远远有一排——不，或者只是三五株，一株，傲然地耸立，像哨兵似的树木的话，那你的恹恹欲睡的情绪又将如何？我那时是惊奇地叫了一声的。\n\n那就是白杨树，西北极普通的一种树，然而实在是不平凡的一种树。\n\n那是力争上游的一种树，笔直的干，笔直的枝。它的干通常是丈把高，像加过人工似的，一丈以内绝无旁枝。它所有的丫枝一律向上，而且紧紧靠拢，也像加过人工似的，成为一束，绝不旁逸斜出。……这就是白杨树，西北极普通的一种树，然而决不是平凡的树。\n\n它没有白杨的贵妃的风姿，但是伟岸，正直，朴质，严肃，也不缺乏温和，更不用提它的坚强不屈与挺拔，它是树中的伟丈夫。当你在积雪初融的高原上走过，看见平坦的大地上傲然挺立这么一株或一排白杨树，难道你就只觉得它只是树？难道你就不想到它的朴质，严肃，坚强不屈，至少也象征了北方的农民？难道你竟一点也不联想到，在敌后的广大土地上，到处有坚强不屈，就像这白杨树一样傲然挺立的守卫他们家乡的哨兵？难道你又不更远一点想到，这样枝枝叶叶靠紧团结，力求上进的白杨树，宛然象征了今天在华北平原纵横决荡，用血写出新中国历史的那种精神和意志？\n\n白杨树是不平凡的树，它在西北极普遍，不被人重视，就跟北方的农民相似；它有极强的生命力，磨折不了，压迫不倒，也跟北方的农民相似。我赞美白杨树，就因为它不但象征了北方的农民，尤其象征了今天我们民族解放斗争中所不可缺的朴质、坚强、力求上进的精神。\n\n【学习提示】象征（托物言志）；反复咏叹“不平凡”；欲扬先抑。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "散文二篇：永久的生命 / 我为什么而活着": "【精读节选】\n一、严文井《永久的生命》（节选）\n过去了的时间永不再回来。一个人、一棵草、一只鸟，都不过是生命的一次偶然。然而，生命本身却是永久的。小草年年绿，一代又一代；人虽然一代代逝去，而人类却在延续。个体的生命是有限的，但生命的洪流却奔腾不息。我们赞美那永久的生命。\n\n二、罗素《我为什么而活着》（节选）\n对爱情的渴望，对知识的追求，对人类苦难不可遏制的同情，这三种激情，简单而又异常强烈，支配了我的一生。\n\n我寻求爱情，首先因为它带来狂喜——这种狂喜如此强烈，以致我常愿为了几小时这样的快乐而牺牲生命中的其他一切。……其次，我寻求爱情，还因为它能减轻孤独——那种可怕的孤独……最后，在爱的结合中，我看到了古今圣贤以及诗人们所梦想的天堂的缩影。\n\n我以同样的热情寻求知识。……我希望了解人的心灵。我希望知道为什么星星会发光。……在追求知识的领域里，我得到了一些成就，但并不多。\n\n爱情和知识，尽其可能把我引上天堂，但同情总是把我带回人间。痛苦的呼号在我心中回荡。饥饿的儿童，被压迫的受害者，无助的老人……这些情景的影子，是对人类应有生活的嘲讽。我渴望减轻罪恶，但是我无能为力，因此我也感到痛苦。\n\n这就是我的一生。我觉得值得为它而活。如果有机会，我会欣然再活一次。\n\n【学习提示】哲理散文：个体有限与生命永恒；罗素三大动力须识记。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "昆明的雨（汪曾祺）": "【精读节选】汪曾祺《昆明的雨》\n宁坤要我给他画一张画，要有昆明的特点。我想了一些时候，画了一幅：右上角画了一片倒挂着的浓绿的仙人掌，末端开出一朵金黄色的花；左下画了几朵青头菌和牛肝菌。题了这样几行字：\n昆明菌子极多。\n有青头菌、牛肝菌……\n味道极美……\n常见有玉兰花开……\n\n我想起昆明的雨。\n\n宁坤要我给他画一张画，这使我有机会回想昆明的雨。……昆明的雨季是明亮的、丰满的，使人动情的。城春草木深，孟夏草木长。昆明的雨季，是浓绿的。草木的枝叶里的水分都到了饱和状态，显示出过分的、近于放肆的旺盛。\n\n雨季的菌子，是昆明人生活中的一件大事。……牛肝菌色如牛肝，滑，嫩，鲜，香，很好吃。青头菌比牛肝菌略贵。……有一种菌子，中吃不中看，叫做干巴菌。……把干巴菌和青辣椒同炒，入口一嚼，使人张目结舌，这东西这么好吃？！\n\n雨季也是杨梅的季节。……昆明杨梅很好吃。……卖杨梅的都是苗族女孩子，戴一顶小花帽子，穿着扳尖的绣了满帮花的鞋，坐在人家阶石的一角，不时吆唤一声：“卖杨梅——”，声音娇娇的。她们的眼睛长得很好看，眉毛黑黑的，眼睛很大，白多黑少，带点“鬼气”。\n\n雨，有时是会引起人一点淡淡的乡愁的。……昆明的雨季是明亮的、丰满的，使人动情的。我想念昆明的雨。\n\n【学习提示】形散神聚：菌子、杨梅、花串起“雨”与怀旧；语言恬淡有味。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "中国石拱桥": "【精读节选】茅以昇《中国石拱桥》\n石拱桥的桥洞成弧形，就像虹。古代神话里说，雨后彩虹是“人间天上的桥”，通过彩虹就能上天。我国的诗人爱把拱桥比作虹……\n\n石拱桥在世界桥梁史上出现得比较早。这种桥不但形式优美，而且结构坚固，能几十年几百年甚至上千年雄跨在江河之上，在交通方面发挥作用。\n\n我国的石拱桥有悠久的历史。《水经注》里提到的“旅人桥”，大约建成于公元二八二年，可能是有记载的最早的石拱桥了。我国的石拱桥几乎到处都有。……其中最著名的当推河北省赵县的赵州桥，还有北京附近的卢沟桥。\n\n赵州桥横跨在洨河上，是世界著名的古代石拱桥，也是造成后一直使用到现在的最古的石桥。这座桥修建于公元六〇五年左右，到现在已经一千三百多年了，还保持着原来的雄姿。……赵州桥非常雄伟，全长五十点八二米，两端宽约九点六米，中部略窄，宽约九米。桥的设计完全合乎科学原理，施工技术更是巧妙绝伦。唐朝的张嘉贞说它“制造奇特，人不知其所以为”。这座桥的特点是：（一）全桥只有一个大拱，长达三十七点四米，在当时可算是世界上最长的石拱。桥洞不是普通半圆形，而是像一张弓，因而大拱上面的道路没有陡坡，便于车马上下。（二）大拱的两肩上，各有两个小拱。这个创造性的设计，不但节约了石料，减轻了桥身的重量，而且在河水暴涨的时候，还可以增加桥洞的过水量，减轻洪水对桥身的冲击。同时，拱上加拱，桥身也更美观。（三）大拱由二十八道拱圈拼成，就像这么多同样的弓合拢在一起，做成一个弧形的桥洞。每道拱圈都能独立支撑上面的重量，一道坏了，其他各道不致受到影响。（四）全桥结构匀称，和四周景色配合得十分和谐；桥上的石栏石板也雕刻得古朴美观。……赵州桥高度的技术水平和不朽的艺术价值，充分显示了我国劳动人民的智慧和力量。桥的主要设计者李春就是一位杰出的工匠，在桥头的碑文里还刻着他的名字。\n\n永定河上的卢沟桥，修建于公元一一八九到一一九二年间。桥长二百六十五米，由十一个半圆形的石拱组成，每个石拱长度不一，自十六米到二十一点六米。桥宽约八米，路面平坦，几乎与河面平行。每两个石拱之间有石砌桥墩，把十一个石拱联成一个整体。由于各拱相联，所以这种桥叫做联拱石桥。……桥面用石板铺砌，两旁有石栏石柱。每个柱头上都雕刻着不同姿态的狮子。……早在十三世纪，卢沟桥就闻名世界。那时候有个意大利人马可·波罗来过中国，他的游记里，十分推崇这座桥，说它“是世界上独一无二的”，并且特别欣赏桥栏柱上刻的狮子，说它们“共同构成美丽的奇观”。在国内，这座桥也是历来为人们所称赞的。……卢沟桥在我国人民反抗帝国主义侵略战争的历史上，也是值得纪念的。……\n\n为什么我国的石拱桥会有这样光辉的成就呢？首先，在于我国劳动人民的勤劳和智慧。……其次，我国石拱桥的设计施工有优良传统……再其次，我国富有建筑用的各种石料，便于就地取材……\n\n【学习提示】特征：形式优美、结构坚固、历史悠久；说明方法：举例子、列数字、打比方。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "苏州园林": "【精读节选】叶圣陶《苏州园林》\n我国的建筑，从古代的宫殿到近代的一般住房，绝大部分是对称的，左边怎么样，右边也怎么样。苏州园林可绝不讲究对称，好像故意避免似的。东边有了一个亭子或者一道回廊，西边决不会来一个同样的亭子或者一道同样的回廊。……\n\n苏州园林里都有假山和池沼。……或者是重峦叠嶂，或者是几座小山配合着竹子花木……至于池沼，大多引用活水。……有些园林池沼宽敞，就把池沼作为全园的中心，其他景物配合着布置。……池沼或河道的边沿很少砌齐整的石岸，总是高低屈曲任其自然。……\n\n苏州园林栽种和修剪树木也着眼在画意。高树与低树俯仰生姿。落叶树与常绿树相间，花时不同的多种花树相间……没有修剪得像宝塔那样的松柏，没有阅兵式似的道旁树……\n\n游览苏州园林必然会注意到花墙和廊子。有墙壁隔着，有廊子界着，层次多了，景致就见得深了。可是墙壁上有砖砌的各式镂空图案，廊子大多是两边无所依傍的，实际是隔而不隔，界而未界，因而更增加了景致的深度。\n\n苏州园林里的门和窗，图案设计和雕镂琢磨都是工艺美术的上品。……\n\n苏州园林在每一个角落都注意图画美。……阶砌旁边栽几丛书带草。墙上蔓延着爬山虎或者蔷薇木香。如果开窗正对着白色墙壁，太单调了，给补上几竿竹子或几棵芭蕉。诸如此类，无非要游览者即使就极小范围的局部看，也能得到美的享受。\n\n总之，苏州园林是我国各地园林的标本，各地园林或多或少都受到苏州园林的影响。因此，谁如果要鉴赏我国的园林，苏州园林就不该错过。\n\n（总特征）务必使游览者无论站在哪个点上，眼前总是一幅完美的图画。\n\n【学习提示】总特征“图画美”；总分结构；“隔而不隔，界而未界”。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "人民英雄永垂不朽": "【精读节选】周定舫《人民英雄永垂不朽——瞻仰首都人民英雄纪念碑》\n人民英雄纪念碑落成了。我怀着万分崇敬的心情，瞻仰了这座巍峨、雄伟、庄严的纪念碑。\n\n我从东长安街向天安门广场走去，未进入广场就望见纪念碑。……纪念碑是用一万七千块坚硬的花岗石和洁白的汉白玉砌成的。它象征着先烈们的丰功伟绩，标志着全国人民对先烈的怀念。\n\n我越过广场，踏着刚铺成的花岗石道，徐徐走到纪念碑台阶前，从近处仔细瞻仰纪念碑。……碑身四周围绕着双层汉白玉栏杆，栏杆的形状和天安门前玉带桥的汉白玉栏杆一样，美观朴素，洁白耀眼，使挺拔的碑身显得更加庄严、雄伟。碑的正面朝北，在一块六十吨重、五点五米高的碑心石上，有一组金色大字，这是毛泽东主席亲笔题的“人民英雄永垂不朽”八个镏金大字……\n\n碑身东西两侧上部，刻着以红星、松柏和旗帜组成的装饰花纹，象征着先烈们的革命精神万年长存。碑顶是民族传统的建筑形式，上有卷云下有重幔。……碑身的背面是毛泽东同志起草、周恩来同志题写的碑文……\n\n十块汉白玉的大浮雕，镶嵌在大碑座的四周。这些大浮雕高两米，合在一起共长四十点六八米。每幅浮雕里有二十个左右英雄人物……从东面起，按历史顺序瞻仰。……第一幅是“销毁鸦片烟”……接着是“金田起义”……“武昌起义”……“五四爱国运动”……“五卅运动”……“南昌起义”……“抗日游击战争”……“胜利渡长江”……渡江浮雕的两侧，另有两幅装饰性浮雕，内容是“支援前线”和“欢迎解放军”。\n\n看完了所有的浮雕，我又一次瞻仰了“人民英雄永垂不朽”的伟大横额。……我又默默读了一遍碑文……我再看看碑文后面的几个大字……我再看看碑身……我再看看广场……\n\n【学习提示】空间顺序（由远及近、按瞻仰路线）；十块浮雕按历史事件顺序。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "蝉（法布尔）": "【精读节选】法布尔《蝉》\n我有很好的环境可以研究蝉的习性。一到夏天，老是听见它们刺耳的声调。……四年黑暗中的苦工，一个月阳光下的享乐，这就是蝉的生活。\n\n蝉的地下幼虫时期很长。它在地下生活大约四年。……幼虫有锐利的工具，能够在土中掘土前进。……它从地下爬出，找一处灌木，牢牢抓住树皮，开始蜕皮。……先从背上裂开，露出淡绿色的身体……接着是头，接着是吸管和前腿……最后是后腿和折叠着的翅膀。全部过程大约要半小时。\n\n蝉的歌唱是雄蝉的事。……它并不是为了娱乐同伴，而是在为自己的生存鸣叫。……蝉喜欢停留在最热的树上，用它突出的嘴——一个像针一样的吸管——刺进树枝吸取树的液汁。\n\n蝉的卵产在干树枝上……小蝉出壳后掉到地上，立刻钻进土里……等待四年后的阳光。\n\n【学习提示】科学小品：观察细致+拟人笔法；识记“四年地下、一月地上”。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "梦回繁华": "【精读节选】毛宁《梦回繁华》\n《清明上河图》是北宋画家张择端的代表作，描绘了北宋都城汴京的繁华景象。画卷采用散点透视的构图法，将繁杂的景物纳入统一而富于变化的画面中。\n\n画卷从汴京郊外画起：疏林薄雾，农舍田畴，赶集的乡人……渐渐进入市区：虹桥横跨汴河，桥上行人熙攘，桥下船只穿梭；街市店铺林立，酒旗招展，车马轿舆络绎不绝。画面人物多达五百余人，牲畜数十，船只、车轿各二十余，展现了汴京商业、交通、民俗的方方面面。\n\n画家对细节的刻画极为精微：船工撑篙、商贩叫卖、士人闲谈、儿童嬉戏，皆栩栩如生。整幅长卷犹如一部形象的历史，让观者“梦回”那个繁华的时代。\n\n《清明上河图》不仅具有极高的艺术价值，也是研究宋代城市生活、商业经济、民俗文化的珍贵史料。\n\n【学习提示】逻辑/空间顺序介绍画作；摹状貌；“繁华”指汴京市井盛况。\n（全文见人教版八年级上册教材，请对照课本阅读完整课文。）", "《孟子》三章": "一、得道多助，失道寡助\n天时不如地利，地利不如人和。三里之城，七里之郭，环而攻之而不胜。夫环而攻之，必有得天时者矣，然而不胜者，是天时不如地利也。城非不高也，池非不深也，兵革非不坚利也，米粟非不多也，委而去之，是地利不如人和也。故曰，域民不以封疆之界，固国不以山溪之险，威天下不以兵革之利。得道者多助，失道者寡助。寡助之至，亲戚畔之。多助之至，天下顺之。以天下之所顺，攻亲戚之所畔，故君子有不战，战必胜矣。\n\n二、富贵不能淫\n景春曰：“公孙衍、张仪岂不诚大丈夫哉？一怒而诸侯惧，安居而天下熄。”\n孟子曰：“是焉得为大丈夫乎？子未学礼乎？丈夫之冠也，父命之；女子之嫁也，母命之，往送之门，戒之曰：‘往之女家，必敬必戒，无违夫子！’以顺为正者，妾妇之道也。居天下之广居，立天下之正位，行天下之大道。得志，与民由之；不得志，独行其道。富贵不能淫，贫贱不能移，威武不能屈，此之谓大丈夫。”\n\n三、生于忧患，死于安乐\n舜发于畎亩之中，傅说举于版筑之间，胶鬲举于鱼盐之中，管夷吾举于士，孙叔敖举于海，百里奚举于市。故天将降大任于是人也，必先苦其心志，劳其筋骨，饿其体肤，空乏其身，行拂乱其所为，所以动心忍性，曾益其所不能。人恒过，然后能改；困于心，衡于虑，而后作；征于色，发于声，而后喻。入则无法家拂士，出则无敌国外患者，国恒亡。然后知生于忧患而死于安乐也。\n\n【背诵】三章均须背诵。重点：“得道多助，失道寡助”；“富贵不能淫，贫贱不能移，威武不能屈”；“故天将降大任于是人也……”至“曾益其所不能”。", "愚公移山（《列子》）": "太行、王屋二山，方七百里，高万仞，本在冀州之南，河阳之北。\n\n北山愚公者，年且九十，面山而居。惩山北之塞，出入之迂也。聚室而谋曰：“吾与汝毕力平险，指通豫南，达于汉阴，可乎？”杂然相许。其妻献疑曰：“以君之力，曾不能损魁父之丘，如太行、王屋何？且焉置土石？”杂曰：“投诸渤海之尾，隐土之北。”遂率子孙荷担者三夫，叩石垦壤，箕畚运于渤海之尾。邻人京城氏之孀妻有遗男，始龀，跳往助之。寒暑易节，始一反焉。\n\n河曲智叟笑而止之曰：“甚矣，汝之不惠！以残年余力，曾不能毁山之一毛，其如土石何？”北山愚公长息曰：“汝心之固，固不可彻，曾不若孀妻弱子。虽我之死，有子存焉；子又生孙，孙又生子；子又有子，子又有孙；子子孙孙无穷匮也，而山不加增，何苦而不平？”河曲智叟亡以应。\n\n操蛇之神闻之，惧其不已也，告之于帝。帝感其诚，命夸娥氏二子负二山，一厝朔东，一厝雍南。自此，冀之南，汉之阴，无陇断焉。\n\n【背诵】全文须背诵。对比：愚公 vs 智叟；寓意：持之以恒、人定胜天。", "周亚夫军细柳（《史记》）": "文帝之后六年，匈奴大入边。乃以宗正刘礼为将军，军霸上；祝兹侯徐厉为将军，军棘门；以河内守亚夫为将军，军细柳：以备胡。\n\n上自劳军。至霸上及棘门军，直驰入，将以下骑送迎。已而之细柳军，军士吏被甲，锐兵刃，彀弓弩，持满。天子先驱至，不得入。先驱曰：“天子且至！”军门都尉曰：“将军令曰：‘军中闻将军令，不闻天子之诏。’”居无何，上至，又不得入。于是上乃使使持节诏将军：“吾欲入劳军。”亚夫乃传言开壁门。壁门士吏谓从属车骑曰：“将军约，军中不得驱驰。”于是天子乃按辔徐行。至营，将军亚夫持兵揖曰：“介胄之士不拜，请以军礼见。”天子为动，改容式车。使人称谢：“皇帝敬劳将军。”成礼而去。\n\n既出军门，群臣皆惊。文帝曰：“嗟乎，此真将军矣！曩者霸上、棘门军，若儿戏耳，其将固可袭而虏也。至于亚夫，可得而犯邪！”称善者久之。\n\n【背诵/精读】对比：霸上、棘门 vs 细柳；侧面烘托“真将军”。", "诗词五首": "一、饮酒（其五）（陶渊明）\n结庐在人境，而无车马喧。问君何能尔？心远地自偏。采菊东篱下，悠然见南山。山气日夕佳，飞鸟相与还。此中有真意，欲辨已忘言。\n\n二、春望（杜甫）\n国破山河在，城春草木深。感时花溅泪，恨别鸟惊心。烽火连三月，家书抵万金。白头搔更短，浑欲不胜簪。\n\n三、雁门太守行（李贺）\n黑云压城城欲摧，甲光向日金鳞开。角声满天秋色里，塞上燕脂凝夜紫。半卷红旗临易水，霜重鼓寒声不起。报君黄金台上意，提携玉龙为君死。\n\n四、赤壁（杜牧）\n折戟沉沙铁未销，自将磨洗认前朝。东风不与周郎便，铜雀春深锁二乔。\n\n五、渔家傲（李清照）\n天接云涛连晓雾，星河欲转千帆舞。仿佛梦魂归帝所，闻天语，殷勤问我归何处。\n我报路长嗟日暮，学诗谩有惊人句。九万里风鹏正举。风休住，蓬舟吹取三山去！\n\n【背诵】五首均须背诵。重点：心远地自偏；感时花溅泪，恨别鸟惊心；黑云压城城欲摧。", "名著导读：《红星照耀中国》": "【导读精要】埃德加·斯诺《红星照耀中国》（原名 Red Star Over China）\n\n一、作者与成书\n美国记者埃德加·斯诺于1936年深入陕甘宁边区，采访毛泽东、周恩来、彭德怀等中国共产党领导人与红军将士，以采访笔记写成纪实作品。中译本曾用名《西行漫记》。\n\n二、文体特点\n纪实文学：用事实说话，现场观察+对话访谈；既有新闻的真实性，又有文学的可读性。作者以“外来者”视角客观记录，打破外界对红色中国的谣言与偏见。\n\n三、主要内容框架（识记）\n1. 关于红军长征的史实与亲历者讲述；\n2. 对毛泽东、周恩来等人的人物特写（出身、志向、生活习惯、政治主张）；\n3. 边区社会、教育、妇女、儿童与“红色中国”的日常生活；\n4. 中国共产党的政策主张与抗日民族统一战线思想。\n\n四、阅读关注点\n注意作者如何通过细节塑造人物（如毛泽东的俭朴与博学）；体会纪实作品“事实胜于雄辩”的力量；结合历史背景理解作品的时代价值。\n\n五、思考\n斯诺笔下的毛泽东给你怎样的印象？本书为何能影响世界对中国革命的认知？\n\n（名著请对照人教版名著导读与原著选读章节深入阅读。）", "11.1.1 三角形边": "【学习目标】\n理解三角形的定义与分类；掌握三边关系，能判断三条线段能否构成三角形，并求第三边取值范围。\n\n【观察与思考】\n拿三根小棒尝试围成三角形：当两根之和小于或等于第三根时，围不成封闭图形。这说明三角形的边长受到相互制约。\n\n【定理/法则】\n1. 三角形：不在同一直线上的三条线段首尾顺次连接组成的图形，记作△ABC。\n2. 三边关系定理：任意两边之和大于第三边；任意两边之差小于第三边。\n3. 分类：按边（不等边/等腰/等边）；按角（锐角/直角/钝角三角形）。\n\n【例题】\n例1 3、4、8 能组成三角形吗？\n解：3+4=7<8，不满足两边之和大于第三边，故不能。\n例2 两边长为5、9，第三边x为整数，求x。\n解：|9-5|<x<9+5 ⇒ 4<x<14，故x=5,6,…,13。\n\n【练习】\n1. 2、5、6 与 2、5、7 哪组能组成三角形？说明理由。\n2. 等腰三角形两边长为4和9，求底边或腰的可能情况（分腰为4、腰为9讨论）。", "11.1.2 高、中线、角平分线*稳定性": "【学习目标】\n会辨认并画三角形的高、中线、角平分线；了解不同三角形高的位置；理解三角形的稳定性及应用。\n\n【观察与思考】\n从顶点向对边作垂线、连中点、作角平分线，三条“重要线段”交点位置不同。再轻推三角形框架与四边形框架，感受谁更不易变形。\n\n【定理/法则】\n1. 高：顶点到对边所在直线的垂线段。\n2. 中线：顶点与对边中点的连线段。\n3. 角平分线：内角平分线与对边交点到顶点的线段。\n每个三角形有三条高、三条中线、三条角平分线。\n4. 稳定性：三边确定则形状大小确定；四边形不具有稳定性。\n\n【例题】\n例 锐角三角形有几条高在形内？直角、钝角三角形呢？\n解：锐角三角形三条高都在形内；直角三角形有两条高落在直角边上；钝角三角形有两条高在形外。\n\n【练习】\n1. 在△ABC中画出BC边上的高、中线（可分别标注）。\n2. 举例说明生活中利用三角形稳定性的一处结构。", "11.2 内角与外角": "【学习目标】\n掌握三角形内角和为180°；理解外角定义，会用“外角等于不相邻两内角之和”进行计算与说理。\n\n【观察与思考】\n把三角形三个内角撕下拼在一起，观察是否成平角。再延长一边得到外角，比较它与不相邻内角的关系。\n\n【定理/法则】\n1. 内角和定理：∠A+∠B+∠C=180°。\n2. 推论：直角三角形两锐角互余。\n3. 外角：一边与另一边延长线组成的角。\n性质：一个外角等于与它不相邻的两个内角之和；大于其中任何一个不相邻内角。\n\n【例题】\n例1 直角三角形一锐角35°，求另一锐角。\n解：90°-35°=55°。\n例2 △ABC中，∠A的外角为120°，∠B=50°，求∠C。\n解：外角=∠B+∠C ⇒ 120°=50°+∠C ⇒ ∠C=70°。\n\n【练习】\n1. 三角形两内角为40°、65°，求第三内角及与40°不相邻的一个外角。\n2. 证明思路简述：如何用平行线证明内角和定理？", "11.3 多边形及其内角和": "【学习目标】\n理解多边形概念；会用(n-2)·180°求内角和，会求正多边形每个内角；知道外角和恒为360°。\n\n【概念】\n由不在同一直线上的线段首尾顺次相接组成的平面图形叫多边形；边数为n时称n边形。从一顶点出发连对角线，可把多边形分成若干三角形。\n\n【定理/法则】\n1. n边形内角和=(n-2)×180°。\n2. 正n边形每个内角=(n-2)×180°/n。\n3. 任意多边形外角和=360°（与边数无关）。\n\n【例题】\n例1 十边形内角和：(10-2)×180°=1440°。\n例2 正八边形每个内角：(8-2)×180°/8=135°。\n\n【练习】\n1. 内角和为1080°的多边形是几边形？\n2. 正五边形每个内角多少度？它的外角和是多少？", "12.1 全等图形与全等三角形": "【学习目标】\n理解全等图形与全等三角形；会表示△ABC≌△DEF并找出对应边、对应角；掌握全等的基本性质。\n\n【观察与思考】\n把两张透明三角形重叠，若能完全重合，则形状、大小都相同。对应顶点的书写顺序决定对应边与对应角。\n\n【定理/法则】\n1. 全等图形：能够完全重合的图形。\n2. 全等三角形：记作△ABC≌△DEF（对应顶点字母顺序一致）。\n3. 性质：对应边相等，对应角相等。\n找对应：看全等符号两侧对应位置；公共边、对顶角、最长边等常是线索。\n\n【例题】\n例 若△ABC≌△DEF，写出对应边与对应角。\n解：AB=DE，BC=EF，CA=FD；∠A=∠D，∠B=∠E，∠C=∠F。\n\n【练习】\n1. 已知△MNP≌△QRS，则∠N对应哪个角？NP对应哪条边？\n2. 说明为什么书写全等时顶点顺序不能随意调换。", "12.2 全等判定 SSS/SAS/ASA/AAS/HL": "【学习目标】\n熟练掌握 SSS、SAS、ASA、AAS 及直角三角形 HL 判定；知道 SSA 一般不能判定全等。\n\n【概念】\n判定全等只需“恰好够用”的条件组合。注意 SAS 必须是夹角；ASA 是夹边；AAS 可化为 ASA；HL 仅用于直角三角形。\n\n【定理/法则】\n1. SSS：三边对应相等 ⇒ 全等。\n2. SAS：两边及其夹角对应相等 ⇒ 全等。\n3. ASA：两角及其夹边对应相等 ⇒ 全等。\n4. AAS：两角和其中一角的对边对应相等 ⇒ 全等。\n5. HL：斜边和一条直角边对应相等 ⇒ 两直角三角形全等。\n易错：SSA（边边角）一般不可用。\n\n【例题】\n例 已知AB=DE，BC=EF，CA=FD，判定△ABC与△DEF全等。\n解：三边对应相等，由SSS得△ABC≌△DEF。\n\n【练习】\n1. 指出下列条件能否判定全等：SAS、SSA、HL。\n2. 已知∠A=∠D，∠B=∠E，AB=DE，应选用哪种判定？", "12.3 角的平分线的性质": "【学习目标】\n会尺规作角平分线；掌握“角平分线上的点到两边距离相等”及逆定理，并用于计算与证明。\n\n【观察与思考】\n在角平分线上取点，向两边作垂线段，测量长度是否相等。反过来，到两边距离相等的点是否落在平分线上？\n\n【定理/法则】\n1. 性质定理：角平分线上的点到角两边的距离相等。\n2. 判定定理：角内部到两边距离相等的点在角平分线上。\n3. 尺规作图要点：以顶点为圆心画弧交两边，再分别以交点为圆心画弧得交点，连成射线。\n\n【例题】\n例 点P在∠AOB平分线上，PD⊥OA于D，PE⊥OB于E，则PD=PE。\n解：由角平分线性质得PD=PE。\n\n【练习】\n1. 写出角平分线性质定理与判定定理。\n2. 若PD=PE且垂足在边上，能得出PR是角平分线吗？条件要补什么？", "13.1 轴对称": "【学习目标】\n理解轴对称图形与成轴对称；掌握线段垂直平分线的性质与判定。\n\n【概念】\n沿一条直线折叠后两部分重合 → 轴对称图形，该直线为对称轴。\n两个图形沿某直线折叠后重合 → 成轴对称。\n注意：一个图形 vs 两个图形的表述区别。\n\n【定理/法则】\n1. 轴对称图形与对称轴的定义。\n2. 线段垂直平分线性质：线上点到线段两端距离相等。\n3. 判定：到两端距离相等的点在垂直平分线上。\n\n【例题】\n例 点P在AB垂直平分线上，则PA=PB。\n解：由垂直平分线性质直接得PA=PB。\n\n【练习】\n1. 举两个轴对称图形并画出一条对称轴。\n2. 若PA=PB，点P一定在AB垂直平分线上吗？", "13.2 画轴对称图形*坐标系对称": "【学习目标】\n会按关键点作出轴对称图形；掌握点关于x轴、y轴对称的坐标变化规律。\n\n【观察与思考】\n先找顶点的对称点，再按原顺序连接。在坐标系中观察(x,y)关于x轴、y轴对称后坐标如何变号。\n\n【定理/法则】\n画法：关键点 → 对称点 → 顺次连接。\n坐标规律：\n(x,y)关于x轴 → (x,-y)；\n(x,y)关于y轴 → (-x,y)；\n关于原点（拓展）→ (-x,-y)。\n\n【例题】\n例 点(3,-2)关于x轴、y轴的对称点。\n解：关于x轴为(3,2)；关于y轴为(-3,-2)。\n\n【练习】\n1. 写出点(-4,5)关于x轴、y轴的对称点。\n2. 简述画轴对称图形的三步。", "13.3 等腰三角形": "【学习目标】\n掌握等腰三角形定义、性质（等边对等角、三线合一）与判定（等角对等边）；认识等边三角形。\n\n【观察与思考】\n折叠等腰三角形使两腰重合，看底角是否重合，顶角平分线是否同时是底边中线与高。\n\n【定理/法则】\n1. 定义：有两边相等的三角形；腰、底边、顶角、底角。\n2. 性质：等边对等角；三线合一。\n3. 判定：等角对等边。\n4. 等边三角形：三边相等，内角都是60°。\n\n【例题】\n例 等腰三角形一底角50°，求顶角。\n解：两底角相等，顶角=180°-50°-50°=80°。\n\n【练习】\n1. 等腰三角形顶角120°，求底角；它是锐角、直角还是钝角三角形？\n2. 说明“三线合一”指哪三线。", "13.4 最短路径问题": "【学习目标】\n理解“两点之间线段最短”；会用轴对称把折线路径转化为直线，解决将军饮马类最短路径问题。\n\n【观察与思考】\n要从河岸取水再到营地，若在岸上选不同点，路径长短不同。作对称点后，最短路径往往变成连接对称点的直线与岸的交点。\n\n【定理/法则】\n1. 基本原理：两点之间，线段最短。\n2. 将军饮马模型：作A关于直线l的对称点A'，连A'B交l于P，则P使PA+PB最小（同侧情形）。\n3. 道理：轴对称保证PA=PA'，折线化为直线。\n\n【例题】\n例思路 河岸取水再送营地：作营地关于河岸的对称点，连接水源与对称点，交点即取水点。\n\n【练习】\n1. 简述同侧两点到直线上一点距离之和最短的作法。\n2. 说明为什么要用轴对称（PA=PA'起什么作用）。", "14.1 整式的乘法": "【学习目标】\n掌握同底数幂相乘、幂的乘方、积的乘方；会进行单项式与多项式的乘法运算。\n\n【概念】\n整式乘法建立在幂的运算性质与分配律上：先处理系数与同底数幂，多项式则“每一项乘每一项”，再合并同类项。\n\n【定理/法则】\n1. a^m·a^n=a^(m+n)； (a^m)^n=a^(mn)； (ab)^n=a^n b^n。\n2. 单项式×单项式：系数乘系数，同底数幂相乘。\n3. 单项式×多项式：分配律展开。\n4. 多项式×多项式：逐项相乘后合并同类项。\n\n【例题】\n例1 a^3·a^4=a^7；(a^3)^4=a^12。\n例2 (x+2)(x-3)=x^2-3x+2x-6=x^2-x-6。\n\n【练习】\n1. 计算：(2a^2b)·(-3ab^3)； (x+1)(x+4)。\n2. 化简：(3m^2)^3 与 3(m^2)^3 是否相等？", "14.2 乘法公式": "【学习目标】\n熟记并会用平方差公式与完全平方公式进行展开与简便计算。\n\n【观察与思考】\n计算(a+b)(a-b)与(a+b)^2，观察项的规律：哪些项留下、中间项系数如何、符号如何确定。\n\n【定理/法则】\n1. 平方差：(a+b)(a-b)=a^2-b^2。\n2. 完全平方：(a+b)^2=a^2+2ab+b^2；(a-b)^2=a^2-2ab+b^2。\n记忆：首平方、尾平方、首尾两倍放中间（符号看括号）。\n\n【例题】\n例1 103×97=(100+3)(100-3)=10000-9=9991。\n例2 (2x-1)^2=4x^2-4x+1。\n\n【练习】\n1. 展开：(3x+2)(3x-2)； (y-5)^2。\n2. 简便计算：98×102。", "14.3 因式分解": "【学习目标】\n理解因式分解是整式乘法的逆过程；会用提公因式法与公式法（平方差、完全平方）分解因式，并分解到底。\n\n【概念】\n把多项式写成几个整式的积，叫因式分解。先看公因式，再用公式；能继续分解则继续，直到不能再分。\n\n【定理/法则】\n1. 提公因式法。\n2. 公式法：a^2-b^2=(a+b)(a-b)；a^2±2ab+b^2=(a±b)^2。\n注意：分解要彻底；符号与公因式不要漏。\n\n【例题】\n例1 3x^2-6x=3x(x-2)。\n例2 x^2-9=(x+3)(x-3)；x^2+2x+1=(x+1)^2。\n\n【练习】\n1. 分解：4a^2-8a； 16-y^2。\n2. 分解：x^2-6x+9；并说明每步用了什么方法。", "15.1 分式": "【学习目标】\n理解分式意义；会判断分式有意义、值为0的条件；掌握分式基本性质（约分、通分的依据）。\n\n【概念】\n形如A/B（A、B为整式，且B含字母）叫分式；分母不能为0。分子为0且分母不为0时，分式值为0。\n\n【定理/法则】\n1. 有意义：分母≠0。\n2. 值为0：分子=0且分母≠0。\n3. 基本性质：分子分母同乘（或同除以）不等于0的整式，值不变。\n\n【例题】\n例 对(x-1)/(x+2)：有意义需x≠-2；值为0则x=1。\n\n【练习】\n1. 使(x+3)/(x-5)有意义的x的取值？值为0呢？\n2. 用基本性质解释为什么约分必须除以公因式（且公因式≠0）。", "15.2 分式的运算": "【学习目标】\n会进行分式乘除与加减（通分）；了解负整数指数幂 a^(-n)=1/a^n（a≠0）。\n\n【观察与思考】\n分式乘法类似分数：能约分先约。加减必须先化为同分母。除法转化为乘倒数。\n\n【定理/法则】\n1. 乘：分子乘分子，分母乘分母。\n2. 除：乘除式的倒数。\n3. 加减：同分母直接加减分子；异分母先通分。\n4. a≠0时，a^(-n)=1/a^n。\n\n【例题】\n例1 (a/b)·(b^2/a)=b（a≠0,b≠0）。\n例2 1/x+1/y=(x+y)/(xy)（x≠0,y≠0）。\n\n【练习】\n1. 计算：(2x/y)÷(4x/y^2)（注明字母条件）。\n2. 计算：1/(x-1)-1/(x+1)。", "15.3 分式方程": "【学习目标】\n理解分式方程；会按步骤求解并验根；能解简单实际问题（如工程问题）。\n\n【概念】\n分母中含未知数的方程叫分式方程。去分母时两边乘了含未知数的整式，可能产生增根，故必须验根。\n\n【定理/法则】\n步骤：①最简公分母；②两边同乘去分母；③解整式方程；④代入公分母检验，使分母为0者舍去。\n\n【例题】\n例 甲6天完成，乙4天完成，合作几天完成？\n解：设合作x天：1/6+1/4=1/x ⇒ 5/12=1/x ⇒ x=12/5。\n检验：x≠0，符合题意。\n\n【练习】\n1. 解方程：1/(x-2)=3/x，并验根。\n2. 为什么解分式方程一定要验根？用一句话说明。", "U1 Section A · How do people spend their holidays?": "【Dialogue】\nAmy: Hi, Li Wei! How was your holiday?\nLi Wei: It was great! I went to the mountains with my family.\nAmy: Did you do anything special?\nLi Wei: Yes. We hiked every morning and tried something new — camping under the stars.\nAmy: Who went with you?\nLi Wei: Everyone in my family. Nobody wanted to stay at home!\nAmy: That sounds wonderful. I just stayed in the city, but I visited a museum and met someone interesting.\n\n【Grammar】\n1) Simple past for holiday experiences: went / hiked / tried / visited / met\nNegation: didn't + base verb; Question: Did + subject + base verb?\n2) Indefinite pronouns:\nsomeone/somebody, anyone/anybody, everyone/everybody, no one/nobody\nsomething, anything, everything, nothing\nTips: Everyone was happy. (singular verb)\nAdjective after pronoun: something special / anything interesting\n\n【Key Words】\nholiday, experience, hike, camp, museum, wonderful, special\nsomeone, anyone, everyone, nobody, something, anything, everything, nothing\n\n【Try】\nWrite 4 sentences about a holiday using at least 2 indefinite pronouns and the simple past.", "U1 Section B · What can we learn from holiday experiences?": "【Reading】\nLast summer, Sara joined a short volunteer trip. She helped clean a park and taught children simple English games. At first she felt shy. Then she learned to smile and speak slowly. Finally she said, \"I didn't change the world, but I learned that small kindness matters. Holidays can teach us courage and care.\"\n\n【Grammar】\nReading skills: find activities → feelings → lessons.\nWriting frame:\nFirst, ... Then, ... Finally, ...\nI learned that ... / The holiday made me feel ...\n\n【Key Words】\nvolunteer, kindness, courage, meaningful, shy → confident, lesson, benefit\n\n【Try】\nComplete: From holiday experiences, we can learn ______. Give one example from your life (3–4 sentences).", "U1 Project · Make a holiday to-do list": "【Dialogue】\nTeacher: Let's make a holiday to-do list.\nStudent A: I want to visit my grandparents and cook with them.\nStudent B: I hope to finish a small painting and read two books.\nStudent C: I can help at home every morning, then play basketball.\nTeacher: Good. Put the most important things first. A great holiday needs rest, fun, and care for others.\n\n【Grammar】\nPlanning language: want to / hope to / plan to / can\nList language: First, ... Next, ... Also, ...\n\n【Key Words】\nto-do list, priority, rest, visit, finish, help, share\n\n【Try】\nMake your holiday to-do list (6 items). Mark Top 3. Tell a partner why they matter.", "U2 Section A · What can you do for your home?": "【Dialogue】\nMum: The living room is messy. What can you do for our home today?\nKen: I can sweep the floor and take out the rubbish.\nMum: Thanks! Can you also fold the clothes?\nKen: Sure. I often help with chores on weekends.\nSister: I can cook a simple dinner. Let's make home sweet together!\n\n【Grammar】\ncan + base verb for ability / offer\nChore phrases: sweep the floor, mop the floor, do the dishes, take out the rubbish, fold clothes, water the plants\nFrequency: often / sometimes / every day / once a week\n\n【Key Words】\nchore, rubbish, sweep, mop, fold, cook, tidy, help\n\n【Try】\nWrite a short dialogue (6 lines) about sharing chores at home.", "U2 Section B · How do you feel at home?": "【Reading】\nHome is not only a house. For Maya, home is the smell of soup, the sound of her little brother laughing, and the soft light on the desk where her dad reads. When she helps set the table, she feels proud. When the family talks after dinner, she feels safe and warm. \"At home,\" Maya says, \"I can be myself.\"\n\n【Grammar】\nLink action → feeling: When I ..., I feel ...\nFeeling adjectives: warm, safe, proud, relaxed, happy, lonely (contrast)\n\n【Key Words】\nsafe, warm, proud, relaxed, set the table, be myself, living room\n\n【Try】\nDescribe your home feeling in 5 sentences. Use at least two feeling words.", "U2 Project · Find out who does the most chores at home": "【Dialogue】\nAmy: Let's do a chore survey. Question 1: How often do you wash dishes?\nBob: Three times a week.\nAmy: How long do you spend on chores each day?\nBob: About twenty minutes. What about your dad?\nAmy: He cooks almost every day. I think he does the most!\n\n【Grammar】\nSurvey language: How often ...? How long ...? Who usually ...?\nReport: ... does the most chores. / ... spends the most time on ...\n\n【Key Words】\nsurvey, often, spend time, ranking, thank, share housework\n\n【Try】\nAsk 3 people 3 questions. Write two English sentences about your findings.", "U3 Section A · How are we different from each other?": "【Dialogue】\nLucy: Look at our class photo. How are we different from each other?\nTom: You're taller than me, but I'm more outgoing than you.\nLucy: True. You're as hard-working as me, though.\nTom: And we both love basketball. Differences make our team stronger!\n\n【Grammar】\nComparative: adj + -er / more + adj + than\nIrregular: good→better, bad→worse, many/much→more\nas + adj + as\nboth (two) / all (three or more)\n\n【Key Words】\ndifferent, same, outgoing, hard-working, taller, more serious, both, all\n\n【Try】\nCompare you and a friend in 4 sentences (use than / as ... as / both).", "U3 Section B · How do we understand differences?": "【Reading】\nLeo liked quiet reading. His new deskmate Sam loved talking about football. At first Leo felt annoyed. Later Sam invited him to watch a match and explained the rules patiently. Leo invited Sam to the library. They still had different hobbies, but they learned to listen. Understanding differences starts with respect.\n\n【Grammar】\nUseful frames:\nI used to think ... Now I understand ...\nWe are different, but we can ...\nRespect + listen + try\n\n【Key Words】\nunderstand, respect, patient, annoyed → friendly, hobby, listen\n\n【Try】\nWrite: How do we understand differences? Give one story example (5–6 sentences).", "U3 Project · See who changed the most": "【Dialogue】\nHost: Last year, what were you like?\nMia: I was quieter. Now I'm more confident than before.\nJay: I couldn't swim well. Now I swim faster than many classmates.\nHost: Who changed the most?\nClass: Mia! She speaks more bravely in English class now.\n\n【Grammar】\nThen vs now: was / couldn't → am / can\nComparative for change: more confident than before / much braver\n\n【Key Words】\nchange, confident, before, now, improve, bravely\n\n【Try】\nInterview one classmate. Report who changed the most and why (5 sentences).", "U4 Section A · What can plants and animals do?": "【Dialogue】\nGuide: Welcome to the science corner! What can plants do?\nGirl: They can make food from sunlight.\nGuide: Right. And some plants can close their leaves when you touch them.\nBoy: What about animals?\nGuide: Dolphins can communicate with sounds. Bees can find flowers and dance to show the way!\n\n【Grammar】\ncan / can't for ability and amazing facts\nSimple present for scientific facts: A bee dances. Plants need water.\n\n【Key Words】\nsunlight, communicate, amazing, leaf, dolphin, bee, protect, nature\n\n【Try】\nChoose one plant and one animal. Write 3 \"can\" sentences for each.", "U4 Section B · How are plants and animals connected with us?": "【Reading】\nPlants give us oxygen and food. Animals help farmers, keep us company, and keep nature in balance. When forests disappear, birds lose homes and people lose clean air. We are connected. If we care for plants and animals, we also care for ourselves.\n\n【Grammar】\nConnection language: give us / help us / keep ... in balance\nAdvice: We should ... / We shouldn't ...\nbecause for reasons\n\n【Key Words】\noxygen, balance, forest, company, care for, connected, protect\n\n【Try】\nAnswer in English: How are plants and animals connected with us? Write 6 sentences.", "U4 Project · Make a poster about a plant or an animal": "【Dialogue】\nTeacher: Your poster needs four parts: Name, Amazing facts, Link with us, How to protect.\nStudent: I choose the bamboo. It can grow very fast. Pandas need it. We should protect bamboo forests.\nTeacher: Perfect. Use short sentences and clear pictures.\n\n【Grammar】\nPoster sentence patterns:\nIt can ... / It lives ... / It helps us by ... / We should ...\n\n【Key Words】\nposter, fact, protect, forest, habitat, title, caption\n\n【Try】\nFinish a mini poster text (8–10 short English sentences) for one plant or animal.", "U5 Section A · How do we make food?": "【Dialogue】\nChef: How do we make tomato eggs?\nStep 1: Wash the tomatoes and cut them up.\nStep 2: Beat two eggs.\nStep 3: Heat some oil and cook the eggs. Then add the tomatoes.\nStep 4: Add a little salt. Finally, put it on a plate.\nStudent: How much salt do we need?\nChef: Just a little. Don't add too much!\n\n【Grammar】\nImperatives: Wash ... / Cut ... / Add ... / Don't ...\nSequence words: first, next, then, after that, finally\nhow many + countable; how much + uncountable\n\n【Key Words】\ncut up, mix, boil, fry, pour, a little, some, plate, delicious\n\n【Try】\nWrite a 5-step recipe for a simple dish using imperatives.", "U5 Section B · What does cooking give us?": "【Reading】\nCooking gives us more than food. When Grandpa makes dumplings, the family talks and laughs. Cooking teaches patience. Sharing a meal teaches love. A delicious meal can also carry culture — a taste of home, a festival memory, a warm \"welcome back.\"\n\n【Grammar】\nTopic sentence + examples\nWhat does cooking give us? health / love / culture / happiness\nExclamations: What a delicious meal!\n\n【Key Words】\ndumpling, patient, share, culture, festival, taste, memory\n\n【Try】\nWrite a short paragraph: What does cooking give us? (use because once).", "U5 Project · Create a recipe for a tasty dish": "【Dialogue】\nAnna: My dish is fruit yogurt cup.\nIngredients: one banana, some strawberries, one cup of yogurt, a little honey.\nSteps: Cut the fruit. Put yogurt in a cup. Add fruit and honey. Mix and enjoy!\nBen: Sounds tasty! Can I use apples instead?\nAnna: Sure. Cooking is also creating.\n\n【Grammar】\nRecipe structure: Name → Ingredients → Steps → Tip\nPolite sharing: Would you like to try? / You can also ...\n\n【Key Words】\ningredient, recipe, yogurt, honey, instead, tasty, tip\n\n【Try】\nCreate your recipe card in English. Include a Tip line.", "U6 Section A · When do we make plans?": "【Dialogue】\nDad: Midterm exams are coming. When do we make plans?\nNina: Before busy days! I'm going to make a study timetable tonight.\nDad: Good. Are you going to sleep earlier too?\nNina: Yes. Oh — the phone is ringing. I'll answer it.\nDad: See? be going to for plans, will for a decision now.\n\n【Grammar】\nbe going to + base verb: planned actions\nwill + base verb: decisions at the moment / predictions\nTime: tomorrow, this weekend, next month, before exams\n\n【Key Words】\nplan, timetable, decision, busy, prepare, next, soon\n\n【Try】\nWrite 3 be going to sentences and 2 will sentences about your week.", "U6 Section B · How can we make good plans?": "【Reading】\nGood plans are clear and realistic. First, write your goal. Next, break it into small steps. Then choose the most important step for today. Don't put too many things on one day. Check your plan every evening. If something is too hard, change it. A good plan helps you, it doesn't scare you.\n\n【Grammar】\nTips language: First / Next / Then / Don't ...\nshould / shouldn't for advice\nIf ..., ... (simple condition)\n\n【Key Words】\nrealistic, goal, step, priority, check, adjust, important\n\n【Try】\nList 4 tips for good plans in English. Improve one bad plan example.", "U6 Project · Make plans for solving problems": "【Dialogue】\nCoach: What's your problem?\nStudent: I always finish homework late.\nCoach: Make a 3-step plan.\nStudent: 1) I'm going to start at 6:30. 2) I'll put my phone in another room. 3) I'll check my progress at 8:00.\nCoach: If you follow the plan, you will feel less stressed.\n\n【Grammar】\nProblem → Steps → Result\nI'm going to ... / I will ... / If I ..., I will ...\n\n【Key Words】\nproblem, solve, progress, stressed, follow, result\n\n【Try】\nWrite a problem-solving plan with 3 steps and one predicted result.", "U7 Section A · What are your predictions about the future?": "【Dialogue】\nRadio host: What are your predictions about the future?\nCaller 1: People will use cleaner energy.\nCaller 2: Students may study both at school and online.\nCaller 3: There will be more parks, and there will be less pollution.\nHost: Hopeful ideas! What do you think?\n\n【Grammar】\nwill + base verb for predictions\nmay / might + base verb for possibility\nthere will be more + plural nouns; less + uncountable; fewer + countable\n\n【Key Words】\nprediction, future, energy, pollution, online, possible, hope\n\n【Try】\nWrite 5 predictions about life in 20 years. Use will once and may/might once.", "U7 Section B · How can we prepare for the future?": "【Reading】\nWe cannot see tomorrow, but we can prepare today. Learn to ask good questions. Stay healthy. Practise teamwork. Care about nature. If we only wait, nothing changes. If we grow a little every day, we will be ready when tomorrow comes.\n\n【Grammar】\nPreparation language: need to / should / practise / learn to\nIf + present, will + base verb (real future condition)\n\n【Key Words】\nprepare, skill, teamwork, healthy, ready, grow, tomorrow\n\n【Try】\nAnswer: How can we prepare for the future? Write 6 sentences with should/need to.", "U7 Project · Create a picture about the future": "【Dialogue】\nArt teacher: Draw your future city or school.\nStudent: In my picture, buses will run on clean energy. Children will plant trees on every street.\nArt teacher: Label your picture in English. Then tell us one action you will take now.\nStudent: I will ride my bike to school twice a week.\n\n【Grammar】\nPicture talk: In my picture, ... will ...\nHope + action: We hope ... so we will ...\n\n【Key Words】\nlabel, scene, clean energy, plant, action, hope\n\n【Try】\nWrite 6 sentences about your future picture + 1 action for today.", "U8 Section A · How do we communicate?": "【Dialogue】\nMs. Green: How do we communicate?\nStudent A: We talk face to face.\nStudent B: We send messages and emails.\nStudent C: We also use smiles, eyes, and gestures.\nMs. Green: Right. Different situations need different ways. For serious talks, face to face is often better.\n\n【Grammar】\nWays to communicate: speak, listen, write, call, message, body language\nActive listening: I see. / Really? / That sounds interesting. / Go on.\n\n【Key Words】\ncommunicate, message, gesture, face to face, listen, situation\n\n【Try】\nMatch 3 situations with the best communication way. Explain one in English.", "U8 Section B · How can we communicate better?": "【Reading】\nBetter communication is clear and kind. Say what you mean. Ask when you don't understand: \"Do you mean ...?\" Don't interrupt. If there is a misunderstanding, stay calm and explain again. Good communicators care about both words and feelings.\n\n【Grammar】\nClarify: Do you mean ...? / Could you say that again?\nPolite repair: Sorry, I meant ... / Thanks for explaining.\nTips: be clear / be kind / be patient\n\n【Key Words】\nclear, kind, interrupt, misunderstanding, explain, patient, polite\n\n【Try】\nRewrite a rude sentence into a clearer and kinder one. Then list 3 communication tips.", "U8 Project · Tell a chain story": "【Dialogue】\nLeader: Let's tell a chain story. I'll start: One rainy morning, a lost puppy sat by the school gate.\nStudent 1: A girl saw it and shared her bread.\nStudent 2: Then they found a note on the collar with a phone number.\nStudent 3: Finally, the owner came and everyone smiled.\nLeader: Great listening! Communication made the story complete.\n\n【Grammar】\nChain story rules: listen → add one sentence → keep the logic\nConnectors: then, suddenly, after that, finally\n\n【Key Words】\nchain story, collar, owner, suddenly, continue, retell\n\n【Try】\nIn a group of 4, create a chain story (8 sentences). Retell it in 5 sentences alone."};
+function lessonBody(les){ return (les && (les.body||BODIES[les.title])) || ''; }
+
+/* 每日积累库：古诗文背诵 / 数学公式 / 英语重点（按学科分批轮转） */
+/* ============ 状态与存储（铁律1：wb_stu_ 前缀） ============ */
+const KEY_PROG='wb_stu_progress';   // {lessonKey:{done,exDone:[],review}}
+const KEY_TASK='wb_stu_tasks';      // 自定义每日任务 [{id,text,date,done}]
+const KEY_START='wb_stu_start';     // 开学日
+const KEY_EXAMS='wb_stu_exams';     // 考试 [{id,name,date,scope}]
+const KEY_DAY='wb_stu_day';
+const KEY_ONBOARD='wb_stu_onboard_v2';         // 手动预览日
+
+const ICON_OK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function addDaysStr(s,n){ const d=new Date(s); d.setDate(d.getDate()+n); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function parseDate(s){ const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
+function diffDays(a,b){ return Math.round((parseDate(a)-parseDate(b))/86400000); }
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function subjName(k){ return SUBJECTS[k].name; }
+
+/* 为每课计算学期日（按学科在学期内均匀铺开） */
+const SEM_DAYS=90; // 默认一学期约90个上学日
+function buildPlan(){
+  const plan=[]; // {key,subj,unit,idx,title,day,lesson}
+  for(const sk in SUBJECTS){
+    const subj=SUBJECTS[sk];
+    let gi=0;
+    subj.units.forEach((u,ui)=>{
+      u.lessons.forEach((les,li)=>{
+        const total=subj.units.reduce((a,x)=>a+x.lessons.length,0);
+        const globalIdx=gi;
+        // 该学科在学期内均匀铺开（保留1~SEM_DAYS）
+        const day = total>1 ? Math.round(globalIdx/(total-1)*(SEM_DAYS-1))+1 : 1;
+        plan.push({key:sk+'#'+ui+'#'+li, subj:sk, unit:u.name, idx:globalIdx, title:les.title, day, lesson:les});
+        gi++;
+      });
+    });
+  }
+  return plan;
+}
+const PLAN=buildPlan();
+function lessonByKey(k){ return PLAN.find(p=>p.key===k); }
+function maxDay(){ return Math.max.apply(null, PLAN.map(p=>p.day)); }
+
+/* 状态读写 */
+function loadJSON(key,def){ try{ const v=localStorage.getItem(key); return v?JSON.parse(v):def; }catch(e){ return def; } }
+function saveJSON(key,v){ localStorage.setItem(key,JSON.stringify(v)); }
+let progress=loadJSON(KEY_PROG,{});
+let tasks=loadJSON(KEY_TASK,[]);
+let startDate=loadJSON(KEY_START,START_DEFAULT);
+let exams=loadJSON(KEY_EXAMS, CONTENT_PACK.exams);
+let previewDay=loadJSON(KEY_DAY, null);
+
+/* 铁律6：首次打开预置示例自定义任务（含1条逾期），让用户立刻看到效果 */
+const SEEDED_KEY='wb_stu_seeded';
+(function seedIfNeeded(){
+  if(localStorage.getItem(SEEDED_KEY)) return;
+  const t=todayStr();
+  tasks=tasks.concat([
+    {id:uid(), text:'示例：复习《三峡》第一段并默写', date:addDaysStr(t,-2), done:false, seed:true},
+    {id:uid(), text:'示例：做数学第十一章课后练习', date:t, done:false, seed:true},
+    {id:uid(), text:'示例：朗读英语 Unit1 单词表', date:t, done:true, seed:true}
+  ]);
+  saveJSON(KEY_TASK,tasks);
+  localStorage.setItem(SEEDED_KEY,'1');
+})();
+
+function curDayIndex(){
+  if(previewDay) return previewDay;
+  const d=diffDays(todayStr(), startDate);
+  if(d<0) return 1; // 未开学则默认预览第1天
+  return Math.min(d+1, maxDay());
+}
+function realDayIndex(){ const d=diffDays(todayStr(), startDate); return d<0?0:Math.min(d+1,maxDay()); }
+
+
+
+function toast(msg){
+  const el=document.getElementById('toast'); if(!el) return;
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove('show'), 2200);
+}
+function nearestExam(){
+  const today=todayStr();
+  const upcoming=exams.filter(e=>diffDays(e.date,today)>=0).sort((a,b)=>parseDate(a.date)-parseDate(b.date));
+  if(upcoming.length) return upcoming[0];
+  return exams.slice().sort((a,b)=>parseDate(b.date)-parseDate(a.date))[0]||null;
+}
+function renderNearestExamCard(){
+  const e=nearestExam(); if(!e) return '';
+  const left=diffDays(e.date, todayStr());
+  const cls=left<=7&&left>=0?'soon':'';
+  let status = left<0? '已结束' : (left===0?'今天':'天');
+  return `<div class="exam-mini" role="status">
+    <div style="min-width:0;flex:1">
+      <div class="en">${esc(e.name)}</div>
+      <div class="ed">考试日 ${esc(e.date)}</div>
+      <div class="ed" style="margin-top:4px">范围：${esc(e.scope||'待定')}</div>
+    </div>
+    <div class="cd-wrap">
+      <div class="cd-num ${cls}">${left<0?'—':(left===0?'0':left)}</div>
+      <div class="cd-unit">${esc(status)}</div>
+    </div>
+  </div>`;
+}
+function todayDoneStats(di){
+  const todays=PLAN.filter(p=>p.day===di);
+  const done=todays.filter(p=>progress[p.key]&&progress[p.key].done).length;
+  const total=todays.length||1;
+  return {done, total:todays.length, pct: todays.length? Math.round(done/todays.length*100):0, next: todays.find(p=>!(progress[p.key]&&progress[p.key].done))};
+}
+function ringSvg(pct){
+  const r=26, c=2*Math.PI*r, off=c*(1-pct/100);
+  return `<svg class="ring" viewBox="0 0 64 64" aria-hidden="true"><circle class="bg" cx="32" cy="32" r="${r}"/><circle class="fg" cx="32" cy="32" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${off}"/><text x="32" y="36" text-anchor="middle" class="ring-label">${pct}%</text></svg>`;
+}
+function bodyBlock(les){
+  const t=lessonBody(les);
+  if(!t) return `<div class="body-text mini">暂无课文正文，请对照教材阅读后学习下方讲解。</div>`;
+  return `<div class="body-text">${esc(t)}</div>`;
+}
+
+function unitIntroHtml(sk, unit){
+  if(!unit || !unit.intro) return '';
+  const cls = sk==='yingyu'?'yingyu':(sk==='shuxue'?'shuxue':'');
+  return `<div class="unit-intro ${cls}"><span class="ui-tag">单元开篇</span>\n${esc(unit.intro)}</div>`;
+}
+function openUnitIntro(sk, ui){
+  const u=SUBJECTS[sk].units[ui]; if(!u) return;
+  document.getElementById('modal').innerHTML=`
+    <h2><img class="subj-badge" src="${SUBJ_IMG[sk]}" alt=""> ${esc(u.name)}</h2>
+    ${unitIntroHtml(sk,u)}
+    <div class="mini">本单元共 ${u.lessons.length} 课 · 建议先读开篇再逐课自学</div>
+    <div class="row" style="margin-top:12px"><button class="btn" onclick="closeModal();toggleUnit('${sk}-${ui}');">查看课表</button>
+    <button class="btn ghost" onclick="closeModal()">关闭</button></div>`;
+  document.getElementById('modalBg').classList.add('show');
+}
+
+function hIcon(path){ return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">${path}</svg>`; }
+
+/* ============ 渲染 ============ */
+let curTab='today';
+function showTab(t){
+  curTab=t;
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active', b.dataset.tab===t));
+  document.querySelectorAll('.bottomtab button').forEach(b=>b.classList.toggle('active', b.dataset.tab===t));
+  render();
+}
+function render(){
+  if(curTab==='exam') curTab='review';
+  const app=document.getElementById('app');
+  const y=app.scrollTop||0;
+  if(curTab==='today') app.innerHTML=renderToday();
+  else if(curTab==='course') app.innerHTML=renderCourse();
+  else if(curTab==='acc') app.innerHTML=renderAcc();
+  else if(curTab==='review') app.innerHTML=renderReview();
+  else if(curTab==='mine') app.innerHTML=renderMine();
+  bindAfter();
+  app.scrollTop=y;
+}
+
+/* —— 今日学习 —— */
+function renderToday(){
+  const di=curDayIndex();
+  const realDi=realDayIndex();
+  const notStart = diffDays(todayStr(),startDate)<0;
+  const previewing = previewDay!=null && Number(previewDay)!==realDi && realDi>0;
+  const stats=todayDoneStats(di);
+  let head=`<div class="hero">
+    <img src="assets/hero-banner.jpg" alt="" width="860" height="180">
+    <div class="hero-overlay">
+      <div class="hero-meta">
+        <p class="sem-label">人教版 · 八上 · 语数英（英语2024）</p>
+        <button type="button" class="sem-switch" onclick="switchSemester()" aria-label="切换学期" title="切换学期">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7h12"/><path d="m16 3 4 4-4 4"/><path d="M16 17H4"/><path d="m8 21-4-4 4-4"/></svg>
+          切换
+        </button>
+      </div>
+      <div class="progress-ring-wrap">
+        ${ringSvg(stats.pct)}
+        <div>
+          <div style="font-weight:800;font-size:15px">今日进度 ${stats.done}/${stats.total} 课</div>
+          <div style="font-size:12px;opacity:.9">${notStart?'开学前预览模式':'按开学日自动排课 · 先完成「今天要处理」'}</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  const doneCount=Object.keys(progress).filter(k=>progress[k]&&progress[k].done).length;
+  if(doneCount+tasks.length>=30){
+    head+=`<div class="banner">${hIcon('<path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/>')}学习数据已积累 ${doneCount+tasks.length} 条，建议到「我的」导出备份。</div>`;
+  }
+  if(notStart){
+    head+=`<div class="banner">${hIcon('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>')}距离开学还有 ${diffDays(startDate,todayStr())} 天。当前预览第 ${di} 天，可先熟悉用法。</div>`;
+  }
+  if(previewing){
+    head+=`<div class="banner ok" style="justify-content:space-between;align-items:center"><span>正在预览第 ${di} 天（真实进度约第 ${realDi} 天）</span><button class="btn ghost" onclick="backToToday()">回到今天</button></div>`;
+  }
+  if(stats.next){
+    head+=`<div class="card cta-next"><div class="row" style="justify-content:space-between;align-items:center">
+      <div><div class="mini">下一步建议</div><div style="font-weight:800">${esc(subjName(stats.next.subj))} · ${esc(stats.next.title)}</div></div>
+      <button class="btn accent" onclick="openLesson('${stats.next.key}')">开始学习</button>
+    </div></div>`;
+  } else if(stats.total>0){
+    head+=`<div class="banner ok">${hIcon('<path d="M20 6 9 17l-5-5"/>')}今日课程都完成了，去「积累」温故或「复习」巩固吧。</div>`;
+  }
+  head+=`<div class="card"><div class="daynav">
+    <button class="btn ghost" aria-label="上一天" onclick="stepDay(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div class="dn">第 ${di} 天</div>
+    <button class="btn ghost" aria-label="下一天" onclick="stepDay(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+    <input type="range" min="1" max="${maxDay()}" value="${di}" oninput="setDay(this.value)" aria-label="学期天数滑块">
+  </div>
+  <div class="row"><span class="mini">排课跨度约 ${maxDay()} 个上学日 · 开学日 ${startDate}（在「我的」修改）</span>
+  ${(previewing||notStart)?'<button class="btn ghost" onclick="backToToday()">回到今天</button>':''}</div>
+  </div>`;
+
+  const todays=PLAN.filter(p=>p.day===di);
+  const overdue=PLAN.filter(p=>p.day<di && !(progress[p.key]&&progress[p.key].done));
+  const customToday=tasks.filter(t=>!t.done && (t.date===todayStr() || !t.date));
+  let th='<div class="card"><h2>'+hIcon('<path d="M12 2v4"/><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/>')+'今天要处理</h2>';
+  if(!todays.length && !overdue.length && !customToday.length){
+    th+='<div class="empty">'+ICON_OK+' 今日暂无必做，可自由复习或积累。</div>';
+  } else {
+    let items='';
+    overdue.forEach(p=>{
+      items+=`<div class="todo-item"><span class="pill over">待补</span><span class="todo-title over">${esc(subjName(p.subj))} · ${esc(p.title)}（第${p.day}天）</span><button class="iconbtn" title="完成" aria-label="完成" onclick="markDone('${p.key}')">${ICON_OK}</button></div>`;
+    });
+    todays.forEach(p=>{
+      const prog=progress[p.key]||{};
+      items+=`<div class="todo-item"><span class="pill sub-${p.subj}">今日</span><span class="todo-title">${esc(subjName(p.subj))} · ${esc(p.title)}</span><button class="iconbtn ${prog.done?'done':''}" title="完成" aria-label="完成" onclick="markDone('${p.key}')">${ICON_OK}</button></div>`;
+    });
+    customToday.forEach(t=>{
+      items+=`<div class="todo-item"><span class="pill today">我的</span><span class="todo-title">${esc(t.text)}</span><button class="iconbtn" title="完成" onclick="toggleTask('${t.id}')">${ICON_OK}</button><button class="iconbtn" title="删除" aria-label="删除" onclick="delTask('${t.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>`;
+    });
+    th+=items;
+  }
+  th+='</div>';
+
+  let body='';
+  ['yuwen','shuxue','yingyu'].forEach(sk=>{
+    const ls=PLAN.filter(p=>p.day===di && p.subj===sk);
+    if(ls.length===0){
+      body+=`<div class="card"><h2 style="color:${SUBJECTS[sk].color}"><img class="subj-badge" src="${SUBJ_IMG[sk]}" alt="">${esc(SUBJECTS[sk].name)} · 今日</h2><div class="empty">今日该科无新课。可到「课程进度」复习，或「积累」温故。</div></div>`;
+      return;
+    }
+    ls.forEach(p=>{
+      const prog=progress[p.key]||{};
+      const les=p.lesson;
+      let kps=les.points.map(pt=>`<div class="kp">· ${esc(pt)}</div>`).join('');
+      let exs=les.ex.map((q,i)=>`<div class="ex"><div class="q"><span class="n">${i+1}.</span><span>${esc(q)} ${prog.exDone&&prog.exDone[i]?'<span class="done-badge">已做</span>':''}</span></div></div>`).join('');
+      let exBtns=les.ex.map((q,i)=>`<button class="btn ghost" onclick="markEx('${p.key}',${i})">${prog.exDone&&prog.exDone[i]?'重做':'做第'+(i+1)+'题'}</button>`).join('');
+      const acc=ACC.filter(a=>a.subj===sk);
+      const accItem=acc.length? acc[(di-1)%acc.length] : null;
+      let accHtml=accItem?`<div class="acc-item"><div class="at" style="color:${SUBJECTS[sk].color}">今日积累 · ${esc(accItem.title)}</div><div class="ac">${esc(accItem.c)}</div></div>`:'';
+      body+=`<div class="lesson ${SUBJECTS[sk].cls}">
+        <div class="lt"><img class="subj-badge" src="${SUBJ_IMG[sk]}" alt=""><span class="pill sub-${sk}">${esc(SUBJECTS[sk].name)}</span> ${esc(les.title)} ${prog.done?'<span class="done-badge">已完成</span>':''}</div>
+        <div class="lu">${esc(p.unit)} · 第 ${p.day} 天 · <a href="javascript:void(0)" onclick="openUnitIntro('${sk}',${SUBJECTS[sk].units.findIndex(u=>u.name===p.unit)})" style="color:inherit;font-weight:700">单元开篇</a></div>
+        ${(function(){ const u=SUBJECTS[sk].units.find(x=>x.name===p.unit); return (u&&u.intro)?unitIntroHtml(sk,u):''; })()}
+        <h3>课文正文</h3>${bodyBlock(les)}
+        <h3>知识点</h3>${kps}
+        <h3>讲解</h3><div class="ac" style="white-space:pre-wrap">${esc(les.explain)}</div>
+        <h3>练习题</h3>${exs}<div class="row" style="margin:8px 0">${exBtns}</div>
+        ${accHtml}
+        <div class="row" style="margin-top:8px">
+          <button class="btn" onclick="markDone('${p.key}')">${prog.done?'已学完（点击取消）':'我学完了'}</button>
+          <button class="btn ghost" onclick="openLesson('${p.key}')">放大查看</button>
+        </div>
+      </div>`;
+    });
+  });
+
+  let addTask=`<div class="card"><h2>${hIcon('<path d="M12 5v14M5 12h14"/>')}我的每日任务</h2>
+    <div class="row tight"><div class="field"><input id="nt" type="text" placeholder="添加一条今天要做的（如：背10个单词）" onkeydown="if(event.key==='Enter')addTask()"></div>
+    <button class="btn" onclick="addTask()">添加</button></div>
+    <div id="myTasks">${renderMyTasks()}</div></div>`;
+
+  return head+th+body+addTask+`<p class="footer">数据仅保存在本浏览器。换设备或清缓存前请先到「我的」导出备份。</p>`;
+}
+function renderMyTasks(){
+  const list=tasks.filter(t=>!t.date || t.date===todayStr());
+  if(!list.length) return '<div class="empty">还没有自定义任务，上面加一条吧。</div>';
+  return list.map(t=>`<div class="todo-item"><button class="iconbtn ${t.done?'done':''}" onclick="toggleTask('${t.id}')">${ICON_OK}</button><span class="todo-title" style="${t.done?'text-decoration:line-through;color:var(--muted)':''}">${esc(t.text)}</span><button class="iconbtn" onclick="delTask('${t.id}')" aria-label="删除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>`).join('');
+}
+
+/* —— 课程进度 —— */
+function renderCourse(){
+  let h=`<h1 class="page-title">课程进度</h1><p class="sub">点击任意一课查看课文正文、知识点与练习 · 圆点表示完成情况</p>`;
+  for(const sk in SUBJECTS){
+    const subj=SUBJECTS[sk];
+    let total=0, done=0;
+    subj.units.forEach(u=>u.lessons.forEach(()=>total++));
+    Object.keys(progress).forEach(k=>{ if(k.startsWith(sk+'#') && progress[k].done) done++; });
+    const pct=total? Math.round(done/total*100):0;
+    const book=SUBJECTS[sk].bookUrl||'';
+    h+=`<div class="card">
+      <div class="course-head">
+        <h2 style="color:${subj.color}"><img class="subj-badge" src="${SUBJ_IMG[sk]}" alt="">${esc(subj.name)} · ${done}/${total} 课（${pct}%）</h2>
+        ${book?`<a class="ebook-link" href="${esc(book)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(subj.name)}教材电子版" onclick="event.stopPropagation()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h6"/></svg>
+          电子版</a>`:''}
+      </div>
+      <div class="bar"><i style="width:${pct}%"></i></div>`;
+    subj.units.forEach((u,ui)=>{
+      h+=`<div class="unit-block"><div class="unit-head" onclick="toggleUnit('${sk}-${ui}')"><span class="un">${esc(u.name)}</span><svg id="ar-${sk}-${ui}" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="m6 9 6 6 6-6"/></svg></div>`;
+      h+=`<div id="unit-${sk}-${ui}" style="display:none">`;
+      if(u.intro){ h+=unitIntroHtml(sk,u)+`<div class="row" style="margin:0 0 8px"><button class="btn ghost" onclick="event.stopPropagation();openUnitIntro('${sk}',${ui})">放大开篇</button></div>`; }
+      u.lessons.forEach((les,li)=>{
+        const key=sk+'#'+ui+'#'+li;
+        const prog=progress[key]||{};
+        const dot=prog.done?'<svg viewBox="0 0 24 24" fill="var(--green)" width="16" height="16"><circle cx="12" cy="12" r="10"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="var(--line)" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="9"/></svg>';
+        h+=`<div class="todo-item" style="cursor:pointer" onclick="openLesson('${key}')">${dot}<span class="todo-title">${esc(les.title)}</span><span class="mini">第 ${PLAN.find(p=>p.key===key).day} 天</span></div>`;
+      });
+      h+=`</div></div>`;
+    });
+    h+=`</div>`;
+  }
+  return h;
+}
+
+/* —— 积累 —— */
+function renderAcc(){
+  let h=`<h1 class="page-title">每日积累</h1><p class="sub">古诗文背诵 · 数学公式 · 英语重点，按时轮换温故</p>`;
+  const di=curDayIndex();
+  const today=ACC[(di-1)%ACC.length];
+  h+=`<div class="card"><h2><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1L12 16.8 5.7 21l2.3-7.1-6-4.5h7.6z"/></svg>今日积累（第 ${di} 天）</h2>`;
+  h+=`<div class="acc-item"><div class="at">${esc(today.title)}</div><div class="ac">${esc(today.c)}</div></div></div>`;
+  // 分类浏览
+  ['yuwen','shuxue','yingyu'].forEach(sk=>{
+    const items=ACC.filter(a=>a.subj===sk);
+    if(!items.length) return;
+    h+=`<div class="card"><h2 style="color:${SUBJECTS[sk].color}">${esc(SUBJECTS[sk].name)}积累库（${items.length}）</h2>`;
+    items.forEach(a=>{ h+=`<div class="acc-item"><div class="at">${esc(a.title)}</div><div class="ac">${esc(a.c)}</div></div>`; });
+    h+=`</div>`;
+  });
+  return h;
+}
+
+/* —— 单元复习 —— */
+function renderReview(){
+  let h=`<h1 class="page-title">单元复习</h1><p class="sub">学完一个单元即可系统复习 · 顶部仅显示最近一场考试倒计时</p>`;
+  h+=renderNearestExamCard();
+  for(const sk in SUBJECTS){
+    const subj=SUBJECTS[sk];
+    subj.units.forEach((u,ui)=>{
+      const keys=u.lessons.map((_,li)=>sk+'#'+ui+'#'+li);
+      const doneCount=keys.filter(k=>progress[k]&&progress[k].done).length;
+      const allDone=doneCount===keys.length;
+      const pct=Math.round(doneCount/keys.length*100);
+      const revKey='rev-'+sk+'-'+ui;
+      const revOn=(progress[revKey]&&progress[revKey].done);
+      h+=`<div class="card">
+        <h2 style="color:${subj.color}"><img class="subj-badge" src="${SUBJ_IMG[sk]}" alt="">${esc(u.name)}</h2>
+        <div class="row"><span class="mini">${doneCount}/${keys.length} 课完成（${pct}%）</span>
+        ${allDone?`<button class="btn ${revOn?'ghost':'accent'}" onclick="markReview('${revKey}')">${revOn?'已复习':'开始单元复习'}</button>`:'<span class="pill over">先学完本单元</span>'}</div>`;
+      if(allDone){
+        h+=`<div class="ac" style="margin-top:10px;white-space:pre-wrap">${esc('复习建议：\n1. 通读本单元各课「课文正文」与「知识点」，画出知识框架。\n2. 重做各课练习题，关注曾做错的题。\n3. 整理错题与易混点。\n4. 完成一份本单元自测，再进入下一单元。')}</div>`;
+      }
+      h+=`</div>`;
+    });
+  }
+  return h;
+}
+
+/* —— 考试倒计时（已并入复习页，仅最近一场） —— */
+function renderExam(){ return renderReview(); }
+
+/* —— 我的 / 设置 / 备份 —— */
+function renderMine(){
+  const doneN=Object.keys(progress).filter(k=>progress[k]&&progress[k].done).length;
+  let h=`<div class="mine-head"><h1 class="page-title">我的</h1><p class="sub">备份 · 开学日 · 考试</p></div>`;
+  h+=`<div class="card mine">
+    <h2>${hIcon('<path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/>')}数据备份</h2>
+    <div class="mine-stats"><span>已学完 ${doneN} 课</span><span>任务 ${tasks.length} 条</span></div>
+    <div class="mine-actions">
+      <button class="btn ghost" onclick="exportJSON()">导出 JSON</button>
+      <button class="btn ghost" onclick="document.getElementById('file').click()">导入恢复</button>
+      <button class="btn ghost" onclick="exportCSV()">导出 CSV</button>
+      <button class="btn danger" onclick="clearSeed()">清空示例</button>
+      <button class="btn danger span2" onclick="clearAll()">清空全部数据</button>
+    </div>
+    <input id="file" type="file" accept=".json,application/json" class="hidden" onchange="importJSON(this)">
+    <div class="mini" style="margin-top:8px">换设备前请先导出备份。</div>
+  </div>`;
+  h+=`<div class="card mine">
+    <h2>${hIcon('<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>')}开学日</h2>
+    <div class="mine-inline">
+      <div class="field"><input id="startInput" type="date" value="${esc(startDate)}" aria-label="开学日"></div>
+      <button class="btn" onclick="saveStart()">保存</button>
+    </div>
+    <div class="mini" style="margin-top:6px">修改后将按新开学日重算「第几天」。</div>
+  </div>`;
+  h+=`<div class="card mine">
+    <h2>${hIcon('<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/>')}考试日期</h2>`;
+  exams.forEach(e=>{
+    h+=`<div class="exam-edit">
+      <div class="field"><input id="exn-${e.id}" type="text" value="${esc(e.name)}" aria-label="考试名称"></div>
+      <div class="field"><input id="exd-${e.id}" type="date" value="${esc(e.date)}" aria-label="考试日期"></div>
+      <div class="field scope"><input id="exc-${e.id}" type="text" value="${esc(e.scope||'')}" placeholder="考试范围" aria-label="考试范围"></div>
+      <div class="save-row"><button class="btn ghost" onclick="saveExam('${e.id}')">保存此项</button></div>
+    </div>`;
+  });
+  h+=`<div class="mini" style="margin-top:6px">默认建议日期，请按学校安排修改。</div></div>`;
+  return h;
+}
+function switchSemester(){
+  toast('学期切换即将支持，当前为人教版八上');
+}
+
+/* ============ 交互 ============ */
+function stepDay(n){ const d=Math.max(1,Math.min(maxDay(),curDayIndex()+n)); setDay(d); }
+function setDay(n){ previewDay=Number(n); saveJSON(KEY_DAY,previewDay); render(); }
+function markDone(key){
+  progress[key]=progress[key]||{};
+  progress[key].done=!progress[key].done;
+  saveJSON(KEY_PROG,progress);
+  toast(progress[key].done?'太棒了，本课已学完':'已取消完成标记');
+  render();
+}
+function backToToday(){ previewDay=null; saveJSON(KEY_DAY,null); toast('已回到今天'); render(); }
+function markEx(key,i){
+  progress[key]=progress[key]||{};
+  progress[key].exDone=progress[key].exDone||[];
+  progress[key].exDone[i]=!progress[key].exDone[i];
+  saveJSON(KEY_PROG,progress); render();
+}
+function markReview(revKey){
+  progress[revKey]=progress[revKey]||{};
+  progress[revKey].done=!progress[revKey].done;
+  saveJSON(KEY_PROG,progress); render();
+}
+function toggleUnit(id){ const el=document.getElementById('unit-'+id); const ar=document.getElementById('ar-'+id); if(el){ el.style.display = el.style.display==='none'?'block':'none'; ar.style.transform = el.style.display==='none'?'':'rotate(180deg)'; } }
+function openLesson(key){
+  const p=lessonByKey(key); if(!p) return;
+  const les=p.lesson; const prog=progress[key]||{};
+  const kps=les.points.map(pt=>`<div class="kp">· ${esc(pt)}</div>`).join('');
+  const exs=les.ex.map((q,i)=>`<div class="ex"><div class="q"><span class="n">${i+1}.</span><span>${esc(q)} ${prog.exDone&&prog.exDone[i]?'<span class="done-badge">已做</span>':''}</span></div></div>`).join('');
+  document.getElementById('modal').innerHTML=`
+    <h2><img class="subj-badge" src="${SUBJ_IMG[p.subj]}" alt=""> ${esc(SUBJECTS[p.subj].name)} · ${esc(les.title)}</h2>
+    <div class="lu">${esc(p.unit)} · 第 ${p.day} 天 · ${prog.done?'已完成':'未完成'}</div>
+    ${(function(){ const u=SUBJECTS[p.subj].units.find(x=>x.name===p.unit); return (u&&u.intro)?unitIntroHtml(p.subj,u):''; })()}
+    <h3 style="color:var(--primary)">课文正文</h3>${bodyBlock(les)}
+    <h3 style="color:var(--primary)">知识点</h3>${kps}
+    <h3 style="color:var(--primary)">讲解</h3><div class="ac" style="white-space:pre-wrap">${esc(les.explain)}</div>
+    <h3 style="color:var(--primary)">练习题</h3>${exs}
+    <div class="row" style="margin-top:10px">
+      <button class="btn" onclick="markDone('${key}');closeModal()">${prog.done?'已学完（取消）':'我学完了'}</button>
+      <button class="btn ghost" onclick="closeModal()">关闭</button>
+    </div>`;
+  document.getElementById('modalBg').classList.add('show');
+  const closeBtn=document.querySelector('#modal .btn.ghost'); if(closeBtn) closeBtn.focus();
+}
+function closeModal(){ document.getElementById('modalBg').classList.remove('show'); }
+function addTask(){
+  const v=document.getElementById('nt').value.trim();
+  if(!v){ alert('先写点什么吧'); return; }
+  tasks.push({id:uid(), text:v, date:todayStr(), done:false});
+  saveJSON(KEY_TASK,tasks); document.getElementById('nt').value=''; render();
+}
+function toggleTask(id){ const t=tasks.find(x=>x.id===id); if(t){ t.done=!t.done; saveJSON(KEY_TASK,tasks); render(); } }
+function delTask(id){ tasks=tasks.filter(t=>t.id!==id); saveJSON(KEY_TASK,tasks); render(); }
+function saveStart(){ const v=document.getElementById('startInput').value; if(v){ startDate=v; saveJSON(KEY_START,v); previewDay=null; saveJSON(KEY_DAY,null); render(); } }
+function saveExam(id){ const e=exams.find(x=>x.id===id); if(!e) return;
+  e.name=document.getElementById('exn-'+id).value.trim()||e.name;
+  e.date=document.getElementById('exd-'+id).value||e.date;
+  e.scope=document.getElementById('exc-'+id).value.trim();
+  saveJSON(KEY_EXAMS,exams); render();
+}
+
+/* 备份（铁律2） */
+function exportJSON(){
+  const data={progress,tasks,startDate,exams,previewDay,_v:1};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='八年级学习台-备份-'+todayStr()+'.json'; a.click(); URL.revokeObjectURL(a.href);
+}
+function importJSON(input){
+  const f=input.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{
+    const d=JSON.parse(r.result);
+    if(typeof d!=='object') throw 0;
+    progress=d.progress||{}; tasks=d.tasks||[]; startDate=d.startDate||START_DEFAULT; exams=d.exams||exams; previewDay=d.previewDay||null;
+    saveJSON(KEY_PROG,progress); saveJSON(KEY_TASK,tasks); saveJSON(KEY_START,startDate); saveJSON(KEY_EXAMS,exams); saveJSON(KEY_DAY,previewDay);
+    alert('恢复成功'); render();
+  }catch(e){ alert('文件格式不对，导入失败'); } input.value=''; };
+  r.readAsText(f);
+}
+function clearAll(){
+  if(!confirm('确定清空全部学习数据？此操作不可恢复！')) return;
+  if(!confirm('再确认一次：真的清空所有记录吗？')) return;
+  progress={}; tasks=[]; previewDay=null; saveJSON(KEY_PROG,progress); saveJSON(KEY_TASK,tasks); saveJSON(KEY_DAY,null); render();
+}
+/* 清空示例数据（仅清 seed 项，保留用户数据） */
+function clearSeed(){ tasks=tasks.filter(t=>!t.seed); saveJSON(KEY_TASK,tasks); render(); }
+/* 导出学习进度 CSV */
+function exportCSV(){
+  const head='科目,单元,课程,学期第几天,是否学完,练习题完成数';
+  const rows=PLAN.map(p=>{
+    const pr=progress[p.key]||{};
+    const exd=(pr.exDone||[]).filter(Boolean).length;
+    return [subjName(p.subj), p.unit, p.title, p.day, pr.done?'是':'否', exd+'/'+p.lesson.ex.length].map(csvCell).join(',');
+  });
+  const blob=new Blob([head+'\n'+rows.join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='八年级学习台-进度-'+todayStr()+'.csv'; a.click(); URL.revokeObjectURL(a.href);
+}
+function csvCell(s){ s=String(s??''); return /[",\n]/.test(s)? '"'+s.replace(/"/g,'""')+'"' : s; }
+
+/* 绑定（渲染后按需） */
+function bindAfter(){
+  const nt=document.getElementById('nt');
+  if(nt && !nt._bound){ nt._bound=1; nt.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); addTask(); }}); }
+}
+let obStep=0;
+const OB_STEPS=[
+  {t:'第一步：确认开学日', d:'排课按「开学日」自动计算第几天。请到「我的」核对开学日与考试日期（也可稍后设置）。'},
+  {t:'第二步：看今日课', d:'首页有进度环与「下一步建议」。点「开始学习」可读课文正文、知识点与讲解，再做练习。'},
+  {t:'第三步：复习与备份', d:'「复习」页顶部只显示最近一场考试倒计时。学习数据在本机浏览器，记得在「我的」导出备份。'}
+];
+function paintOnboard(){
+  const body=document.getElementById('obBody');
+  const steps=document.getElementById('obSteps');
+  const next=document.getElementById('obNext');
+  if(!body) return;
+  const s=OB_STEPS[obStep];
+  body.innerHTML=`<h3 style="margin:0 0 8px;color:var(--primary)">${esc(s.t)}</h3><p style="margin:0;color:var(--muted);font-size:14px">${esc(s.d)}</p>`;
+  [...steps.children].forEach((el,i)=>el.classList.toggle('on', i<=obStep));
+  next.textContent = obStep>=OB_STEPS.length-1 ? '开始使用' : '下一步';
+}
+function openOnboard(){ document.getElementById('onboard').classList.add('show'); obStep=0; paintOnboard(); }
+function skipOnboard(){ localStorage.setItem(KEY_ONBOARD,'1'); document.getElementById('onboard').classList.remove('show'); }
+function nextOnboard(){
+  if(obStep>=OB_STEPS.length-1){ skipOnboard(); showTab('today'); return; }
+  obStep++; paintOnboard();
+}
+
+/* 初始化 */
+render();
+if(!localStorage.getItem(KEY_ONBOARD)) openOnboard();
+</script>
+</body>
+</html>

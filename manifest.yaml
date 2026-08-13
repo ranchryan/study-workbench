@@ -1,0 +1,24 @@
+name: study-workbench
+display_name: 学习工作台模板
+slug: study-workbench
+version: 1.0.0
+description: 一句话生成学生「每日学习工作台」单文件 HTML：以开学日为起点按进度排课，每天列出各科知识点+讲解+练习，含每日积累、每日任务、单元复习、考试倒计时。默认内置八年级上册语数英（人教版·英语2024），支持换年级/学科/教材版本——提供 content-pack JSON 即可裂变任意学习台。纯前端、手机电脑通用、localStorage 存储、可部署分享。
+author: 泽羚科技 · 冉泽刚
+homepage: https://oierb0rbss1.feishuapp.com/app/app_17c14rw9hc0
+triggers:
+  - 学习台
+  - 学生台
+  - 做个学习台
+  - 每日学习
+  - 按进度排课
+  - 备考台
+  - 课程表
+  - 生成学生台
+category: 教育
+tags:
+  - 教育
+  - 学习
+  - 工作台
+  - 排课
+  - 模板
+  - 人教版

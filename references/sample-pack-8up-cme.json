@@ -1,0 +1,1250 @@
+{
+  "meta": {
+    "grade": "八年级上册",
+    "edition": "人教版",
+    "subjects_order": [
+      "yuwen",
+      "shuxue",
+      "yingyu"
+    ],
+    "note": "本内容包为示例。更换年级/学科/教材时，按 schema 写新的 content-pack JSON，替换引擎模板顶部 const CONTENT_PACK 即可。"
+  },
+  "startDate": "2026-09-01",
+  "subjects": {
+    "yuwen": {
+      "name": "语文",
+      "color": "var(--yuwen)",
+      "cls": "yuwen",
+      "units": [
+        {
+          "name": "第一单元 * 新闻（活动*探究）",
+          "intro": "本单元以新闻为学习任务群，围绕消息、特写、通讯与评论，把握真实性与时效性。自学时抓住六要素与结构（标题—导语—主体），比较不同新闻体裁的写法差异，体会准确简明的语言，并尝试按规范整理事实、表达观点。",
+          "lessons": [
+            {
+              "title": "消息二则",
+              "points": [
+                "消息六要素：何时、何地、何人、何事、何故、何结果（5W1H）",
+                "结构：标题—导语—主体—背景—结语",
+                "语言特点：准确、简明、真实"
+              ],
+              "explain": "《我三十万大军胜利南渡长江》《人民解放军百万大军横渡长江》均为毛泽东撰写的新闻名篇。导语用一句话概括最核心事实，主体按中路、西路、东路顺序叙述，体现渡江战役的气势与胜利的必然。",
+              "ex": [
+                "找出《百万大军横渡长江》的导语，说说它概括了哪些要素？",
+                "消息的语言为什么要求准确、简明？试举一例说明。"
+              ]
+            },
+            {
+              "title": "首届诺贝尔奖颁发",
+              "points": [
+                "新闻的导语与主体分工",
+                "客观叙述，不随意发表议论",
+                "要素齐全、层次清楚"
+              ],
+              "explain": "这则消息报道首届诺贝尔奖的颁发，导语点明时间、事件，主体介绍获奖者及诺贝尔奖资金来源与管理，语言客观平实，是典型的正面报道。",
+              "ex": [
+                "本文导语写了什么？",
+                "新闻为何一般不直接抒情议论？"
+              ]
+            },
+            {
+              "title": "“飞天”凌空 ——跳水姑娘吕伟夺魁记",
+              "points": [
+                "新闻特写：聚焦一个精彩瞬间",
+                "细节描写与比喻、拟人修辞",
+                "慢镜头式的画面感"
+              ],
+              "explain": "这是一篇新闻特写，抓住吕伟跳水的一刹那，用“飞天”“白云”“飞鸟”等比喻铺陈动作之美，让读者如临其境，突出“852分”的完美表现。",
+              "ex": [
+                "本文与消息在写法上最大的不同是什么？",
+                "文中哪些比喻写出了跳水动作的美感？"
+              ]
+            },
+            {
+              "title": "一着惊海天 ——舰载机成功着舰",
+              "points": [
+                "通讯：完整再现事件过程",
+                "场面描写与反复渲染",
+                "情感与价值升华"
+              ],
+              "explain": "通讯《一着惊海天》记录我国航母舰载战斗机首架次成功着舰。以紧张的着舰过程为主线，穿插历史背景，结尾点明其历史意义，感染力强。",
+              "ex": [
+                "本文哪些语句营造了紧张氛围？",
+                "结尾为什么要强调“历史意义”？"
+              ]
+            },
+            {
+              "title": "国行公祭，为佑世界和平",
+              "points": [
+                "新闻评论的文体特征",
+                "引述与议论结合",
+                "铭记历史、珍爱和平的主旨"
+              ],
+              "explain": "这是一篇新闻评论，以国家公祭日为切入点，援引史实与国际态度，论证铭记南京大屠杀历史、捍卫和平的必要性，立场鲜明。",
+              "ex": [
+                "评论与消息、特写有何区别？",
+                "作者写本文的核心意图是什么？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第二单元 * 传记与回忆性散文",
+          "intro": "本单元学习传记与回忆性散文，体会作者如何用典型事件与细节表现人物。阅读时梳理时间线，关注外貌、语言、动作描写，理解家国情怀与人格力量；写作可练习选择材料、抓住特征，写“活生生”的人。",
+          "lessons": [
+            {
+              "title": "藤野先生",
+              "points": [
+                "明线（与藤野的交往）与暗线（爱国情怀）",
+                "白描手法与细节刻画",
+                "对比衬托"
+              ],
+              "explain": "鲁迅回忆在日本留学时与藤野先生的交往，赞扬其严谨、正直、没有民族偏见，同时以“匿名信”“看电影”等事件激发救国救民之志。形散神聚。",
+              "ex": [
+                "藤野先生有哪些可贵品质？",
+                "文中“讲义”“解剖图”细节有何作用？"
+              ]
+            },
+            {
+              "title": "回忆我的母亲",
+              "points": [
+                "按时间顺序记叙",
+                "质朴平实的语言风格",
+                "母亲的品格与作者情感"
+              ],
+              "explain": "朱德以时间为序，回忆母亲勤劳一生，歌颂中国劳动妇女的坚韧，并表达继承母亲意志、为民族解放奋斗的决心。",
+              "ex": [
+                "母亲身上体现了哪些传统美德？",
+                "文章结尾为何由个人上升到民族？"
+              ]
+            },
+            {
+              "title": "列夫*托尔斯泰",
+              "points": [
+                "欲扬先抑",
+                "外貌描写的铺陈与反差",
+                "比喻、夸张的运用"
+              ],
+              "explain": "茨威格先极写托尔斯泰外貌的平庸甚至粗鄙，再陡然转入其犀利深邃的眼睛，形成强烈反差，突出其精神世界的伟大。",
+              "ex": [
+                "本文“抑”与“扬”分别写了什么？",
+                "作者为何花大量笔墨写眼睛？"
+              ]
+            },
+            {
+              "title": "美丽的颜色",
+              "points": [
+                "传记的真实性",
+                "引用居里夫人的话",
+                "艰辛与喜悦交织"
+              ],
+              "explain": "艾芙*居里记述父母提炼镭的过程，穿插居里夫人日记原话，既写条件艰苦，又写发现“美丽的颜色”时的狂喜，真实动人。",
+              "ex": [
+                "本文如何体现传记的真实？",
+                "“美丽的颜色”有哪两层含义？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第三单元 * 古诗文（山水小品）",
+          "intro": "本单元聚焦古代山水小品与唐诗名篇，感受凝练语言中的画面与情志。自学重在朗读背诵、落实关键实词与名句，把握写景顺序与点睛之笔，体会寄情山水的审美与胸襟。",
+          "lessons": [
+            {
+              "title": "三峡（郦道元）",
+              "points": [
+                "文言实词：阙、襄、沿溯、奔、疾",
+                "四季景物描写次序",
+                "背诵全文"
+              ],
+              "explain": "《三峡》以凝练笔法写三峡连绵高峻之山与夏、春冬、秋不同水势，夏水“朝发白帝，暮到江陵”极言迅疾，春冬清幽，秋则凄寒。",
+              "ex": [
+                "用原文写出夏季江水迅猛的句子。",
+                "“清荣峻茂”分别指什么？"
+              ]
+            },
+            {
+              "title": "短文二篇：答谢中书书 / 记承天寺夜游",
+              "points": [
+                "《答谢》：山川之美、骈散结合",
+                "《记承天寺》：闲适心境、比喻写月",
+                "两篇均须背诵"
+              ],
+              "explain": "陶弘景《答谢中书书》以“欲界之仙都”赞江南山水；苏轼《记承天寺夜游》借“积水空明”写月色，抒发贬谪中旷达闲适之情。",
+              "ex": [
+                "《记承天寺夜游》怎样描写月色？",
+                "两人写山水的心境有何不同？"
+              ]
+            },
+            {
+              "title": "与朱元思书（吴均）",
+              "points": [
+                "骈文特征：对偶、声律",
+                "“奇山异水，天下独绝”总领",
+                "背诵"
+              ],
+              "explain": "吴均写给友人的书信，先总写富春江“奇山异水”，再分写水之清急、山之高峻，夹以鸢飞戾天之叹，含隐逸之趣。",
+              "ex": [
+                "文章如何写水之“异”？",
+                "“鸢飞戾天者，望峰息心”表达了什么？"
+              ]
+            },
+            {
+              "title": "唐诗五首",
+              "points": [
+                "野望（王绩）、黄鹤楼（崔颢）",
+                "使至塞上（王维）“大漠孤烟直”",
+                "渡荆门送别（李白）、钱塘湖春行（白居易）",
+                "五首均须背诵"
+              ],
+              "explain": "五首均为唐代律诗/绝句中的名篇：王维“大漠孤烟直，长河落日圆”写边塞壮阔；李白“山随平野尽”写出蜀地雄奇；白居易写早春西湖生机。",
+              "ex": [
+                "默写《使至塞上》的颔联、颈联。",
+                "《黄鹤楼》中哪句抒发乡愁？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第四单元 * 散文",
+          "intro": "本单元学习现代散文，体会线索、细节与象征。读《背影》抓“背影”与泪光；读《白杨礼赞》明托物言志；读哲理散文与《昆明的雨》感受形散神聚。注重涵泳语言，学习从日常取材抒真情。",
+          "lessons": [
+            {
+              "title": "背影",
+              "points": [
+                "以“背影”为线索",
+                "爬月台买橘子的细节",
+                "父子深情与“晶莹的泪光”"
+              ],
+              "explain": "朱自清以父亲翻越站台买橘子的“背影”为核心，四次写背影、四次落泪，于平凡琐事中见深沉父爱，语言朴素动人。",
+              "ex": [
+                "文中写了几次背影、几次流泪？",
+                "“我那时真是聪明过分”是什么修辞与情感？"
+              ]
+            },
+            {
+              "title": "白杨礼赞",
+              "points": [
+                "象征手法、托物言志",
+                "“不平凡”的反复咏叹",
+                "形散神聚"
+              ],
+              "explain": "茅盾礼赞西北白杨树，以树喻人，象征北方抗日军民坚强不屈的精神，先抑（算不得树中的好女子）后扬，结构严谨。",
+              "ex": [
+                "白杨树象征了什么？",
+                "“欲扬先抑”在文中如何体现？"
+              ]
+            },
+            {
+              "title": "散文二篇：永久的生命 / 我为什么而活着",
+              "points": [
+                "哲理散文的思辨性",
+                "个体有限与生命永恒的辩证",
+                "罗素的人生追求"
+              ],
+              "explain": "严文井《永久的生命》谈生命易逝却生生不息；罗素《我为什么而活着》以“对爱情的渴望、对知识的追求、对人类苦难的同情”概括一生。",
+              "ex": [
+                "罗素认为人生三大动力是什么？",
+                "两篇散文的共同特点是什么？"
+              ]
+            },
+            {
+              "title": "昆明的雨（汪曾祺）",
+              "points": [
+                "形散神聚",
+                "平淡中见韵味",
+                "对昆明生活的怀念"
+              ],
+              "explain": "汪曾祺以“昆明的雨”串起菌子、杨梅、缅桂花等细节，看似琐碎，实则饱含对昆明岁月与人情味的深情怀念，语言恬淡。",
+              "ex": [
+                "本文“散”在何处，“聚”在何处？",
+                "作者为什么怀念昆明的雨？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第五单元 * 说明文",
+          "intro": "本单元学习说明文，把握说明对象的特征与说明顺序、方法。自学时区分举例子、列数字、打比方等，体会科学小品的生动与严谨；读建筑、园林、纪念碑与画作介绍，训练提取信息与概括要点的能力。",
+          "lessons": [
+            {
+              "title": "中国石拱桥",
+              "points": [
+                "说明顺序：逻辑顺序",
+                "说明方法：举例子、列数字、打比方",
+                "赵州桥、卢沟桥为例"
+              ],
+              "explain": "茅以昇以赵州桥、卢沟桥为例，说明中国石拱桥“形式优美、结构坚固、历史悠久”的特征，由一般到个别，条理清晰。",
+              "ex": [
+                "本文用了哪些说明方法？各举一例。",
+                "为什么选赵州桥和卢沟桥作例子？"
+              ]
+            },
+            {
+              "title": "苏州园林",
+              "points": [
+                "“图画美”总特征",
+                "总分结构、多方面说明",
+                "语言准确又生动"
+              ],
+              "explain": "叶圣陶指出苏州园林总特征是“务必使游览者无论站在哪个点上，眼前总是一幅完美的图画”，从亭台布局、假山池沼、花草树木等分项说明。",
+              "ex": [
+                "苏州园林的总特征是什么？",
+                "“隔而不隔，界而未界”指什么？"
+              ]
+            },
+            {
+              "title": "人民英雄永垂不朽",
+              "points": [
+                "空间顺序（瞻仰路线）",
+                "碑文与十块浮雕",
+                "说明中融入抒情"
+              ],
+              "explain": "本文按由远及近、由四周到中心的空间顺序介绍人民英雄纪念碑，逐一说明十块浮雕所表现的历史事件，庄严庄重。",
+              "ex": [
+                "本文采用什么说明顺序？",
+                "十块浮雕按什么线索排列？"
+              ]
+            },
+            {
+              "title": "蝉（法布尔）",
+              "points": [
+                "科学小品（文艺性说明）",
+                "观察细致、拟人笔法",
+                "蝉的生活史"
+              ],
+              "explain": "法布尔以长期观察为基础写蝉的生长过程，语言生动如文学，却严谨科学，是“昆虫史诗”的典范。",
+              "ex": [
+                "本文与一般说明文语言有何不同？",
+                "蝉在地下的生活约多久？"
+              ]
+            },
+            {
+              "title": "梦回繁华",
+              "points": [
+                "逻辑顺序介绍画作",
+                "《清明上河图》的内容层次",
+                "摹状貌等说明方法"
+              ],
+              "explain": "本文介绍张择端《清明上河图》，先说创作背景，再按画面空间顺序描摹汴京繁华，结尾点明历史价值。",
+              "ex": [
+                "文章按什么顺序介绍画卷？",
+                "“梦回繁华”的“繁华”指什么？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第六单元 * 古诗文（情志）",
+          "intro": "本单元选读诸子史传与古典诗词，理解“得道”“大丈夫”“生于忧患”等命题，体会愚公精神与细柳治军。自学以背诵为基础，结合对比与论证思路把握情志表达，并拓展名著导读的纪实阅读方法。",
+          "lessons": [
+            {
+              "title": "《孟子》三章",
+              "points": [
+                "得道多助，失道寡助",
+                "富贵不能淫（大丈夫）",
+                "生于忧患，死于安乐",
+                "背诵"
+              ],
+              "explain": "三章均为议论性散文：一论“人和”决定胜负；二立“大丈夫”标准（富贵不能淫…）；三论忧患促成才、安乐致覆亡，善用举例与对比。",
+              "ex": [
+                "默写“故天将降大任于是人也……”",
+                "“大丈夫”的三个标准是什么？"
+              ]
+            },
+            {
+              "title": "愚公移山（《列子》）",
+              "points": [
+                "寓言的寓意",
+                "对比（智叟与愚公）",
+                "文言虚词：且、焉、其",
+                "背诵"
+              ],
+              "explain": "愚公以世代之力移山，智叟讥其愚，愚公以“子子孙孙无穷匮”反驳，借神话结尾彰显持之以恒、人定胜天之理。",
+              "ex": [
+                "愚公与智叟的态度有何不同？",
+                "本文告诉人们什么道理？"
+              ]
+            },
+            {
+              "title": "周亚夫军细柳（《史记》）",
+              "points": [
+                "对比刻画人物",
+                "侧面烘托",
+                "周亚夫“真将军”形象"
+              ],
+              "explain": "司马迁写汉文帝慰劳军队，以霸上、棘门军之松散对比细柳军之严整，凸显周亚夫治军严明、刚正不阿的“真将军”风范。",
+              "ex": [
+                "文中用了几处对比？",
+                "周亚夫为何被称为“真将军”？"
+              ]
+            },
+            {
+              "title": "诗词五首",
+              "points": [
+                "饮酒（陶渊明）“心远地自偏”",
+                "春望（杜甫）、雁门太守行（李贺）",
+                "赤壁（杜牧）、渔家傲（李清照）",
+                "背诵"
+              ],
+              "explain": "五首抒发不同情志：陶渊明归隐闲适；杜甫“感时花溅泪”忧国；李贺写边塞惨烈；杜牧借史抒怀；李清照《渔家傲》豪放奇想。",
+              "ex": [
+                "《饮酒》中体现“心远”的句子是？",
+                "《春望》如何借景抒情？"
+              ]
+            },
+            {
+              "title": "名著导读：《红星照耀中国》",
+              "points": [
+                "作者埃德加*斯诺",
+                "纪实作品的“用事实说话”",
+                "毛泽东、周恩来等人物形象"
+              ],
+              "explain": "美国记者斯诺1936年深入陕甘宁边区，以采访笔记写成，真实记录中国共产党与红军，是了解红色中国的经典纪实作品。",
+              "ex": [
+                "本书的文体特点是什么？",
+                "斯诺笔下的毛泽东给你什么印象？"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "shuxue": {
+      "name": "数学",
+      "color": "var(--shuxue)",
+      "cls": "shuxue",
+      "units": [
+        {
+          "name": "第十一章 * 三角形",
+          "intro": "本章认识三角形与多边形：掌握三边关系，会识别高、中线与角平分线，理解三角形稳定性；证明并应用内角和与外角性质，推导 n 边形内角和与外角和。目标是会判断、会计算、会说理。",
+          "lessons": [
+            {
+              "title": "11.1.1 三角形边",
+              "points": [
+                "三角形概念与分类",
+                "三边关系：两边和＞第三边",
+                "两边之差＜第三边"
+              ],
+              "explain": "三角形任意两边之和大于第三边、任意两边之差小于第三边，这是判断三条线段能否构成三角形的依据。",
+              "ex": [
+                "长为3、4、8的三条线段能组成三角形吗？为什么？",
+                "已知两边为5和9，第三边整数取值有哪些？"
+              ]
+            },
+            {
+              "title": "11.1.2 高、中线、角平分线*稳定性",
+              "points": [
+                "三种重要线段的画法",
+                "三角形具有稳定性",
+                "多边形不具有稳定性"
+              ],
+              "explain": "从顶点向对边作垂线得高；连接顶点与对边中点得中线；平分内角交对边得角平分线。三角形结构稳固，四边形易变形。",
+              "ex": [
+                "锐角三角形有几条高在形内？",
+                "为什么起重机臂多用三角形结构？"
+              ]
+            },
+            {
+              "title": "11.2 内角与外角",
+              "points": [
+                "内角和定理：∠A+∠B+∠C=180度",
+                "外角等于不相邻两内角和",
+                "多边形外角和=360度"
+              ],
+              "explain": "证明内角和常用“过一个顶点作平行线”转化为平角。三角形外角大于任一不相邻内角，且等于不相邻两内角之和。",
+              "ex": [
+                "直角三角形两锐角有何关系？",
+                "一个外角为120度，与其不相邻两内角可能是多少？"
+              ]
+            },
+            {
+              "title": "11.3 多边形及其内角和",
+              "points": [
+                "n边形内角和=(n-2)*180度",
+                "正n边形每个内角=(n-2)*180度/n",
+                "外角和恒为360度"
+              ],
+              "explain": "从n边形一顶点引(n-3)条对角线分成(n-2)个三角形，故内角和(n-2)*180度；无论几边形外角和都是360度。",
+              "ex": [
+                "十边形内角和是多少？",
+                "正八边形每个内角多少度？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第十二章 * 全等三角形",
+          "intro": "本章学习全等三角形：理解全等意义与对应关系，熟练运用 SSS、SAS、ASA、AAS 及直角三角形 HL 判定；掌握角平分线性质与判定。目标是规范书写“已知—证—结论”，形成推理习惯。",
+          "lessons": [
+            {
+              "title": "12.1 全等图形与全等三角形",
+              "points": [
+                "全等：形状大小完全相同",
+                "性质：对应边、对应角相等",
+                "对应顶点、对应边、对应角"
+              ],
+              "explain": "能够完全重合的两个图形全等。全等三角形对应边相等、对应角相等，找对应关系是解题关键（常看公共边、对顶角、最长边）。",
+              "ex": [
+                "全等三角形对应边、对应角有什么关系？",
+                "△ABC≌△DEF，写出一组对应边和对应角。"
+              ]
+            },
+            {
+              "title": "12.2 全等判定 SSS/SAS/ASA/AAS/HL",
+              "points": [
+                "SSS、SAS、ASA、AAS 四种判定",
+                "直角三角形专用 HL",
+                "“边边角”不能判定"
+              ],
+              "explain": "三边对应相等(SSS)、两边及夹角(SAS)、两角及夹边(ASA)、两角及一角的对边(AAS)均可判定全等；直角三角形斜边直角边(HL)也行。注意“SSA”不成立。",
+              "ex": [
+                "证明全等有哪些判定方法？",
+                "为什么“边边角”不能判定全等？"
+              ]
+            },
+            {
+              "title": "12.3 角的平分线的性质",
+              "points": [
+                "尺规作角的平分线",
+                "性质：角平分线上点到两边距离相等",
+                "判定：到两边距离相等的点在角平分线上"
+              ],
+              "explain": "角平分线上的点到角两边距离相等；反过来，到角两边距离相等的点在这个角的平分线上。常用于证明线段相等。",
+              "ex": [
+                "已知点在角平分线上，能得出什么结论？",
+                "如何用尺规作一个角的平分线？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第十三章 * 轴对称",
+          "intro": "本章研究轴对称与等腰三角形：理解轴对称与对称轴，会画对称图形并在坐标系中找对称点；掌握等腰三角形性质与判定（含三线合一），并用对称思想解决最短路径问题。",
+          "lessons": [
+            {
+              "title": "13.1 轴对称",
+              "points": [
+                "轴对称与轴对称图形的区别",
+                "垂直平分线性质：PA=PB",
+                "垂直平分线判定"
+              ],
+              "explain": "两个图形成轴对称；一个图形是轴对称图形。线段垂直平分线上的点到两端距离相等；到两端距离相等的点在线段垂直平分线上。",
+              "ex": [
+                "“轴对称”与“轴对称图形”有何不同？",
+                "垂直平分线上的点有什么性质？"
+              ]
+            },
+            {
+              "title": "13.2 画轴对称图形*坐标系对称",
+              "points": [
+                "作对称图形：找特殊点",
+                "关于x轴：(x,y)->(x,-y)",
+                "关于y轴：(x,y)->(-x,y)"
+              ],
+              "explain": "画轴对称图形先找原图形关键点，分别作对称点再连线。坐标系中，关于x轴对称纵坐标变号，关于y轴对称横坐标变号。",
+              "ex": [
+                "点(3,-2)关于x轴的对称点坐标？",
+                "关于y轴呢？"
+              ]
+            },
+            {
+              "title": "13.3 等腰三角形",
+              "points": [
+                "性质：“等边对等角”、三线合一",
+                "判定：“等角对等边”",
+                "等边三角形各角60度"
+              ],
+              "explain": "等腰三角形两腰相等、两底角相等；顶角平分线、底边中线、底边高“三线合一”。有两个角相等可判定等腰。等边三角形每个角60度。",
+              "ex": [
+                "等腰三角形的“三线合一”指什么？",
+                "一个底角50度，顶角多少度？"
+              ]
+            },
+            {
+              "title": "13.4 最短路径问题",
+              "points": [
+                "“将军饮马”模型",
+                "利用轴对称化折为直",
+                "两点之间线段最短"
+              ],
+              "explain": "求直线上一点使到两定点距离和最小，常作其中一点关于直线的对称点，连接对称点与另一点，交点即为所求（化折线为直线）。",
+              "ex": [
+                "“将军饮马”问题的核心思路是什么？",
+                "为什么要把点作轴对称？"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第十四章 * 整式的乘法与因式分解",
+          "intro": "本章进入整式乘法与因式分解：掌握幂的运算性质与整式乘法，熟记平方差与完全平方公式；能用提公因式法、公式法分解因式。乘法与分解互为逆过程，运算要准确到底。",
+          "lessons": [
+            {
+              "title": "14.1 整式的乘法",
+              "points": [
+                "同底数幂：a^m*a^n=a^(m+n)",
+                "幂的乘方：(a^m)^n=a^(mn)",
+                "积的乘方、单项式*多项式、多项式*多项式"
+              ],
+              "explain": "整式乘法先处理幂运算：同底数幂相乘指数相加，幂的乘方指数相乘，积的乘方各因式分别乘方。多项式相乘用分配律逐项相乘再合并。",
+              "ex": [
+                "计算 a³*a⁴ 与 (a³)⁴。",
+                "(x+2)(x-3) 展开结果是？"
+              ]
+            },
+            {
+              "title": "14.2 乘法公式",
+              "points": [
+                "平方差公式：(a+b)(a-b)=a^2-b^2",
+                "完全平方：(a+/-b)^2=a^2+/-2ab+b^2",
+                "公式逆用（配方）"
+              ],
+              "explain": "平方差与完全平方是常用公式。注意完全平方中间项是“+/-2ab”，易漏；逆用公式可进行简便计算与因式分解。",
+              "ex": [
+                "用公式计算 103*97。",
+                "(2x-1)^2 展开为？"
+              ]
+            },
+            {
+              "title": "14.3 因式分解",
+              "points": [
+                "提公因式法",
+                "公式法：平方差、完全平方",
+                "分解要彻底"
+              ],
+              "explain": "因式分解是把多项式写成整式乘积。先提公因式，再用公式：a^2-b^2=(a+b)(a-b)，a^2+/-2ab+b^2=(a+/-b)^2。须分解到不能再分。",
+              "ex": [
+                "分解 3x^2-6x。",
+                "分解 x^2-9 与 x^2+2x+1。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "第十五章 * 分式",
+          "intro": "本章学习分式及其运算与分式方程：明确分式有意义及值为 0 的条件，会约分通分与乘除加减；解分式方程必须验根。目标是建立“分母不为 0”意识，能解决简单实际问题。",
+          "lessons": [
+            {
+              "title": "15.1 分式",
+              "points": [
+                "分式概念：A/B（B含字母且B!=0）",
+                "分式有意义：分母!=0",
+                "分式值为0：分子=0且分母!=0"
+              ],
+              "explain": "形如A/B（A、B为整式，B含字母）的式子叫分式。分式有意义看分母不为0；值为0需分子为0且分母不为0。",
+              "ex": [
+                "x为何值时 (x-1)/(x+2) 无意义？",
+                "何时该分式的值为0？"
+              ]
+            },
+            {
+              "title": "15.2 分式的运算",
+              "points": [
+                "乘除：约分、乘为分子乘分子",
+                "加减：先通分再相加减",
+                "整数指数幂：a^(-n)=1/a^n"
+              ],
+              "explain": "分式乘除先分解因式再约分；加减须同分母（通分）；负整数指数幂规定a^(-n)=1/a^n（a!=0），使幂运算律统一。",
+              "ex": [
+                "计算 (a/b)*(b^2/a)。",
+                "通分计算 1/x + 1/y。"
+              ]
+            },
+            {
+              "title": "15.3 分式方程",
+              "points": [
+                "解法：去分母化为整式方程",
+                "必须验根（分母!=0）",
+                "可解实际问题"
+              ],
+              "explain": "解分式方程两边同乘最简公分母化为整式方程，解出后必须代回检验，使分母为0的是增根须舍去。常用于行程、工程、浓度问题。",
+              "ex": [
+                "解分式方程为何要验根？",
+                "甲单独6天完成，乙单独4天，合作几天完成？"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "yingyu": {
+      "name": "英语",
+      "color": "var(--yingyu)",
+      "cls": "yingyu",
+      "units": [
+        {
+          "name": "Unit 1 · Happy Holiday",
+          "intro": "BIG Question\nWhat makes a great holiday?\n\nIn this unit, you will\n· talk about holiday activities and experiences\n· use indefinite pronouns (someone, anything, everyone …)\n· express feelings about holidays\n· explore benefits of holiday experiences\n\nLook and share\n看单元开篇图片：人们在海边、山里、博物馆里度假。\nDiscuss: Where do people go? What do they do? How do they feel?\n分享你最近一次假期里印象最深的一件事。",
+          "lessons": [
+            {
+              "title": "U1 Section A · How do people spend their holidays?",
+              "points": [
+                "Talk about holiday activities (travel, visit, try, stay)",
+                "Past experiences with simple past tense",
+                "Indefinite pronouns: someone/anyone/everyone/no one; something/anything/everything/nothing",
+                "Ask and answer: How was your holiday?"
+              ],
+              "explain": "本课围绕“人们如何度过假期”展开听说训练。学习用一般过去时叙述假期经历，并用不定代词表达“某人/某事/任何人/任何事”。注意形容词常后置：something special；everyone 作主语时谓语常用单数。",
+              "ex": [
+                "用英文回答：How do people spend their holidays? 至少写两句。",
+                "Fill in: I didn't buy ______ expensive, but ______ was wonderful. (anything / everything)"
+              ]
+            },
+            {
+              "title": "U1 Section B · What can we learn from holiday experiences?",
+              "points": [
+                "Read about holiday stories and feelings",
+                "Learn from experiences: courage, friendship, nature, culture",
+                "Write a short holiday diary with time order",
+                "Useful feelings: excited, relaxed, tired but happy, meaningful"
+              ],
+              "explain": "Section B 侧重阅读与写作：从假期经历中提炼收获。阅读时抓住“做了什么—学到什么—感受如何”；写作可用 first, then, finally 组织时间顺序，并保持过去时一致。",
+              "ex": [
+                "读完一则假期故事后，用一句话写出 What can we learn?",
+                "写三句日记：昨天去了哪里、做了什么、学到了什么。"
+              ]
+            },
+            {
+              "title": "U1 Project · Make a holiday to-do list",
+              "points": [
+                "Make a holiday to-do list (places, activities, people)",
+                "Use can / want to / hope to for plans",
+                "Share and compare lists with classmates",
+                "Reflect: Which idea makes a great holiday?"
+              ],
+              "explain": "项目任务是制作假期待办清单。先列出想去的地方、想做的事、想见的人，再用简单英文写清步骤或优先级，并在小组中交流，回扣 BIG Question：什么造就一次美好假期。",
+              "ex": [
+                "列出你的 holiday to-do list（至少 5 项）。",
+                "向同伴介绍清单，并说明哪一项最重要及原因。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 2 · Home Sweet Home",
+          "intro": "BIG Question\nWhat makes a home sweet?\n\nIn this unit, you will\n· talk about chores and what you can do for your home\n· describe feelings at home\n· use can / could / should for ability and advice\n· find out who does the most housework\n\nLook and share\n看家庭生活图片：做饭、打扫、照顾宠物、共享晚餐。\nDiscuss: What chores do you do? How do you feel at home?\n家不仅是住所，更是爱与责任的地方。",
+          "lessons": [
+            {
+              "title": "U2 Section A · What can you do for your home?",
+              "points": [
+                "Chore vocabulary: sweep, mop, wash, cook, take out the rubbish",
+                "Ask: What can you do for your home?",
+                "Offer help: I can ... / Let me ...",
+                "Frequency: often / sometimes / every day"
+              ],
+              "explain": "本课学习家务相关词汇与“能为家做什么”的表达。用 can 表示能力与主动承担，结合频度说明自己平时的家务习惯，体会分担家务对家庭氛围的意义。",
+              "ex": [
+                "列出你常做的三项家务，并用 I can / I often ... 造句。",
+                "给同学一句建议：You should help with ..."
+              ]
+            },
+            {
+              "title": "U2 Section B · How do you feel at home?",
+              "points": [
+                "Feelings: warm, safe, proud, relaxed, lonely",
+                "Read texts about home life",
+                "Describe a special place or moment at home",
+                "Link actions with feelings"
+              ],
+              "explain": "Section B 关注“在家的感受”。阅读时关注人物做了什么、感受如何；写作可描写一个角落、一顿晚餐或一次帮忙，用简单形容词表达情感，说明家为何令人安心。",
+              "ex": [
+                "用英文写：At home I feel ... because ...",
+                "读文后回答：How does the writer feel at home?"
+              ]
+            },
+            {
+              "title": "U2 Project · Find out who does the most chores at home",
+              "points": [
+                "Design a short chore survey",
+                "Collect data: how often / how long",
+                "Make a simple chart or ranking",
+                "Share findings and thank helpers"
+              ],
+              "explain": "项目：调查家里谁做家务最多。设计问题（做什么、多久一次），记录结果并做简单统计或排名，最后分享发现并表达感谢，落实“Home Sweet Home”的温暖主题。",
+              "ex": [
+                "设计 4 个家务调查问题。",
+                "根据调查结果写两句英文结论。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 3 · Same or Different?",
+          "intro": "BIG Question\nHow do differences make us special?\n\nIn this unit, you will\n· compare people: looks, hobbies, personalities\n· use comparatives and as ... as\n· talk about understanding differences\n· see how people change over time\n\nLook and share\n看同学/朋友对比图：高矮、性格、爱好。\nDiscuss: How are you the same? How are you different?\n差异不是隔阂，而是互相学习的起点。",
+          "lessons": [
+            {
+              "title": "U3 Section A · How are we different from each other?",
+              "points": [
+                "Comparative forms: -er / more ...",
+                "as + adj. + as",
+                "Personality & hobby words",
+                "both / all for similarities"
+              ],
+              "explain": "本课用比较级和原级结构描述人与人的异同。注意不规则比较级 better/worse/more，以及 both（两者）与 all（三者及以上）的区别。表达差异时语气要礼貌、客观。",
+              "ex": [
+                "用比较级写两句描述你和朋友的不同。",
+                "改写：Tom is tall. Jim is tall. → Tom is ______ Jim."
+              ]
+            },
+            {
+              "title": "U3 Section B · How do we understand differences?",
+              "points": [
+                "Read stories about friendship and difference",
+                "Respect others' choices and strengths",
+                "Useful phrases: I used to think ... Now I see ...",
+                "Write about learning from someone different"
+              ],
+              "explain": "Section B 引导理解差异：阅读中关注冲突如何化解、人物如何改变看法。写作可用“以前以为…现在明白…”结构，强调尊重与包容。",
+              "ex": [
+                "读后回答：How did the characters understand differences?",
+                "写三句：你从一位与你很不同的朋友身上学到了什么。"
+              ]
+            },
+            {
+              "title": "U3 Project · See who changed the most",
+              "points": [
+                "Interview: What were you like last year?",
+                "Compare then and now",
+                "Use comparative language",
+                "Present: who changed the most and why"
+              ],
+              "explain": "项目：对比“去年的我/他”与“现在的我/他”，找出变化最大的人。用比较级与过去习惯表达组织访谈结果，并做简短展示。",
+              "ex": [
+                "列出同学三处变化（性格/爱好/能力）。",
+                "用英文汇报：I think ... changed the most because ..."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 4 · Amazing Plants and Animals",
+          "intro": "BIG Question\nWhy are plants and animals amazing?\n\nIn this unit, you will\n· describe what plants and animals can do\n· talk about connections between living things and us\n· use can / can't and simple present for facts\n· make a poster about a plant or an animal\n\nLook and share\n看奇特动植物图片：会“跳舞”的植物、聪明的动物等。\nDiscuss: What surprises you? How are they connected with us?",
+          "lessons": [
+            {
+              "title": "U4 Section A · What can plants and animals do?",
+              "points": [
+                "Ability: can / can't",
+                "Fact language in simple present",
+                "Amazing features: smell, run, heal, communicate",
+                "Ask: What can ... do?"
+              ],
+              "explain": "本课用 can 与一般现在时描述动植物的神奇能力。陈述科学事实时保持客观，注意第三人称单数与不可数名词（如 water, oxygen）的用法。",
+              "ex": [
+                "选一种动物，写三句 What can it do?",
+                "True or false: Plants can make food from sunlight."
+              ]
+            },
+            {
+              "title": "U4 Section B · How are plants and animals connected with us?",
+              "points": [
+                "Food, medicine, air, friendship, work",
+                "Protect nature: should / shouldn't",
+                "Read about human–nature links",
+                "Express opinions with because"
+              ],
+              "explain": "Section B 讨论动植物与人类的联系：食物、氧气、药物、情感陪伴等。阅读后用 should 提出保护建议，强调人与自然相互依存。",
+              "ex": [
+                "列举植物/动物与我们相关的三个方面。",
+                "写两句建议：We should ... / We shouldn't ..."
+              ]
+            },
+            {
+              "title": "U4 Project · Make a poster about a plant or an animal",
+              "points": [
+                "Choose one plant or animal",
+                "Poster parts: name, facts, why amazing, how to protect",
+                "Use pictures and key sentences",
+                "Present in 1 minute"
+              ],
+              "explain": "项目：制作动植物海报。包含名称、奇妙之处、与人类的关系、保护建议。文字简短有力，配图清晰，课堂一分钟展示。",
+              "ex": [
+                "写出海报四块标题对应的英文要点。",
+                "准备 4 句展示台词。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 5 · What a Delicious Meal!",
+          "intro": "BIG Question\nWhat does a delicious meal mean to us?\n\nIn this unit, you will\n· describe how we make food (steps)\n· use imperatives and sequence words\n· talk about what cooking gives us\n· create a recipe for a tasty dish\n\nLook and share\n看厨房与美食图片：洗切炒、分享餐桌。\nDiscuss: Who cooks at home? What is your favourite dish?",
+          "lessons": [
+            {
+              "title": "U5 Section A · How do we make food?",
+              "points": [
+                "Cooking verbs: wash, cut, mix, fry, boil, pour",
+                "Imperatives for instructions",
+                "Sequence: first, next, then, finally",
+                "how much / how many + ingredients"
+              ],
+              "explain": "本课学习用祈使句和顺序词描述做菜步骤，并用 how much/how many 询问食材数量。注意可数与不可数：two eggs / some milk / a little salt。",
+              "ex": [
+                "用祈使句写出做三明治的四步。",
+                "提问：How much sugar do we need? / How many apples?"
+              ]
+            },
+            {
+              "title": "U5 Section B · What does cooking give us?",
+              "points": [
+                "Cooking gives love, culture, health, happiness",
+                "Read stories about meals and memories",
+                "Share food culture politely",
+                "Write about a special meal"
+              ],
+              "explain": "Section B 探讨烹饪的意义：不只是果腹，还有亲情、文化与健康。阅读关注“食物—人物—情感”链条，写作记述一顿特别的餐并说明收获。",
+              "ex": [
+                "完成句子：Cooking gives us ______ because ______.",
+                "写一段 4–5 句的 special meal 短文。"
+              ]
+            },
+            {
+              "title": "U5 Project · Create a recipe for a tasty dish",
+              "points": [
+                "Name the dish",
+                "List ingredients with amounts",
+                "Write clear steps",
+                "Share and taste ideas (class)"
+              ],
+              "explain": "项目：创作一道菜的英文食谱。包含菜名、材料与用量、分步说明，可附小贴士（tip）。在小组中分享并互相提问配料与步骤。",
+              "ex": [
+                "完成一份含至少 5 步的英文食谱。",
+                "向同伴提问一个关于食谱的问题并记录回答。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 6 · Plan for Yourself",
+          "intro": "BIG Question\nWhy do good plans matter?\n\nIn this unit, you will\n· talk about when and why we make plans\n· use be going to / will for plans and decisions\n· learn tips for making good plans\n· make plans for solving problems\n\nLook and share\n看日程表、目标清单图片。\nDiscuss: When do you make plans? What happens if you don't plan?",
+          "lessons": [
+            {
+              "title": "U6 Section A · When do we make plans?",
+              "points": [
+                "Situations: study, travel, health, weekend",
+                "be going to for planned actions",
+                "will for decisions / predictions",
+                "Time expressions: next week, this weekend, tomorrow"
+              ],
+              "explain": "本课区分何时做计划，并练习 be going to（已打算）与 will（临时决定/预测）。结合具体场景：考试前、旅行前、健康目标等，说明计划的必要性。",
+              "ex": [
+                "写出三个你正在计划的事（用 be going to）。",
+                "情景反应：朋友突然邀请你——用 will 作答。"
+              ]
+            },
+            {
+              "title": "U6 Section B · How can we make good plans?",
+              "points": [
+                "Tips: be clear, be realistic, break into steps",
+                "Priority: important / urgent",
+                "Check and adjust plans",
+                "Read about a student who plans well"
+              ],
+              "explain": "Section B 总结好计划的方法：目标清晰、步骤可执行、留有余地、定期检查。阅读后提炼 tips，并用英文给同学一条实用建议。",
+              "ex": [
+                "列出 good plans 的三条 tips。",
+                "改写一个不切实际的计划，使其更 realistic。"
+              ]
+            },
+            {
+              "title": "U6 Project · Make plans for solving problems",
+              "points": [
+                "Choose a real problem (time, study, health)",
+                "Write a 3-step plan",
+                "Predict results with will",
+                "Present and get feedback"
+              ],
+              "explain": "项目：针对真实问题制定解决计划。写清问题、三步行动、预期结果，课堂展示并接受同伴反馈，体现“为自己做计划”的单元目标。",
+              "ex": [
+                "完成 Problem → Steps → Result 表格。",
+                "用 5 句英文口头陈述你的计划。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 7 · When Tomorrow Comes",
+          "intro": "BIG Question\nHow can we meet the future with hope?\n\nIn this unit, you will\n· make predictions about the future\n· use will / may / might\n· talk about how to prepare for the future\n· create a picture about the future\n\nLook and share\n看未来城市、学校、交通想象图。\nDiscuss: What will life be like? What should we prepare now?",
+          "lessons": [
+            {
+              "title": "U7 Section A · What are your predictions about the future?",
+              "points": [
+                "will for predictions",
+                "may / might for possibility",
+                "there will be more / fewer / less ...",
+                "Talk about school, cities, environment"
+              ],
+              "explain": "本课用 will、may/might 谈论对未来的预测。注意 fewer 接可数、less 接不可数；表达观点时可用 I think / Maybe / I'm not sure。",
+              "ex": [
+                "写三句对未来城市的预测。",
+                "用 may/might 改写一句不太确定的预测。"
+              ]
+            },
+            {
+              "title": "U7 Section B · How can we prepare for the future?",
+              "points": [
+                "Skills: learn, create, stay healthy, care for others",
+                "should / need to for preparation",
+                "Read about young people's dreams",
+                "Link today's habits with tomorrow's goals"
+              ],
+              "explain": "Section B 强调“为未来做准备”：学习新技能、保持健康、学会合作与关爱。阅读关注人物如何把梦想拆成当下行动。",
+              "ex": [
+                "完成：To prepare for the future, I should ...",
+                "读后列出文中人物的两条准备行动。"
+              ]
+            },
+            {
+              "title": "U7 Project · Create a picture about the future",
+              "points": [
+                "Draw or design a future scene",
+                "Label with English key words",
+                "Write 5–8 prediction sentences",
+                "Present: hope + action"
+              ],
+              "explain": "项目：创作一幅“未来图”并配英文说明。画面可含学校、交通、环境等元素；展示时既谈预测，也谈我们现在能做的行动。",
+              "ex": [
+                "为画面写出至少 5 个英文标签。",
+                "准备展示结语：We hope ... so we will ..."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Unit 8 · Let's Communicate!",
+          "intro": "BIG Question\nHow can better communication bring us closer?\n\nIn this unit, you will\n· talk about ways we communicate\n· practise polite and clear expressions\n· learn how to communicate better\n· tell a chain story together\n\nLook and share\n看沟通场景：面对面、电话、信息、表情与肢体语言。\nDiscuss: When is face-to-face better? When is a message OK?",
+          "lessons": [
+            {
+              "title": "U8 Section A · How do we communicate?",
+              "points": [
+                "Ways: speak, listen, write, call, message, body language",
+                "Choose the right way for the situation",
+                "Key phrases for starting a talk",
+                "Listen actively: Really? / I see. / That sounds ..."
+              ],
+              "explain": "本课梳理沟通方式与适用场景。强调沟通不只是“说”，还包括倾听与非语言信息。练习开场白与积极回应语，避免只顾自己说。",
+              "ex": [
+                "匹配场景与沟通方式（至少 3 组）。",
+                "写两句积极倾听的回应语。"
+              ]
+            },
+            {
+              "title": "U8 Section B · How can we communicate better?",
+              "points": [
+                "Be clear, be kind, be patient",
+                "Clarify: Do you mean ...? / Could you say that again?",
+                "Solve misunderstandings politely",
+                "Read a dialogue with a communication problem"
+              ],
+              "explain": "Section B 聚焦更好沟通的策略：表达清楚、态度友好、及时确认。阅读对话中找出误解原因，并改写为更有效的交流版本。",
+              "ex": [
+                "列出 better communication 的三条 tips。",
+                "改写一句可能引起误会的话，使其更礼貌清楚。"
+              ]
+            },
+            {
+              "title": "U8 Project · Tell a chain story",
+              "points": [
+                "Sit in a circle; each student adds one sentence",
+                "Listen carefully before you speak",
+                "Keep the story logical and kind",
+                "Retell the full story in groups"
+              ],
+              "explain": "项目：接力讲故事。每人接一句，必须先听清上句再续写，训练听力、衔接与合作。结束后小组复述完整故事，体现“Let's Communicate!”。",
+              "ex": [
+                "写下你接力时新增的那一句，并说明如何承接上句。",
+                "用 5 句英文复述小组故事大意。"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "acc": [
+    {
+      "subj": "yuwen",
+      "title": "《三峡》背诵（节选）",
+      "c": "自三峡七百里中，两岸连山，略无阙处；重岩叠嶂，隐天蔽日，自非亭午夜分，不见曦月。\n至于夏水襄陵，沿溯阻绝。或王命急宣，有时朝发白帝，暮到江陵，其间千二百里，虽乘奔御风，不以疾也。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《答谢中书书》背诵",
+      "c": "山川之美，古来共谈。高峰入云，清流见底。两岸石壁，五色交辉。青林翠竹，四时俱备。晓雾将歇，猿鸟乱鸣；夕日欲颓，沉鳞竞跃。实是欲界之仙都。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《记承天寺夜游》背诵",
+      "c": "元丰六年十月十二日夜，解衣欲睡，月色入户，欣然起行。念无与为乐者，遂至承天寺寻张怀民。怀民亦未寝，相与步于中庭。庭下如积水空明，水中藻、荇交横，盖竹柏影也。何夜无月？何处无竹柏？但少闲人如吾两人者耳。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《与朱元思书》背诵（节选）",
+      "c": "风烟俱净，天山共色。从流飘荡，任意东西。自富阳至桐庐一百许里，奇山异水，天下独绝。\n水皆缥碧，千丈见底。游鱼细石，直视无碍。急湍甚箭，猛浪若奔。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "唐诗五首*必背",
+      "c": "《使至塞上》王维：大漠孤烟直，长河落日圆。\n《渡荆门送别》李白：山随平野尽，江入大荒流。\n《钱塘湖春行》白居易：几处早莺争暖树，谁家新燕啄春泥。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《生于忧患，死于安乐》背诵",
+      "c": "故天将降大任于是人也，必先苦其心志，劳其筋骨，饿其体肤，空乏其身，行拂乱其所为，所以动心忍性，曾益其所不能。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《富贵不能淫》*大丈夫",
+      "c": "富贵不能淫，贫贱不能移，威武不能屈，此之谓大丈夫。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《饮酒》陶渊明",
+      "c": "结庐在人境，而无车马喧。问君何能尔？心远地自偏。采菊东篱下，悠然见南山。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《春望》杜甫",
+      "c": "国破山河在，城春草木深。感时花溅泪，恨别鸟惊心。烽火连三月，家书抵万金。"
+    },
+    {
+      "subj": "yuwen",
+      "title": "《赤壁》杜牧",
+      "c": "折戟沉沙铁未销，自将磨洗认前朝。东风不与周郎便，铜雀春深锁二乔。"
+    },
+    {
+      "subj": "shuxue",
+      "title": "三角形内角和",
+      "c": "∠A + ∠B + ∠C = 180度\n直角三角形：两锐角互余（和为90度）"
+    },
+    {
+      "subj": "shuxue",
+      "title": "多边形内角和",
+      "c": "n 边形内角和 = (n-2) * 180度\n外角和 = 360度（与边数无关）\n正 n 边形每个内角 = (n-2)*180度 / n"
+    },
+    {
+      "subj": "shuxue",
+      "title": "全等三角形判定",
+      "c": "SSS / SAS / ASA / AAS / HL（直角三角形）\n注意：SSA（边边角）不能判定全等"
+    },
+    {
+      "subj": "shuxue",
+      "title": "等腰三角形",
+      "c": "等边对等角；等角对等边\n“三线合一”：顶角平分线 = 底边中线 = 底边高\n等边三角形每个角 = 60度"
+    },
+    {
+      "subj": "shuxue",
+      "title": "整式乘法*幂运算",
+      "c": "a^m * a^n = a^(m+n)\n(a^m)^n = a^(mn)\n(ab)^n = a^n b^n"
+    },
+    {
+      "subj": "shuxue",
+      "title": "乘法公式",
+      "c": "平方差：(a+b)(a-b) = a^2 - b^2\n完全平方：(a+/-b)^2 = a^2 +/- 2ab + b^2"
+    },
+    {
+      "subj": "shuxue",
+      "title": "因式分解方法",
+      "c": "(1) 提公因式 (2) 公式法\na^2-b^2=(a+b)(a-b)\na^2+/-2ab+b^2=(a+/-b)^2\n分解要“彻底”"
+    },
+    {
+      "subj": "shuxue",
+      "title": "分式有意义/值为0",
+      "c": "分式有意义：分母 != 0\n分式值为 0：分子 = 0 且 分母 != 0\n负整数指数：a^(-n) = 1 / a^n (a!=0)"
+    },
+    {
+      "subj": "shuxue",
+      "title": "分式方程",
+      "c": "解法：去分母->化为整式方程->求解->验根\n验根：使分母为0的是增根，须舍去"
+    },
+    {
+      "subj": "yingyu",
+      "title": "U1 假期活动词块",
+      "c": "go hiking / go camping / visit a museum / try something new / stay with family；How was your holiday? — It was wonderful."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U1 不定代词速记",
+      "c": "someone/anyone/everyone/no one；something/anything/everything/nothing。Everyone was happy. I didn't buy anything expensive. something special（形容词后置）。"
+    },
+    {
+      "subj": "yingyu",
+      "title": "U1 过去时三问",
+      "c": "Did you do anything special? Where did you go? What did you learn? 否定：didn't + 动词原形；不规则：go→went, see→saw, meet→met。"
+    },
+    {
+      "subj": "yingyu",
+      "title": "U2 家务与分担",
+      "c": "sweep the floor / mop / do the dishes / take out the rubbish / fold clothes；What can you do for your home? I can help cook dinner."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U2 在家的感受",
+      "c": "At home I feel safe / warm / proud / relaxed. When I help set the table, I feel proud. Home is where I can be myself."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U3 比较级公式",
+      "c": "taller than / more outgoing than / as hard-working as；good→better, many→more。Both of us like sports.（两者）All my friends are kind.（≥3）"
+    },
+    {
+      "subj": "yingyu",
+      "title": "U3 理解差异",
+      "c": "I used to think ... Now I understand ... We are different, but we can listen and respect each other. Differences make us special."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U4 动植物能力",
+      "c": "Plants can make food from sunlight. Animals can communicate in different ways. We should protect forests and habitats."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U5 做菜步骤语",
+      "c": "First, wash ... Next, cut up ... Then add ... Finally, enjoy! How much milk? How many eggs? What a delicious meal!"
+    },
+    {
+      "subj": "yingyu",
+      "title": "U6 计划：going to / will",
+      "c": "I'm going to make a timetable.（已计划）I'll answer the phone.（当下决定）Good plans are clear and realistic."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U7 未来预测",
+      "c": "People will use cleaner energy. Students may study online and offline. There will be less pollution / fewer cars in the centre."
+    },
+    {
+      "subj": "yingyu",
+      "title": "U8 更好沟通",
+      "c": "Be clear, be kind, be patient. Do you mean ...? Could you say that again? Face to face is better for serious talks."
+    }
+  ],
+  "subjImg": {
+    "yuwen": "assets/subj-yuwen.png",
+    "shuxue": "assets/subj-shuxue.png",
+    "yingyu": "assets/subj-yingyu.png"
+  },
+  "exams": [
+    {
+      "id": "m1",
+      "name": "第一次月考",
+      "date": "2026-10-12",
+      "scope": "语文第一、二单元；数学第十一、十二章"
+    },
+    {
+      "id": "mid",
+      "name": "期中考试",
+      "date": "2026-11-16",
+      "scope": "语文一至四单元；数学十一至十三章；英语Unit1-5"
+    },
+    {
+      "id": "m2",
+      "name": "第二次月考",
+      "date": "2026-12-14",
+      "scope": "语文五单元；数学第十四、十五章；英语Unit6-8"
+    },
+    {
+      "id": "fin",
+      "name": "期末考试",
+      "date": "2027-01-18",
+      "scope": "全册（语数英）"
+    }
+  ]
+}
