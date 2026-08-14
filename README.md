@@ -47,4 +47,4 @@ study-workbench/
 ```
 
 ## 作者
-泽羚科技 · 小B（rancheryan）
+rancheryan
